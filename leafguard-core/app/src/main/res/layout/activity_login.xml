@@ -11,6 +11,7 @@
     tools:context="com.example.vincentale.leafguard_core.LoginActivity">
 
     <!-- Login progress -->
+
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
@@ -71,6 +72,18 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
+
+            <View
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:background="#000000"
+                />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_register" />
 
         </LinearLayout>
     </ScrollView>

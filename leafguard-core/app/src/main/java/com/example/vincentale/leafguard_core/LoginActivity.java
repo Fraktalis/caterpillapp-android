@@ -36,6 +36,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
@@ -124,8 +126,18 @@ public class LoginActivity extends AppCompatActivity  {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(LoginActivity.this, R.string.auth_failed,
+                            String message;
+                             Exception error = task.getException();
+                                if (error instanceof FirebaseAuthInvalidCredentialsException) {
+                                    message = getText(R.string.error_invalid_email).toString();
+                            } else if (error instanceof FirebaseAuthInvalidUserException) {
+                                    message = getText(R.string.error_invalid_credentials).toString();
+                                } else {
+                                    message = getText(R.string.auth_failed).toString();
+                                }
+                            Toast.makeText(LoginActivity.this, message,
                                     Toast.LENGTH_SHORT).show();
+                            showProgress(false);
                         } else {
                             Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
                             FirebaseUser user = task.getResult().getUser();
@@ -149,12 +161,14 @@ public class LoginActivity extends AppCompatActivity  {
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        Log.d(TAG, "password = '" + password + "'");
+        Log.d(TAG, ""+TextUtils.isEmpty(password));
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -190,7 +204,7 @@ public class LoginActivity extends AppCompatActivity  {
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return (password != null && password.length() > 4);
     }
 
     /**
