@@ -16,6 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".OakFormActivity"
+            android:label="@string/title_activity_oak_form"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProfilFormActivity"
+            android:label="@string/title_activity_profil_form"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ObservationActivity"></activity>
     </application>
 
 </manifest>
