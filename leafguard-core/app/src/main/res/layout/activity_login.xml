@@ -22,14 +22,16 @@
 
     <ScrollView
         android:id="@+id/login_form"
+        android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:weightSum="1">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -41,8 +43,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -59,8 +60,7 @@
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -74,16 +74,21 @@
                 android:textStyle="bold" />
 
             <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_width="match_parent"
-                android:background="#000000"
-                />
+                android:background="#000000" />
 
-            <Button
-                android:id="@+id/button2"
+            <TextView
+                android:id="@+id/registerLink"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/action_register" />
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:autoLink="all"
+                android:gravity="center"
+                android:text="@string/action_register"
+                android:textAllCaps="false"
+                android:textColor="@android:color/holo_blue_dark" />
 
         </LinearLayout>
     </ScrollView>
