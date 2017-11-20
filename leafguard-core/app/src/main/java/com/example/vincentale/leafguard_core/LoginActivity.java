@@ -22,6 +22,8 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -120,8 +122,6 @@ public class LoginActivity extends AppCompatActivity  {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-
-
     }
 
     public void signIn(String email, String password)  {
@@ -152,8 +152,8 @@ public class LoginActivity extends AppCompatActivity  {
                             showProgress(false);
                         } else {
                             Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
-                            FirebaseUser user = task.getResult().getUser();
                             startActivity(homeIntent);
+                            finish();
                         }
                     }
                 });
@@ -259,6 +259,10 @@ public class LoginActivity extends AppCompatActivity  {
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+        if (mAuth.getCurrentUser() != null) {
+            Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(homeIntent);
+        }
     }
 
     @Override

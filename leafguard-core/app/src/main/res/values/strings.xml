@@ -48,4 +48,5 @@
         completions."
     </string>
     <string name="auth_failed">Authentication failure.. Please try again.</string>
+    <string name="logout">Log out</string>
 </resources>
