@@ -40,6 +40,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,8 +110,18 @@ public class LoginActivity extends AppCompatActivity  {
             }
         });
 
+        TextView registerLink = (TextView) findViewById(R.id.registerLink);
+        registerLink.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(LoginActivity.this, "Processing....", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
     }
 
     public void signIn(String email, String password)  {
