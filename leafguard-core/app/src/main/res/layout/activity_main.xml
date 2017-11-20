@@ -39,15 +39,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/observationButton"
+        android:layout_marginLeft="98dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
-        app:layout_constraintVertical_bias="0.422"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintVertical_bias="0.422" />
 
 
     <Button
@@ -55,14 +53,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/observationBisButton"
+        android:layout_marginLeft="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/observationButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.366" />
+        app:layout_constraintVertical_bias="0.738" />
 </android.support.constraint.ConstraintLayout>

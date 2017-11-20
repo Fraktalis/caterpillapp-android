@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">leafguard-core</string>
+    <string name="profilButton">Profil</string>
+    <string name="observationButton">Première observation</string>
+    <string name="observationBisButton">Seconde observation</string>
+    <string name="ourOakButton">Notre chêne</string>
+    <!-- Oak form -->
+    <string name="title_activity_oak_form">Notre chêne</string>
+    <string name="geolocalisation">Geolocalisation</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="nbPartner">Numéro de partenaire</string>
+    <string name="circonference">Circonference du chêne</string>
+    <string name="heightOak">Hauteur estimée du chêne</string>
+    <string name="helpCirconference">Mesuré à 1,30 m du sol</string>
+    <string name="datecaterpillar">Date d\'installation des chenilles</string>
+    <string name="validateButton">Valider</string>
+    <string name="inCm">(en cm)</string>
+    <string name="inM">(en m)</string>
+    <!-- Profil form -->
+    <string name="title_activity_profil_form">Profil</string>
+    <string name="schoolname">Nom de l\'établissement</string>
+    <string name="userName">NOM de l\'enseignant</string>
+    <string name="userFirstName">Prenom de l\'enseignant</string>
+    <string name="studentAge">Age des élèves</string>
+
+    <!-- First observation form -->
+    <string name="title_activity_first_observation">Première observation</string>
+
+    <!-- Seconde observation form -->
+    <string name="title_activity_second_observation">Seconde observation</string>
 </resources>
