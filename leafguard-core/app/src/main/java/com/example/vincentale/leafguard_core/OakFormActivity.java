@@ -15,8 +15,6 @@ public class OakFormActivity extends AppCompatActivity {
         setContentView(R.layout.activity_oak_form);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
     }
 
 }
