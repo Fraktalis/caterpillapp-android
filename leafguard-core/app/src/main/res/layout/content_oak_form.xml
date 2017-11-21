@@ -56,7 +56,7 @@
                     tools:layout_editor_absoluteX="16dp"
                     android:layout_marginTop="51dp" />
 
-                <EditText
+               <!-- <EditText
                     android:id="@+id/longitude"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                     android:ems="10"
                     android:hint="@string/longitude"
                     android:inputType="numberDecimal"
-                    tools:layout_editor_absoluteY="81dp" />
+                    tools:layout_editor_absoluteY="81dp" />-->
 
                 <EditText
                     android:id="@+id/latitude"
@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-                        <EditText
+                <EditText
                     android:id="@+id/circonference"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -91,20 +91,20 @@
                     android:hint="@string/circonference"
                     android:inputType="numberDecimal" />
 
-                        <TextView
-                            android:id="@+id/helpCirconference"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="0dp"
-                            android:layout_weight="1"
-                            android:text="@string/helpCirconference"
-                            tools:layout_editor_absoluteX="16dp" />
-                </android.support.design.widget.TextInputLayout>
-                <android.support.design.widget.TextInputLayout
+                <TextView
+                    android:id="@+id/helpCirconference"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-                        <EditText
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/helpCirconference"
+                    tools:layout_editor_absoluteX="16dp" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <EditText
                     android:id="@+id/heightOak"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -113,26 +113,29 @@
                     android:hint="@string/heightOak"
                     android:inputType="numberDecimal" />
 
-                </android.support.design.widget.TextInputLayout>
+            </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-                    <EditText
-                        android:id="@+id/datePicker"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="@string/datecaterpillar"
-                        android:textSize="18sp"
-                        tools:layout_editor_absoluteX="8dp" />
+                <EditText
+                    android:id="@+id/datePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:clickable="true"
+                    android:longClickable="false"
+                    android:hint="@string/datecaterpillar"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="8dp" />
             </android.support.design.widget.TextInputLayout>
-                    <Button
-                        android:id="@+id/validateButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/validateButton" />
+            <Button
+                android:id="@+id/validateButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/validateButton" />
 
         </LinearLayout>
     </ScrollView>
