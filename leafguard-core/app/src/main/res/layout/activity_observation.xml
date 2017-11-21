@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.vincentale.leafguard_core.ObservationActivity">
 
-    <!-- Login progress -->
+    <!-- progress -->
     <ProgressBar
         android:id="@+id/observation_progress"
         style="?android:attr/progressBarStyleLarge"
@@ -30,6 +30,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/string_caterpillar"
+                android:textSize="18sp" />
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -40,8 +48,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="number"
-                    tools:text="@string/nb_caterpillar" />
+                    android:hint="@string/nb_caterpillar"
+                    android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -54,8 +62,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="number"
-                    tools:text="@string/nb_caterpillar_marque" />
+                    android:hint="@string/nb_caterpillar_marque"
+                    android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -68,8 +76,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="number"
-                    tools:text="@string/nb_caterpillar_marque_oiseaux" />
+                    android:hint="@string/nb_caterpillar_marque_oiseaux"
+                    android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -82,8 +90,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="number"
-                    tools:text="@string/nb_caterpillar_marque_arthropodes" />
+                    android:hint="@string/nb_caterpillar_marque_arthropodes"
+                    android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -96,8 +104,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="number"
-                    tools:text="@string/nb_caterpillar_marque_mammiferes" />
+                    android:hint="@string/nb_caterpillar_marque_mammiferes"
+                    android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -110,8 +118,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="number"
-                    tools:text="@string/nb_caterpillar_marque_lezard" />
+                    android:hint="@string/nb_caterpillar_marque_lezard"
+                    android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -124,23 +132,22 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="number"
-                    tools:text="@string/nb_caterpillar_marque_unknow" />
+                    android:hint="@string/nb_caterpillar_marque_unknow"
+                    android:inputType="number" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-                <android.support.design.widget.TextInputLayout
+                <EditText
+                    android:id="@+id/perdue"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <EditText
-                        android:id="@+id/perdue"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:inputType="number"
-                        tools:text="@string/nb_caterpillar_lost" />
-                </android.support.design.widget.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/nb_caterpillar_lost"
+                    android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
