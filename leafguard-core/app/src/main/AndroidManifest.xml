@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.vincentale.leafguard_core">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".HomeActivity" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
@@ -19,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".RegisterActivity" />
         <activity
             android:name=".OakFormActivity"
             android:label="@string/title_activity_oak_form"
@@ -28,7 +30,11 @@
             android:name=".ProfilFormActivity"
             android:label="@string/title_activity_profil_form"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ObservationActivity"></activity>
+        <activity android:name=".ObservationActivity" />
+        <activity
+            android:name=".Camera2Activity"
+            android:label="@string/title_activity_camera2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
