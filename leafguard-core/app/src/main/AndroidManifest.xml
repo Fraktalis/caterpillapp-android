@@ -2,10 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.vincentale.leafguard_core">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -33,9 +30,11 @@
             android:name=".ProfilFormActivity"
             android:label="@string/title_activity_profil_form"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ObservationActivity" />
         <activity
-            android:name=".ObservationActivity"
-            android:label="@string/title_activity_observation"></activity>
+            android:name=".Camera2Activity"
+            android:label="@string/title_activity_camera2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
