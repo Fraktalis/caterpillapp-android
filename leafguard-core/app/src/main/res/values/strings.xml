@@ -11,12 +11,10 @@
     <string name="latitude">Latitude</string>
     <string name="nbPartner">Numéro de partenaire</string>
     <string name="circonference">Circonference du chêne</string>
-    <string name="heightOak">Hauteur estimée du chêne</string>
-    <string name="helpCirconference">Mesuré à 1,30 m du sol</string>
+    <string name="heightOak">Hauteur estimée du chêne (en m)</string>
+    <string name="helpCirconference">Mesuré à 1,30 m du sol (en cm)</string>
     <string name="datecaterpillar">Date d\'installation des chenilles</string>
     <string name="validateButton">Valider</string>
-    <string name="inCm">(en cm)</string>
-    <string name="inM">(en m)</string>
     <!-- Profil form -->
     <string name="title_activity_profil_form">Profil</string>
     <string name="schoolname">Nom de l\'établissement</string>
@@ -24,12 +22,20 @@
     <string name="userFirstName">Prenom de l\'enseignant</string>
     <string name="studentAge">Age des élèves</string>
 
-    <!-- First observation form -->
-    <string name="title_activity_first_observation">Première observation</string>
+    <!-- Observation form -->
+    <string name="title_activity_observation">Les observations</string>
+    <string name="title_observation">Première observation</string>
+    <string name="string_caterpillar">Nombre de chenilles</string>
+    <string name="nb_caterpillar">Présentes au départ</string>
+    <string name="nb_caterpillar_marque">Total marques de prédations</string>
+    <string name="nb_caterpillar_marque_oiseaux">Avec marques de prédations par des oiseaux</string>
+    <string name="nb_caterpillar_marque_arthropodes">Avec marques de prédations par des arthropodes</string>
+    <string name="nb_caterpillar_marque_mammiferes">Avec marques de prédations par des mammifères</string>
+    <string name="nb_caterpillar_marque_lezard">Avec marques de prédations par des lézards</string>
+    <string name="nb_caterpillar_marque_unknow">Avec marques de prédations non identifées</string>
+    <string name="nb_caterpillar_lost">Perdues</string>
 
-    <!-- Seconde observation form -->
-    <string name="title_activity_second_observation">Seconde observation</string>
-    <string name="title_activity_login">Sign in</string>
+
     <!-- Strings related to HomeActivity -->
     <string name="hello_name">Hello %1$s !</string>
 
