@@ -29,10 +29,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <EditText
                     android:id="@+id/nbPartner"
                     android:layout_width="match_parent"
@@ -42,46 +44,57 @@
                     android:hint="@string/nbPartner"
                     android:inputType="textPersonName" />
             </android.support.design.widget.TextInputLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
-                <TextView
-                    android:id="@+id/geolocalisation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/geolocalisation"
-                    android:textSize="18sp"
-                    tools:layout_editor_absoluteX="16dp"
-                    android:layout_marginTop="51dp" />
-
-               <!-- <EditText
-                    android:id="@+id/longitude"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="@string/longitude"
-                    android:inputType="numberDecimal"
-                    tools:layout_editor_absoluteY="81dp" />-->
+                android:layout_weight="0.5"
+                android:gravity="center">
 
                 <EditText
                     android:id="@+id/latitude"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:ems="10"
+
                     android:hint="@string/latitude"
-                    android:inputType="numberDecimal"
+                    android:inputType="number|numberDecimal"
                     tools:layout_editor_absoluteX="170dp"
                     tools:layout_editor_absoluteY="82dp" />
 
             </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center">
+
+
+                <EditText
+                    android:id="@+id/longitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:ems="10"
+                    android:hint="@string/longitude"
+                    android:inputType="numberDecimal"
+                    tools:layout_editor_absoluteY="81dp" />
+
+                <Button
+                    android:id="@+id/localisation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="Remplir localisation" />
+            </android.support.design.widget.TextInputLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <EditText
                     android:id="@+id/circonference"
                     android:layout_width="match_parent"
@@ -100,10 +113,12 @@
                     android:text="@string/helpCirconference"
                     tools:layout_editor_absoluteX="16dp" />
             </android.support.design.widget.TextInputLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <EditText
                     android:id="@+id/heightOak"
                     android:layout_width="match_parent"
@@ -114,22 +129,25 @@
                     android:inputType="numberDecimal" />
 
             </android.support.design.widget.TextInputLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <EditText
                     android:id="@+id/datePicker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:inputType="none"
                     android:clickable="true"
-                    android:longClickable="false"
                     android:hint="@string/datecaterpillar"
+                    android:inputType="none"
+                    android:longClickable="false"
                     android:textSize="18sp"
                     tools:layout_editor_absoluteX="8dp" />
             </android.support.design.widget.TextInputLayout>
+
             <Button
                 android:id="@+id/validateButton"
                 android:layout_width="match_parent"
