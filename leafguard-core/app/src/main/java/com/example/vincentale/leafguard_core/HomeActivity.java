@@ -13,13 +13,9 @@ import android.widget.Button;
 
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -54,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
         profilButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent profilFormIntent = new Intent(mainContext, ProfilFormActivity.class);
+                Intent profilFormIntent = new Intent(mainContext, ProfileActivity.class);
                 startActivity(profilFormIntent);
             }
         });

@@ -1,5 +1,6 @@
 package com.example.vincentale.leafguard_core.model;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,12 +36,13 @@ public class UserManager {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User databaseEntries = dataSnapshot.getValue(User.class);
-                    databaseEntries.setUid(dataSnapshot.getKey());
-                    if (databaseEntries == null) {
-                        user = new User(firebaseUser.getUid());
+                    if (databaseEntries == null) { //No entry for this particuliar entry. It shouldn't happen
+                        user = new User(firebaseAuth.getCurrentUser().getUid());
                     } else {
+                        databaseEntries.setUid(dataSnapshot.getKey());
                         user = new User(databaseEntries);
                     }
+                    user.setEmail(firebaseAuth.getCurrentUser().getEmail());
                     Log.d(TAG, "user = " + user.toString());
                 }
 
@@ -50,7 +52,10 @@ public class UserManager {
                 }
             });
         }
-
+        if (user == null) {
+            user = new User(firebaseAuth.getCurrentUser().getUid());
+            user.setEmail(firebaseAuth.getCurrentUser().getEmail());
+        }
         return user;
     }
 
@@ -72,5 +77,13 @@ public class UserManager {
     public void signOut() {
         FirebaseAuth.getInstance().signOut();
         user = null;
+    }
+
+    public void updateUser(@NonNull User user) {
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference userRef = dbRef.child("users").child(user.getUid());
+        userRef.child("name").setValue(user.getName());
+        userRef.child("surname").setValue(user.getSurname());
+        userRef.child("role").setValue(user.getRole());
     }
 }

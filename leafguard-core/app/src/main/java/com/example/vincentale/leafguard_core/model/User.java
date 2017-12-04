@@ -7,6 +7,7 @@ public class User {
     private String uid;
     private String name;
     private String surname;
+    private String email;
     private int role = ROLE_USER;
 
     public  User() {
@@ -62,6 +63,20 @@ public class User {
         this.role = role;
 
         return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public User setEmail(String email) {
+        this.email = email;
+
+        return this;
+    }
+
+    public String getDisplayName() {
+        return surname + " " + name;
     }
 
     @Override
