@@ -15,25 +15,28 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vincentale.leafguard_core.model.User;
+import com.example.vincentale.leafguard_core.model.UserManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class HomeActivity extends AppCompatActivity {
 
     public static final String TAG = "HomeActivity";
-    private FirebaseAuth mAuth;
+    private UserManager mUserManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Resources res = getResources();
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser mUser = mAuth.getCurrentUser();
+        mUserManager = UserManager.getInstance();
+        User mUser = mUserManager.getUser();
 
         TextView helloText = (TextView) findViewById(R.id.helloText);
         if (mUser != null) {
-            helloText.setText(res.getString(R.string.hello_name, mUser.getDisplayName()));
+            helloText.setText(res.getString(R.string.hello_name, mUser.getUid()));
         } else {
             Log.i(TAG, "You shouldn't be anonymous on this activity !");
         }
@@ -95,7 +98,7 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-                FirebaseAuth.getInstance().signOut();
+                mUserManager.signOut();
                 Intent loginIntent = new Intent(this, LoginActivity.class);
                 startActivity(loginIntent);
                 finish();
