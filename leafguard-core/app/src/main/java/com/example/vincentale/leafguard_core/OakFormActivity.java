@@ -1,7 +1,9 @@
 package com.example.vincentale.leafguard_core;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
@@ -98,6 +100,19 @@ public class OakFormActivity extends AppCompatActivity {
             longitude.setText(Double.toString(lastKnownLocation.getLongitude()));
         }catch (SecurityException e){
 
+            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
+            dlgAlert.setMessage("Le GPS n'est pas accessible.");
+            //dlgAlert.setTitle("App Title");
+
+            dlgAlert.setPositiveButton("Ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            //dismiss the dialog
+                        }
+                    });
+
+            dlgAlert.setCancelable(true);
+            dlgAlert.create().show();
         }
 
     }
