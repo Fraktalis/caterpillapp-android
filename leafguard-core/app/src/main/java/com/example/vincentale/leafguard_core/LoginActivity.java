@@ -3,7 +3,9 @@ package com.example.vincentale.leafguard_core;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -31,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +64,7 @@ public class LoginActivity extends AppCompatActivity  {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Switch mRememberMeSwitch;
 
     /**
      * Firebase Authenticator
@@ -122,6 +126,15 @@ public class LoginActivity extends AppCompatActivity  {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        mRememberMeSwitch = (Switch) findViewById(R.id.rememberMeSwitch);
+        SharedPreferences sharedPrefs = getApplicationContext().getSharedPreferences(getString(R.string.remember_email_filename), Context.MODE_PRIVATE);
+        if (sharedPrefs.contains(getString(R.string.remember_email))) {
+            Log.d(TAG, "sharedPrefs contains remember_email");
+            mEmailView.setText(sharedPrefs.getString(getString(R.string.remember_email), ""));
+            mRememberMeSwitch.setChecked(true);
+        }
+
     }
 
     public void signIn(String email, String password)  {
@@ -151,6 +164,19 @@ public class LoginActivity extends AppCompatActivity  {
                                     Toast.LENGTH_SHORT).show();
                             showProgress(false);
                         } else {
+                            if (mRememberMeSwitch.isChecked()) {
+                                Log.d(TAG, "switch is checked");
+                                String email = mEmailView.getText().toString();
+                                SharedPreferences sharedPrefs = getApplicationContext().getSharedPreferences(getString(R.string.remember_email_filename), Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPrefs.edit();
+                                editor.putString(getString(R.string.remember_email), email);
+                                editor.commit();
+                            } else {
+                                Log.d(TAG, "switch is unchecked");
+                                SharedPreferences sharedPrefs = getApplicationContext().getSharedPreferences(getString(R.string.remember_email_filename), Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPrefs.edit();
+                                editor.clear().apply();
+                            }
                             Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
                             startActivity(homeIntent);
                             finish();

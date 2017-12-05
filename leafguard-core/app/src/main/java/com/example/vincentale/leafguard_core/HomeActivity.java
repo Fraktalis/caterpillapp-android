@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
@@ -95,6 +96,7 @@ public class HomeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_logout:
                 mUserManager.signOut();
+                Toast.makeText(this, R.string.log_out_success, Toast.LENGTH_SHORT).show();
                 Intent loginIntent = new Intent(this, LoginActivity.class);
                 startActivity(loginIntent);
                 finish();
