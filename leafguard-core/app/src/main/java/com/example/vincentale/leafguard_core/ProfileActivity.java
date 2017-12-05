@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.vincentale.leafguard_core.fragment.ProfileFormFragment;
 import com.example.vincentale.leafguard_core.fragment.ProfileFragment;
 
-public class ProfileActivity extends AppCompatActivity implements ProfileFragment.OnFragmentInteractionListener{
+public class ProfileActivity extends AppCompatActivity implements ProfileFragment.OnFragmentInteractionListener, ProfileFormFragment.OnFragmentInteractionListener {
 
     public static final String TAG = "ProfileActivity";
     @Override
@@ -33,6 +35,5 @@ public class ProfileActivity extends AppCompatActivity implements ProfileFragmen
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-        Log.d(TAG, "onFragmentInteraction called !");
     }
 }

@@ -35,8 +35,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <EditText
-                    android:id="@+id/editText"
+                    android:id="@+id/schoolNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -48,21 +49,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <EditText
-                    android:id="@+id/editText2"
+                    android:id="@+id/nameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
                     android:hint="@string/userName"
-                    android:inputType="textPersonName"/>
+                    android:inputType="textPersonName" />
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <EditText
-                    android:id="@+id/editText3"
+                    android:id="@+id/surnameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -74,8 +77,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <EditText
-                    android:id="@+id/editText6"
+                    android:id="@+id/ageEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -83,14 +87,14 @@
                     android:hint="@string/studentAge"
                     android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
-    <Button
-        android:id="@+id/button"
-        style="?android:textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/validateButton"
-        android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/submitButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/validateButton" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

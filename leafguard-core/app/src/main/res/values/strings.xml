@@ -18,7 +18,7 @@
     <!-- Profil form -->
     <string name="title_activity_profil_form">Profil</string>
     <string name="schoolname">Nom de l\'établissement</string>
-    <string name="userName">NOM de l\'enseignant</string>
+    <string name="userName">Nom de l\'enseignant</string>
     <string name="userFirstName">Prenom de l\'enseignant</string>
     <string name="studentAge">Age des élèves</string>
 
@@ -83,4 +83,5 @@
     <!-- cache file names -->
     <string name="remember_email_filename">remember_me</string>
     <string name="remember_email">remember_email</string>
+    <string name="information_update_success">Information successfuly updated !</string>
 </resources>

@@ -9,35 +9,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
-
-import static com.example.vincentale.leafguard_core.R.id.editButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ProfileFragment.OnFragmentInteractionListener} interface
+ * {@link ProfileFormFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ProfileFragment#newInstance} factory method to
+ * Use the {@link ProfileFormFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFormFragment extends Fragment {
+    public static final String TAG = "ProfileFormFragment";
 
-    private TextView emailText;
-    private TextView nameText;
-    private Button editButton;
+    private EditText surnameEditText;
+    private EditText nameEditText;
+    private Button submitButton;
 
     private UserManager userManager;
+    private FirebaseDatabase firebaseDatabase;
 
 
     private OnFragmentInteractionListener mListener;
 
-    public ProfileFragment() {
+    public ProfileFormFragment() {
         // Required empty public constructor
     }
 
@@ -48,33 +51,43 @@ public class ProfileFragment extends Fragment {
      * @return A new instance of fragment ProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance() {
-        ProfileFragment fragment = new ProfileFragment();
+    public static ProfileFormFragment newInstance() {
+        ProfileFormFragment fragment = new ProfileFormFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View fragmentView = inflater.inflate(R.layout.fragment_profile, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_profil_form, container, false);
         userManager = UserManager.getInstance();
         User mUser = userManager.getUser();
-        emailText = (TextView) fragmentView.findViewById(R.id.emailText);
-        emailText.setText(mUser.getEmail());
-        nameText = (TextView) fragmentView.findViewById(R.id.nameText);
-        nameText.setText(mUser.getDisplayName());
-        editButton = fragmentView.findViewById(R.id.editButton);
-        editButton.setOnClickListener(new View.OnClickListener() {
+        final String userUid = mUser.getUid();
+        surnameEditText = fragmentView.findViewById(R.id.surnameEditText);
+        if (mUser.getSurname() != null && !mUser.getSurname().isEmpty()) {
+            surnameEditText.setText(mUser.getSurname());
+        }
+        nameEditText = fragmentView.findViewById(R.id.nameEditText);
+        if (mUser.getName() != null && !mUser.getName().isEmpty()) {
+            nameEditText.setText(mUser.getName());
+        }
+        submitButton = fragmentView.findViewById(R.id.submitButton);
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DatabaseReference userRef = firebaseDatabase.getReference().child("users").child(userUid);
+                userRef.child("name").setValue(nameEditText.getText().toString());
+                userRef.child("surname").setValue(surnameEditText.getText().toString());
+                Toast.makeText(getActivity(), getText(R.string.information_update_success), Toast.LENGTH_SHORT).show();
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                ProfileFormFragment formFragment = ProfileFormFragment.newInstance();
+                ProfileFragment formFragment = ProfileFragment.newInstance();
                 fm.beginTransaction()
                         .replace(R.id.profile_fragment_container, formFragment)
                         .commit();
