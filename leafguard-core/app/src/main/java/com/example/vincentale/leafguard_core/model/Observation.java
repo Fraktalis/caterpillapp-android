@@ -1,6 +1,6 @@
 package com.example.vincentale.leafguard_core.model;
 
-public class Observation {
+public class Observation implements Identifiable {
 
     private String uid;
 

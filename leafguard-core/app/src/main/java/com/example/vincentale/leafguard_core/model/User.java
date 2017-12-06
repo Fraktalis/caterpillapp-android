@@ -1,6 +1,6 @@
 package com.example.vincentale.leafguard_core.model;
 
-public class User {
+public class User implements Identifiable {
     public static final int ROLE_USER = 0;
     public static final int ROLE_ADMIN = 1;
 
@@ -25,10 +25,8 @@ public class User {
         this.role = u.getRole();
     }
 
-    public User setUid(String uid) {
+    public void setUid(String uid) {
         this.uid = uid;
-
-        return this;
     }
 
     public String getUid() {

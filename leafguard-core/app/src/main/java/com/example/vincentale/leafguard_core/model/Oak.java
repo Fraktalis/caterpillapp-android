@@ -6,14 +6,14 @@ import android.support.annotation.NonNull;
  * Created by vincentale on 06/12/17.
  */
 
-public class Oak {
+public class Oak implements Identifiable{
 
     private Oak() {
 
     }
 
     public Oak(@NonNull User user, float longitude, float latitude) {
-        setUid(user.getUid() + "_" + longitude + "_" + latitude);
+        setUid(user.getUid() + "_" + (int)longitude + "_" + (int)latitude);
         setLongitude(longitude);
         setLatitude(latitude);
     }
