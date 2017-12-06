@@ -73,6 +73,12 @@
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
 
+            <Switch
+                android:id="@+id/rememberMeSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/remember_me" />
+
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"
@@ -87,7 +93,7 @@
                 android:autoLink="all"
                 android:gravity="center"
                 android:text="@string/action_register"
-                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@android:color/holo_blue_dark" />
 
         </LinearLayout>
