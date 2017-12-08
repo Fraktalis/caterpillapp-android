@@ -13,7 +13,7 @@ public class Oak implements Identifiable{
     }
 
     public Oak(@NonNull User user, float longitude, float latitude) {
-        setUid(user.getUid() + "_" + (int)longitude + "_" + (int)latitude);
+        setUid(user.getUid() + "_" + (int)(longitude*100) + "_" + (int)(latitude*100));
         setLongitude(longitude);
         setLatitude(latitude);
     }

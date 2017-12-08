@@ -36,6 +36,7 @@ public class ProfileFormFragment extends Fragment {
 
     private UserManager userManager;
     private FirebaseDatabase firebaseDatabase;
+    private User user;
 
 
     private OnFragmentInteractionListener mListener;
@@ -60,6 +61,8 @@ public class ProfileFormFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         firebaseDatabase = FirebaseDatabase.getInstance();
+        userManager = UserManager.getInstance();
+        user = userManager.getUser();
     }
 
     @Override
@@ -82,9 +85,9 @@ public class ProfileFormFragment extends Fragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference userRef = firebaseDatabase.getReference().child("users").child(userUid);
-                userRef.child("name").setValue(nameEditText.getText().toString());
-                userRef.child("surname").setValue(surnameEditText.getText().toString());
+                user.setSurname(surnameEditText.getText().toString());
+                user.setName(nameEditText.getText().toString());
+                userManager.update(user);
                 Toast.makeText(getActivity(), getText(R.string.information_update_success), Toast.LENGTH_SHORT).show();
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 ProfileFragment formFragment = ProfileFragment.newInstance();

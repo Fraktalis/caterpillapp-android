@@ -73,6 +73,8 @@ public class OakFormActivity extends AppCompatActivity {
                     oak.setOakHeight(oakHeight);
                     oak.setInstallationDate(installationDate);
                     oakManager.update(oak);
+                    user.setOak(oak);
+                    userManager.update(user);
                     Toast.makeText(OakFormActivity.this, "Oak successfully added !", Toast.LENGTH_SHORT).show();
                 }
             }
