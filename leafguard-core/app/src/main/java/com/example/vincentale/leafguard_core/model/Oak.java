@@ -77,4 +77,16 @@ public class Oak implements Identifiable{
     public void setInstallationDate(long installationDate) {
         this.installationDate = installationDate;
     }
+
+    @Override
+    public String toString() {
+        return "Oak{" +
+                "uid='" + uid + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", oakCircumference=" + oakCircumference +
+                ", oakHeight=" + oakHeight +
+                ", installationDate=" + installationDate +
+                '}';
+    }
 }

@@ -30,6 +30,7 @@ public class ProfileFragment extends Fragment {
 
     private TextView emailText;
     private TextView nameText;
+    private TextView oakText;
     private Button editButton;
 
     private UserManager userManager;
@@ -69,6 +70,10 @@ public class ProfileFragment extends Fragment {
         emailText.setText(mUser.getEmail());
         nameText = (TextView) fragmentView.findViewById(R.id.nameText);
         nameText.setText(mUser.getDisplayName());
+        oakText = (TextView) fragmentView.findViewById(R.id.oakText);
+        if (mUser.getOak() != null) {
+            oakText.setText(mUser.getOak().getUid());
+        }
         editButton = fragmentView.findViewById(R.id.editButton);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override

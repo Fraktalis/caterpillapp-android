@@ -74,6 +74,8 @@ public class UserManager implements Manager<User> {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Log.d(TAG, "oak is retrieved for user");
                     Oak oak = dataSnapshot.getValue(Oak.class);
+                    oak.setUid(dataSnapshot.getKey());
+                    Log.d(TAG, "oak : " + oak);
                     user.setOak(oak);
                 }
 
