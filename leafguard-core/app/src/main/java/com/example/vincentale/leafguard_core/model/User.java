@@ -10,7 +10,6 @@ public class User implements Identifiable {
     private String name;
     private String surname;
     private String email;
-    @Exclude
     private Oak oak;
     private String oakId;
     private int role = ROLE_USER;
@@ -28,6 +27,8 @@ public class User implements Identifiable {
         this.name = u.getName();
         this.surname = u.getSurname();
         this.role = u.getRole();
+        this.oakId = u.getOakId();
+        this.oak = u.getOak();
     }
 
     public void setUid(String uid) {

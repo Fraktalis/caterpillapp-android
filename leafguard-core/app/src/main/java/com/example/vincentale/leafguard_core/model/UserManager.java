@@ -47,6 +47,7 @@ public class UserManager implements Manager<User> {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Log.d(TAG, "user retrivied from firebase");
                     User databaseEntries = dataSnapshot.getValue(User.class);
+                    Log.d(TAG, "user from db : " + databaseEntries);
                     if (databaseEntries == null) { //No entry for this particuliar entry. It shouldn't happen
                         user = new User(firebaseAuth.getCurrentUser().getUid());
                     } else {
@@ -82,6 +83,7 @@ public class UserManager implements Manager<User> {
                 }
             });
         }
+        Log.d(TAG, "User returned : " + user);
         return user;
     }
 
