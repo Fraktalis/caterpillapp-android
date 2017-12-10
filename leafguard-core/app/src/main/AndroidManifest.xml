@@ -13,8 +13,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".HomeActivity" />
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
+            android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,7 +22,7 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity
-            android:name=".OakActivity"
+            android:name=".OakListActivity"
             android:label="@string/title_activity_oak_form"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

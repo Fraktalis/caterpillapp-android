@@ -84,4 +84,5 @@
     <string name="remember_email_filename">remember_me</string>
     <string name="remember_email">remember_email</string>
     <string name="information_update_success">Information successfuly updated !</string>
+    <string name="no_oak_available">No oak available. You can add one now !</string>
 </resources>

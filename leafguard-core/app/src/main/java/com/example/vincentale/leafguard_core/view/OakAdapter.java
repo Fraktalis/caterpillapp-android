@@ -31,10 +31,14 @@ public class OakAdapter extends RecyclerView.Adapter<OakViewHolder> {
     @Override
     public void onBindViewHolder(OakViewHolder holder, int position) {
         Oak oak = oakList.get(position);
+        holder.setCurrentItem(oak);
+        holder.bind(oak);
     }
 
     @Override
     public int getItemCount() {
         return oakList.size();
     }
+
+
 }

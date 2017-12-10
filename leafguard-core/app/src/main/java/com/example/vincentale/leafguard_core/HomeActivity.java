@@ -3,6 +3,7 @@ package com.example.vincentale.leafguard_core;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -42,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
         ourOakButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent oakFormIntent = new Intent(mainContext, OakActivity.class);
+                Intent oakFormIntent = new Intent(mainContext, OakListActivity.class);
                 startActivity(oakFormIntent);
             }
         });

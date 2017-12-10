@@ -37,7 +37,7 @@ public class UserManager implements Manager<User> {
 
     public User getUser() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference dbRef = database.getReference();
+        final DatabaseReference dbRef = database.getReference();
         if (user == null) {
             firebaseAuth = FirebaseAuth.getInstance();
             firebaseUser = firebaseAuth.getCurrentUser();
@@ -55,6 +55,25 @@ public class UserManager implements Manager<User> {
                         user = new User(databaseEntries);
                     }
                     user.setEmail(firebaseAuth.getCurrentUser().getEmail());
+
+                    if (user.getOakId() != null && user.getOak() == null) {
+                        Query oak = dbRef.child(OakManager.OAK_NAME).child(user.getOakId());
+                        oak.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Log.d(TAG, "oak is retrieved for user");
+                                Oak oak = dataSnapshot.getValue(Oak.class);
+                                oak.setUid(dataSnapshot.getKey());
+                                Log.d(TAG, "oak : " + oak);
+                                user.setOak(oak);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.e(TAG, databaseError.toString());
+                            }
+                        });
+                    }
                 }
 
                 @Override
@@ -66,24 +85,6 @@ public class UserManager implements Manager<User> {
         if (user == null) {
             user = new User(firebaseAuth.getCurrentUser().getUid());
             user.setEmail(firebaseAuth.getCurrentUser().getEmail());
-        }
-        if (user.getOakId() != null && user.getOak() == null) {
-            Query oak = dbRef.child(OakManager.OAK_NAME).child(user.getOakId());
-            oak.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Log.d(TAG, "oak is retrieved for user");
-                    Oak oak = dataSnapshot.getValue(Oak.class);
-                    oak.setUid(dataSnapshot.getKey());
-                    Log.d(TAG, "oak : " + oak);
-                    user.setOak(oak);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.e(TAG, databaseError.toString());
-                }
-            });
         }
         Log.d(TAG, "User returned : " + user);
         return user;

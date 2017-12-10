@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/homeLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/tree">
 
     <Button
         android:id="@+id/ourOakButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/ourOakButton"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="44dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/ourOakButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
         app:layout_constraintVertical_bias="0.096" />
 
     <Button
         android:id="@+id/profilButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/ourOakButton"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -30,7 +28,11 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/profilButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintLeft_toRightOf="@+id/ourOakButton"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.096" />
 
 
@@ -38,13 +40,13 @@
         android:id="@+id/observationButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/observationButton"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="98dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/observationButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
         app:layout_constraintVertical_bias="0.422" />
 
 
@@ -52,12 +54,12 @@
         android:id="@+id/observationBisButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/observationBisButton"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="100dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/observationBisButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
         app:layout_constraintVertical_bias="0.738" />
 </android.support.constraint.ConstraintLayout>

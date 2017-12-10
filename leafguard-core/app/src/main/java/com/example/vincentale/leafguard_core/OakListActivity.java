@@ -5,10 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.example.vincentale.leafguard_core.fragment.OakFormFragment;
-import com.example.vincentale.leafguard_core.fragment.ProfileFragment;
+import com.example.vincentale.leafguard_core.fragment.OakListFragment;
 
-public class OakActivity extends AppCompatActivity implements OakFormFragment.OnFragmentInteractionListener {
+public class OakListActivity extends AppCompatActivity implements OakListFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +23,9 @@ public class OakActivity extends AppCompatActivity implements OakFormFragment.On
             if (savedInstanceState != null) {
                 return;
             }
-            OakFormFragment oakFormFragment = new OakFormFragment();
-            oakFormFragment.setArguments(getIntent().getExtras());
-            getSupportFragmentManager().beginTransaction().add(R.id.oak_fragment_container, oakFormFragment).commit();
+            OakListFragment oakListFragment = new OakListFragment();
+            oakListFragment.setArguments(getIntent().getExtras());
+            getSupportFragmentManager().beginTransaction().add(R.id.oak_fragment_container, oakListFragment).commit();
         }
 
     }
