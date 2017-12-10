@@ -23,7 +23,7 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity
-            android:name=".OakFormActivity"
+            android:name=".OakActivity"
             android:label="@string/title_activity_oak_form"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

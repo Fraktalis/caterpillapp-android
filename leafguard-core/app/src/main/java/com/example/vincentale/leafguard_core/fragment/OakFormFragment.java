@@ -1,28 +1,39 @@
-package com.example.vincentale.leafguard_core;
+package com.example.vincentale.leafguard_core.fragment;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.Oak;
 import com.example.vincentale.leafguard_core.model.OakManager;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class OakFormActivity extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link OakFormFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link OakFormFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class OakFormFragment extends Fragment {
+    public static final String TAG = "OakFormfragment";
 
     private Calendar myCalendar = Calendar.getInstance();
     private EditText longitudeEditText;
@@ -35,29 +46,52 @@ public class OakFormActivity extends AppCompatActivity {
 
     private Button validateButton;
 
+    private FirebaseDatabase firebaseDatabase;
     private OakManager oakManager;
     private UserManager userManager;
     private User user;
 
     DatePickerDialog.OnDateSetListener date;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_oak_form);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+    private OnFragmentInteractionListener mListener;
+
+    public OakFormFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment ProfileFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static OakFormFragment newInstance() {
+        OakFormFragment fragment = new OakFormFragment();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        firebaseDatabase = FirebaseDatabase.getInstance();
         userManager = UserManager.getInstance();
         user = userManager.getUser();
         oakManager = OakManager.getInstance();
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        longitudeEditText = (EditText) findViewById(R.id.longitudeEditText);
-        latitudeEditText = (EditText) findViewById(R.id.latitudeEditText);
-        oakCircumferenceEditText = (EditText) findViewById(R.id.oakCircumferenceEditText);
-        oakHeightEditText = (EditText) findViewById(R.id.oakHeightEditText);
-        validateButton = (Button) findViewById(R.id.validateButton);
+        View fragmentView = inflater.inflate(R.layout.fragment_oak_form, container, false);
+
+        longitudeEditText = (EditText) fragmentView.findViewById(R.id.longitudeEditText);
+        latitudeEditText = (EditText) fragmentView.findViewById(R.id.latitudeEditText);
+        oakCircumferenceEditText = (EditText) fragmentView.findViewById(R.id.oakCircumferenceEditText);
+        oakHeightEditText = (EditText) fragmentView.findViewById(R.id.oakHeightEditText);
+        validateButton = (Button) fragmentView.findViewById(R.id.validateButton);
         validateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +100,7 @@ public class OakFormActivity extends AppCompatActivity {
                 float oakCircumference = Float.parseFloat(oakCircumferenceEditText.getText().toString());
                 float oakHeight = Float.parseFloat(oakHeightEditText.getText().toString());
                 if (user == null || user.getUid() == null) {
-                    Toast.makeText(OakFormActivity.this, "User information are not complete. Please wait before sending the form", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OakFormFragment.this.getActivity(), "User information are not complete. Please wait before sending the form", Toast.LENGTH_SHORT).show();
                 } else {
                     Oak oak = new Oak(user, longitude, latitude);
                     oak.setOakCircumference(oakCircumference);
@@ -75,12 +109,12 @@ public class OakFormActivity extends AppCompatActivity {
                     oakManager.update(oak);
                     user.setOak(oak);
                     userManager.update(user);
-                    Toast.makeText(OakFormActivity.this, "Oak successfully added !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OakFormFragment.this.getActivity(), "Oak successfully added !", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        datePickerInput = (EditText) findViewById(R.id.installationDate);
+        datePickerInput = (EditText) fragmentView.findViewById(R.id.installationDate);
         datePickerInput.setKeyListener(null); //To make it uneditable ! Java :D
 
         date = new DatePickerDialog.OnDateSetListener() {
@@ -98,7 +132,7 @@ public class OakFormActivity extends AppCompatActivity {
 
         };
 
-        final Context activityContext = this;
+        final Context activityContext = getActivity();
         datePickerInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -109,6 +143,24 @@ public class OakFormActivity extends AppCompatActivity {
                 }
             }
         });
+        return fragmentView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     private void updateLabel() {
@@ -119,4 +171,18 @@ public class OakFormActivity extends AppCompatActivity {
         datePickerInput.setText(sdf.format(myCalendar.getTime()));
     }
 
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
 }

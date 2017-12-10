@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
         ourOakButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent oakFormIntent = new Intent(mainContext, OakFormActivity.class);
+                Intent oakFormIntent = new Intent(mainContext, OakActivity.class);
                 startActivity(oakFormIntent);
             }
         });

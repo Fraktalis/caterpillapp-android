@@ -78,6 +78,10 @@ public class Oak implements Identifiable{
         this.installationDate = installationDate;
     }
 
+    public String getDisplayName() {
+        return "Oak (" + longitude + ", " + latitude + ")";
+    }
+
     @Override
     public String toString() {
         return "Oak{" +

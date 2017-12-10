@@ -67,7 +67,7 @@ public class UserManager implements Manager<User> {
             user = new User(firebaseAuth.getCurrentUser().getUid());
             user.setEmail(firebaseAuth.getCurrentUser().getEmail());
         }
-        if (user.getOakId() != null) {
+        if (user.getOakId() != null && user.getOak() == null) {
             Query oak = dbRef.child(OakManager.OAK_NAME).child(user.getOakId());
             oak.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
