@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,8 @@ public class OakFormFragment extends Fragment {
     private OakManager oakManager;
     private UserManager userManager;
     private User user;
+    private String oakUid;
+    private Oak oak;
 
     DatePickerDialog.OnDateSetListener date;
 
@@ -80,6 +83,21 @@ public class OakFormFragment extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
         userManager = UserManager.getInstance();
         oakManager = OakManager.getInstance();
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            oakUid = bundle.getString("oakUid");
+        }
+        userManager.getUser(new DatabaseCallback<User>() {
+            @Override
+            public void onSuccess(User identifiable) {
+                user = identifiable;
+            }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -87,14 +105,20 @@ public class OakFormFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         final View fragmentView = inflater.inflate(R.layout.fragment_oak_form, container, false);
-        userManager.getUser(new DatabaseCallback<User>() {
+        oakManager.find(oakUid, new DatabaseCallback<Oak>() {
             @Override
-            public void onSuccess(User identifiable) {
-                user = identifiable;
+            public void onSuccess(Oak identifiable) {
+                oak = identifiable;
                 longitudeEditText = (EditText) fragmentView.findViewById(R.id.longitudeEditText);
                 latitudeEditText = (EditText) fragmentView.findViewById(R.id.latitudeEditText);
                 oakCircumferenceEditText = (EditText) fragmentView.findViewById(R.id.oakCircumferenceEditText);
                 oakHeightEditText = (EditText) fragmentView.findViewById(R.id.oakHeightEditText);
+
+                longitudeEditText.setText(String.valueOf(oak.getLongitude()));
+                latitudeEditText.setText(String.valueOf(oak.getLatitude()));
+                oakCircumferenceEditText.setText(String.valueOf(oak.getOakCircumference()));
+                oakHeightEditText.setText(String.valueOf(oak.getOakHeight()));
+
                 validateButton = (Button) fragmentView.findViewById(R.id.validateButton);
                 validateButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -103,18 +127,24 @@ public class OakFormFragment extends Fragment {
                         float latitude = Float.parseFloat(latitudeEditText.getText().toString());
                         float oakCircumference = Float.parseFloat(oakCircumferenceEditText.getText().toString());
                         float oakHeight = Float.parseFloat(oakHeightEditText.getText().toString());
-                        if (user == null || user.getUid() == null) {
-                            Toast.makeText(OakFormFragment.this.getActivity(), "User information are not complete. Please wait before sending the form", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Oak oak = new Oak(user, longitude, latitude);
-                            oak.setOakCircumference(oakCircumference);
-                            oak.setOakHeight(oakHeight);
-                            oak.setInstallationDate(installationDate);
-                            oakManager.update(oak);
-                            user.setOak(oak);
-                            userManager.update(user);
-                            Toast.makeText(OakFormFragment.this.getActivity(), "Oak successfully added !", Toast.LENGTH_SHORT).show();
-                        }
+
+                        oak.setLongitude(longitude);
+                        oak.setLatitude(latitude);
+                        oak.setOakCircumference(oakCircumference);
+                        oak.setOakHeight(oakHeight);
+
+                        oakManager.update(oak);
+                        Snackbar mySnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_oak_form_layout),
+                                R.string.oak_saved, Snackbar.LENGTH_SHORT);
+                        mySnackbar.setAction(R.string.undo_action, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
+                        mySnackbar.show();
+
+
                     }
                 });
 
@@ -154,7 +184,6 @@ public class OakFormFragment extends Fragment {
 
             }
         });
-
 
         return fragmentView;
     }

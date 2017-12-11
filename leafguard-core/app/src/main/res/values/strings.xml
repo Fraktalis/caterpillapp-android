@@ -92,4 +92,7 @@
     <string name="heightLabel">Height :</string>
     <string name="installationDateLabel">Installation date :</string>
     <string name="oakDataTitle">Oak Data</string>
+    <string name="oak_saved">Oak Saved</string>
+    <string name="undo_action">Undo</string>
+    <string name="profile_saved">Profile saved</string>
 </resources>

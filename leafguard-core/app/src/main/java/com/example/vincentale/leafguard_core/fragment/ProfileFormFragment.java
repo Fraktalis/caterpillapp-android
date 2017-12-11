@@ -3,6 +3,7 @@ package com.example.vincentale.leafguard_core.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -76,7 +77,6 @@ public class ProfileFormFragment extends Fragment {
             @Override
             public void onSuccess(User identifiable) {
                 user = identifiable;
-                final String userUid = user.getUid();
                 surnameEditText = fragmentView.findViewById(R.id.surnameEditText);
                 if (user.getSurname() != null && !user.getSurname().isEmpty()) {
                     surnameEditText.setText(user.getSurname());
@@ -92,12 +92,21 @@ public class ProfileFormFragment extends Fragment {
                         user.setSurname(surnameEditText.getText().toString());
                         user.setName(nameEditText.getText().toString());
                         userManager.update(user);
-                        Toast.makeText(getActivity(), getText(R.string.information_update_success), Toast.LENGTH_SHORT).show();
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
-                        ProfileFragment formFragment = ProfileFragment.newInstance();
-                        fm.beginTransaction()
-                                .replace(R.id.profile_fragment_container, formFragment)
-                                .commit();
+                        Snackbar validationSnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_profil_form_layout),
+                                R.string.profile_saved, Snackbar.LENGTH_SHORT);
+                        validationSnackbar.show();
+                        final FragmentManager fm = getActivity().getSupportFragmentManager();
+                        final ProfileFragment formFragment = ProfileFragment.newInstance();
+                        validationSnackbar.addCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onDismissed(Snackbar transientBottomBar, int event) {
+                                super.onDismissed(transientBottomBar, event);
+                                fm.beginTransaction()
+                                        .replace(R.id.profile_fragment_container, formFragment)
+                                        .commit();
+                            }
+                        });
+
                     }
                 });
             }

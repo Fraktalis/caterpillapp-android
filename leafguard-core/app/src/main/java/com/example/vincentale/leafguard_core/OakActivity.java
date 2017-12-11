@@ -5,10 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.vincentale.leafguard_core.fragment.OakFormFragment;
 import com.example.vincentale.leafguard_core.fragment.OakFragment;
 import com.example.vincentale.leafguard_core.fragment.ProfileFragment;
 
-public class OakActivity extends AppCompatActivity implements OakFragment.OnFragmentInteractionListener {
+public class OakActivity extends AppCompatActivity implements OakFragment.OnFragmentInteractionListener, OakFormFragment.OnFragmentInteractionListener {
 
     public static final String TAG = "OakActivity";
     @Override
@@ -20,7 +21,6 @@ public class OakActivity extends AppCompatActivity implements OakFragment.OnFrag
             if (savedInstanceState != null) {
                 return;
             }
-            Log.d(TAG, "Creating fragment");
             OakFragment oakFragment = new OakFragment();
             oakFragment.setArguments(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction().add(R.id.oak_fragment_container, oakFragment).commit();

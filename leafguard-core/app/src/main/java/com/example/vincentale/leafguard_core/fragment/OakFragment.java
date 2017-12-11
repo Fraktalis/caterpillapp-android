@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +47,7 @@ public class OakFragment extends Fragment {
     private TextView heightText;
     private TextView installationDateText;
 
-    private Button validateButton;
+    private Button editOakButton;
 
     private FirebaseDatabase firebaseDatabase;
     private OakManager oakManager;
@@ -111,6 +112,7 @@ public class OakFragment extends Fragment {
                 circumferenceText = fragmentView.findViewById(R.id.circumferenceText);
                 heightText = fragmentView.findViewById(R.id.heightText);
                 installationDateText = fragmentView.findViewById(R.id.installationDateText);
+                editOakButton = fragmentView.findViewById(R.id.editOakButton);
 
                 longitudeText.setText(String.valueOf(oak.getLongitude()));
                 latitudeText.setText(String.valueOf(oak.getLatitude()));
@@ -120,6 +122,18 @@ public class OakFragment extends Fragment {
                 String myFormat = "dd/MM/yyyy"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.FRANCE);
                 installationDateText.setText(sdf.format(myCalendar.getTime()));
+
+                editOakButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        OakFormFragment formFragment = OakFormFragment.newInstance();
+                        formFragment.setArguments(OakFragment.this.getArguments());
+                        fm.beginTransaction()
+                                .replace(R.id.oak_fragment_container, formFragment)
+                                .commit();
+                    }
+                });
             }
 
             @Override
