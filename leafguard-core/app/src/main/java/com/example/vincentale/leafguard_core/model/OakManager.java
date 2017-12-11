@@ -3,8 +3,12 @@ package com.example.vincentale.leafguard_core.model;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -57,7 +61,22 @@ public class OakManager implements Manager<Oak> {
     }
 
     @Override
-    public Oak find(String uid) {
+    public Oak find(String uid, final DatabaseCallback<Oak> callback) {
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        DatabaseReference oakRef = databaseReference.child(OAK_NAME).child(uid);
+        oakRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Oak dbRes = dataSnapshot.getValue(Oak.class);
+                dbRes.setUid(dataSnapshot.getKey());
+                callback.onSuccess(dbRes);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onFailure(databaseError);
+            }
+        });
 
         return null;
     }

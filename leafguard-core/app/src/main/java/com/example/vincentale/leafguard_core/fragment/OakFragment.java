@@ -1,49 +1,63 @@
 package com.example.vincentale.leafguard_core.fragment;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.R;
+import com.example.vincentale.leafguard_core.model.Oak;
+import com.example.vincentale.leafguard_core.model.OakManager;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ProfileFormFragment.OnFragmentInteractionListener} interface
+ * {@link OakFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ProfileFormFragment#newInstance} factory method to
+ * Use the {@link OakFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFormFragment extends Fragment {
-    public static final String TAG = "ProfileFormFragment";
+public class OakFragment extends Fragment {
+    public static final String TAG = "OakFragment";
 
-    private EditText surnameEditText;
-    private EditText nameEditText;
-    private Button submitButton;
+    private Calendar myCalendar = Calendar.getInstance();
+    private TextView longitudeText;
+    private TextView latitudeText;
+    private TextView circumferenceText;
+    private TextView heightText;
+    private TextView installationDateText;
 
-    private UserManager userManager;
+    private Button validateButton;
+
     private FirebaseDatabase firebaseDatabase;
+    private OakManager oakManager;
+    private UserManager userManager;
     private User user;
-
+    private Oak oak;
+    private String oakUid;
 
     private OnFragmentInteractionListener mListener;
 
-    public ProfileFormFragment() {
+    public OakFragment() {
         // Required empty public constructor
     }
 
@@ -54,52 +68,58 @@ public class ProfileFormFragment extends Fragment {
      * @return A new instance of fragment ProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProfileFormFragment newInstance() {
-        ProfileFormFragment fragment = new ProfileFormFragment();
+    public static OakFragment newInstance() {
+        OakFragment fragment = new OakFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate called !");
         firebaseDatabase = FirebaseDatabase.getInstance();
         userManager = UserManager.getInstance();
+        oakManager = OakManager.getInstance();
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            oakUid = bundle.getString("oakUid");
+        }
+        userManager.getUser(new DatabaseCallback<User>() {
+            @Override
+            public void onSuccess(User identifiable) {
+                user = identifiable;
+            }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View fragmentView = inflater.inflate(R.layout.fragment_profil_form, container, false);
-        userManager = UserManager.getInstance();
-        userManager.getUser(new DatabaseCallback<User>() {
+        final View fragmentView = inflater.inflate(R.layout.fragment_oak, container, false);
+        oakManager.find(oakUid, new DatabaseCallback<Oak>() {
             @Override
-            public void onSuccess(User identifiable) {
-                user = identifiable;
-                final String userUid = user.getUid();
-                surnameEditText = fragmentView.findViewById(R.id.surnameEditText);
-                if (user.getSurname() != null && !user.getSurname().isEmpty()) {
-                    surnameEditText.setText(user.getSurname());
-                }
-                nameEditText = fragmentView.findViewById(R.id.nameEditText);
-                if (user.getName() != null && !user.getName().isEmpty()) {
-                    nameEditText.setText(user.getName());
-                }
-                submitButton = fragmentView.findViewById(R.id.submitButton);
-                submitButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        user.setSurname(surnameEditText.getText().toString());
-                        user.setName(nameEditText.getText().toString());
-                        userManager.update(user);
-                        Toast.makeText(getActivity(), getText(R.string.information_update_success), Toast.LENGTH_SHORT).show();
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
-                        ProfileFragment formFragment = ProfileFragment.newInstance();
-                        fm.beginTransaction()
-                                .replace(R.id.profile_fragment_container, formFragment)
-                                .commit();
-                    }
-                });
+            public void onSuccess(Oak identifiable) {
+                oak = identifiable;
+                longitudeText = fragmentView.findViewById(R.id.longitudeText);
+                latitudeText = fragmentView.findViewById(R.id.latitudeText);
+                circumferenceText = fragmentView.findViewById(R.id.circumferenceText);
+                heightText = fragmentView.findViewById(R.id.heightText);
+                installationDateText = fragmentView.findViewById(R.id.installationDateText);
+
+                longitudeText.setText(String.valueOf(oak.getLongitude()));
+                latitudeText.setText(String.valueOf(oak.getLatitude()));
+                circumferenceText.setText(String.valueOf(oak.getOakCircumference()));
+                heightText.setText(String.valueOf(oak.getOakHeight()));
+                myCalendar.setTimeInMillis(oak.getInstallationDate());
+                String myFormat = "dd/MM/yyyy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.FRANCE);
+                installationDateText.setText(sdf.format(myCalendar.getTime()));
             }
 
             @Override

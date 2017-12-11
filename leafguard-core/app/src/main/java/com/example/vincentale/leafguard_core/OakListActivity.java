@@ -12,7 +12,7 @@ public class OakListActivity extends AppCompatActivity implements OakListFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_oak);
+        setContentView(R.layout.activity_oak_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

@@ -4,22 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:layout_margin="10dp"
-    app:cardBackgroundColor="@color/colorPrimaryLight"
+    app:cardBackgroundColor="@color/primary_light"
     app:cardElevation="5dp"
     app:layout_collapseMode="parallax"
     app:layout_collapseParallaxMultiplier="0.7">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="false">
 
         <TextView
             android:id="@+id/oakNameText"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="TextView" />
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:id="@+id/checkImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:adjustViewBounds="false"
+            android:cropToPadding="true"
+            android:foregroundTint="@color/accent"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/ic_check_black_24dp" />
+
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

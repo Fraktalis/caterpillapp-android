@@ -15,7 +15,9 @@ import com.example.vincentale.leafguard_core.model.Oak;
 import com.example.vincentale.leafguard_core.model.OakManager;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
+import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.example.vincentale.leafguard_core.view.OakAdapter;
+import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,24 +62,31 @@ public class OakListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         userManager = UserManager.getInstance();
         oakManager = OakManager.getInstance();
-        user = userManager.getUser();
-
-        if (user.getOak() != null) {
-            oakList.add(user.getOak());
-        }
-        oakList.add(new Oak(user, (float)Math.random(), (float)Math.random()));
-        oakList.add(new Oak(user, (float)Math.random(), (float)Math.random()));
-        oakList.add(new Oak(user, (float)Math.random(), (float)Math.random()));
-        oakList.add(new Oak(user, (float)Math.random(), (float)Math.random()));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View fragmentView =  inflater.inflate(R.layout.fragment_oak_list, container, false);
-        recyclerView = (RecyclerView) fragmentView.findViewById(R.id.oakRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
-        recyclerView.setAdapter(new OakAdapter(oakList));
+        final View fragmentView =  inflater.inflate(R.layout.fragment_oak_list, container, false);
+        userManager.getUser(new DatabaseCallback<User>() {
+            @Override
+            public void onSuccess(User identifiable) {
+                user = identifiable;
+                if (user.getOak() != null) {
+                    oakList.add(user.getOak());
+                }
+                recyclerView = (RecyclerView) fragmentView.findViewById(R.id.oakRecyclerView);
+                recyclerView.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
+                recyclerView.setAdapter(new OakAdapter(oakList, OakListFragment.this.getContext()));
+            }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+
+            }
+        });
+
+
         return fragmentView;
     }
 

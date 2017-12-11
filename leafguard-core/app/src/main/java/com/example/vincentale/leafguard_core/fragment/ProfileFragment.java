@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
+import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.google.firebase.database.DatabaseError;
 
 import static com.example.vincentale.leafguard_core.R.id.editButton;
 
@@ -34,6 +36,7 @@ public class ProfileFragment extends Fragment {
     private Button editButton;
 
     private UserManager userManager;
+    private User user;
 
 
     private OnFragmentInteractionListener mListener;
@@ -63,28 +66,39 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View fragmentView = inflater.inflate(R.layout.fragment_profile, container, false);
+        final View fragmentView = inflater.inflate(R.layout.fragment_profile, container, false);
         userManager = UserManager.getInstance();
-        User mUser = userManager.getUser();
-        emailText = (TextView) fragmentView.findViewById(R.id.emailText);
-        emailText.setText(mUser.getEmail());
-        nameText = (TextView) fragmentView.findViewById(R.id.nameText);
-        nameText.setText(mUser.getDisplayName());
-        oakText = (TextView) fragmentView.findViewById(R.id.oakText);
-        if (mUser.getOak() != null) {
-            oakText.setText(mUser.getOak().getUid());
-        }
-        editButton = fragmentView.findViewById(R.id.editButton);
-        editButton.setOnClickListener(new View.OnClickListener() {
+        userManager.getUser(new DatabaseCallback<User>() {
             @Override
-            public void onClick(View view) {
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                ProfileFormFragment formFragment = ProfileFormFragment.newInstance();
-                fm.beginTransaction()
-                        .replace(R.id.profile_fragment_container, formFragment)
-                        .commit();
+            public void onSuccess(User identifiable) {
+                user = identifiable;
+                emailText = (TextView) fragmentView.findViewById(R.id.emailText);
+                emailText.setText(user.getEmail());
+                nameText = (TextView) fragmentView.findViewById(R.id.nameText);
+                nameText.setText(user.getDisplayName());
+                oakText = (TextView) fragmentView.findViewById(R.id.oakText);
+                if (user.getOak() != null) {
+                    oakText.setText(user.getOak().getUid());
+                }
+                editButton = fragmentView.findViewById(R.id.editButton);
+                editButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        ProfileFormFragment formFragment = ProfileFormFragment.newInstance();
+                        fm.beginTransaction()
+                                .replace(R.id.profile_fragment_container, formFragment)
+                                .commit();
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+
             }
         });
+
         return fragmentView;
     }
 

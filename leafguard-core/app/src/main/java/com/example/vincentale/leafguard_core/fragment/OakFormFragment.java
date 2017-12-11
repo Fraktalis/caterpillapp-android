@@ -18,6 +18,8 @@ import com.example.vincentale.leafguard_core.model.Oak;
 import com.example.vincentale.leafguard_core.model.OakManager;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
+import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
@@ -77,7 +79,6 @@ public class OakFormFragment extends Fragment {
         super.onCreate(savedInstanceState);
         firebaseDatabase = FirebaseDatabase.getInstance();
         userManager = UserManager.getInstance();
-        user = userManager.getUser();
         oakManager = OakManager.getInstance();
     }
 
@@ -85,64 +86,76 @@ public class OakFormFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View fragmentView = inflater.inflate(R.layout.fragment_oak_form, container, false);
-
-        longitudeEditText = (EditText) fragmentView.findViewById(R.id.longitudeEditText);
-        latitudeEditText = (EditText) fragmentView.findViewById(R.id.latitudeEditText);
-        oakCircumferenceEditText = (EditText) fragmentView.findViewById(R.id.oakCircumferenceEditText);
-        oakHeightEditText = (EditText) fragmentView.findViewById(R.id.oakHeightEditText);
-        validateButton = (Button) fragmentView.findViewById(R.id.validateButton);
-        validateButton.setOnClickListener(new View.OnClickListener() {
+        final View fragmentView = inflater.inflate(R.layout.fragment_oak_form, container, false);
+        userManager.getUser(new DatabaseCallback<User>() {
             @Override
-            public void onClick(View view) {
-                float longitude = Float.parseFloat(longitudeEditText.getText().toString());
-                float latitude = Float.parseFloat(latitudeEditText.getText().toString());
-                float oakCircumference = Float.parseFloat(oakCircumferenceEditText.getText().toString());
-                float oakHeight = Float.parseFloat(oakHeightEditText.getText().toString());
-                if (user == null || user.getUid() == null) {
-                    Toast.makeText(OakFormFragment.this.getActivity(), "User information are not complete. Please wait before sending the form", Toast.LENGTH_SHORT).show();
-                } else {
-                    Oak oak = new Oak(user, longitude, latitude);
-                    oak.setOakCircumference(oakCircumference);
-                    oak.setOakHeight(oakHeight);
-                    oak.setInstallationDate(installationDate);
-                    oakManager.update(oak);
-                    user.setOak(oak);
-                    userManager.update(user);
-                    Toast.makeText(OakFormFragment.this.getActivity(), "Oak successfully added !", Toast.LENGTH_SHORT).show();
-                }
+            public void onSuccess(User identifiable) {
+                user = identifiable;
+                longitudeEditText = (EditText) fragmentView.findViewById(R.id.longitudeEditText);
+                latitudeEditText = (EditText) fragmentView.findViewById(R.id.latitudeEditText);
+                oakCircumferenceEditText = (EditText) fragmentView.findViewById(R.id.oakCircumferenceEditText);
+                oakHeightEditText = (EditText) fragmentView.findViewById(R.id.oakHeightEditText);
+                validateButton = (Button) fragmentView.findViewById(R.id.validateButton);
+                validateButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        float longitude = Float.parseFloat(longitudeEditText.getText().toString());
+                        float latitude = Float.parseFloat(latitudeEditText.getText().toString());
+                        float oakCircumference = Float.parseFloat(oakCircumferenceEditText.getText().toString());
+                        float oakHeight = Float.parseFloat(oakHeightEditText.getText().toString());
+                        if (user == null || user.getUid() == null) {
+                            Toast.makeText(OakFormFragment.this.getActivity(), "User information are not complete. Please wait before sending the form", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Oak oak = new Oak(user, longitude, latitude);
+                            oak.setOakCircumference(oakCircumference);
+                            oak.setOakHeight(oakHeight);
+                            oak.setInstallationDate(installationDate);
+                            oakManager.update(oak);
+                            user.setOak(oak);
+                            userManager.update(user);
+                            Toast.makeText(OakFormFragment.this.getActivity(), "Oak successfully added !", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                datePickerInput = (EditText) fragmentView.findViewById(R.id.installationDate);
+                datePickerInput.setKeyListener(null); //To make it uneditable ! Java :D
+
+                date = new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+                        // TODO Auto-generated method stub
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        updateLabel();
+                        datePickerInput.clearFocus();
+                    }
+
+                };
+
+                final Context activityContext = getActivity();
+                datePickerInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean hasFocus) {
+                        if (hasFocus) {
+                            new DatePickerDialog(activityContext, date, myCalendar
+                                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+
             }
         });
 
-        datePickerInput = (EditText) fragmentView.findViewById(R.id.installationDate);
-        datePickerInput.setKeyListener(null); //To make it uneditable ! Java :D
 
-        date = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-                datePickerInput.clearFocus();
-            }
-
-        };
-
-        final Context activityContext = getActivity();
-        datePickerInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    new DatePickerDialog(activityContext, date, myCalendar
-                            .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-                }
-            }
-        });
         return fragmentView;
     }
 

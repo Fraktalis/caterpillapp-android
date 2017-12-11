@@ -18,69 +18,82 @@ import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
+import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.google.firebase.database.DatabaseError;
 
 public class HomeActivity extends AppCompatActivity {
 
     public static final String TAG = "HomeActivity";
     private UserManager mUserManager;
+    private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Resources res = getResources();
         mUserManager = UserManager.getInstance();
-        User mUser = mUserManager.getUser();
-
-        TextView helloText = (TextView) findViewById(R.id.helloText);
-        if (mUser != null) {
-            helloText.setText(res.getString(R.string.hello_name, mUser.getUid()));
-        } else {
-            Log.i(TAG, "You shouldn't be anonymous on this activity !");
-        }
-        final Context mainContext = this;
-        Button ourOakButton = (Button) findViewById(R.id.ourOakButton);
-        ourOakButton.setOnClickListener(new View.OnClickListener() {
+        mUserManager.getUser(new DatabaseCallback<User>() {
             @Override
-            public void onClick(View view) {
-                Intent oakFormIntent = new Intent(mainContext, OakListActivity.class);
-                startActivity(oakFormIntent);
+            public void onSuccess(User identifiable) {
+                mUser = identifiable;
+                Resources res = getResources();
+                Toast.makeText(HomeActivity.this, "user is loaded !", Toast.LENGTH_SHORT).show();
+                TextView helloText = (TextView) findViewById(R.id.helloText);
+                if (mUser != null) {
+                    helloText.setText(res.getString(R.string.hello_name, mUser.getUid()));
+                } else {
+                    Log.i(TAG, "You shouldn't be anonymous on this activity !");
+                }
+                final Context mainContext = HomeActivity.this;
+                Button ourOakButton = (Button) findViewById(R.id.ourOakButton);
+                ourOakButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent oakFormIntent = new Intent(mainContext, OakListActivity.class);
+                        startActivity(oakFormIntent);
+                    }
+                });
+
+                Button profilButton = (Button) findViewById(R.id.profilButton);
+                profilButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent profilFormIntent = new Intent(mainContext, ProfileActivity.class);
+                        startActivity(profilFormIntent);
+                    }
+                });
+
+                Button observationButton = (Button) findViewById(R.id.observationButton);
+                observationButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent observationIntent = new Intent(mainContext, ObservationActivity.class);
+                        startActivity(observationIntent);
+                    }
+                });
+
+                Button observationBisButton = (Button) findViewById(R.id.observationBisButton);
+                observationBisButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent observationBisIntent = new Intent(mainContext, ObservationActivity.class);
+                        startActivity(observationBisIntent);
+                    }
+                });
+
+                Button cameraButton = (Button) findViewById(R.id.cameraButton);
+                cameraButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent cameraIntent = new Intent(mainContext, Camera2Activity.class);
+                        startActivity(cameraIntent);
+                    }
+                });
             }
-        });
 
-        Button profilButton = (Button) findViewById(R.id.profilButton);
-        profilButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent profilFormIntent = new Intent(mainContext, ProfileActivity.class);
-                startActivity(profilFormIntent);
-            }
-        });
-
-        Button observationButton = (Button) findViewById(R.id.observationButton);
-        observationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent observationIntent = new Intent(mainContext, ObservationActivity.class);
-                startActivity(observationIntent);
-            }
-        });
-
-        Button observationBisButton = (Button) findViewById(R.id.observationBisButton);
-        observationBisButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent observationBisIntent = new Intent(mainContext, ObservationActivity.class);
-                startActivity(observationBisIntent);
-            }
-        });
-
-        Button cameraButton = (Button) findViewById(R.id.cameraButton);
-        cameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent cameraIntent = new Intent(mainContext, Camera2Activity.class);
-                startActivity(cameraIntent);
+            public void onFailure(DatabaseError error) {
+                Log.d(TAG, "should not be here");
             }
         });
     }

@@ -2,6 +2,8 @@ package com.example.vincentale.leafguard_core.model;
 
 import android.support.annotation.NonNull;
 
+import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+
 import java.util.ArrayList;
 
 interface Manager<T extends Identifiable> {
@@ -16,6 +18,6 @@ interface Manager<T extends Identifiable> {
      * @param object
      */
     public void delete(@NonNull  T object);
-    public T find(String uid);
+    public T find(String uid, DatabaseCallback<T> callback);
     public ArrayList<T> findAll();
 }

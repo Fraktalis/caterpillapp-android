@@ -3,6 +3,7 @@ package com.example.vincentale.leafguard_core.model;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,24 +29,29 @@ public class UserManager implements Manager<User> {
 
     private static User user;
     private static UserManager userManager;
+    private OakManager oakManager;
 
 
 
     private UserManager() {
         firebaseDatabase = FirebaseDatabase.getInstance();
+        oakManager = OakManager.getInstance();
     }
 
-    public User getUser() {
+    public void getUser(final DatabaseCallback<User> callback) {
+        if (user != null) {
+            callback.onSuccess(user);
+        }
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference dbRef = database.getReference();
         if (user == null) {
             firebaseAuth = FirebaseAuth.getInstance();
             firebaseUser = firebaseAuth.getCurrentUser();
-            Query users = dbRef.child("users").child(firebaseUser.getUid());
+            Query users = dbRef.child(USER_NAME).child(firebaseUser.getUid());
             users.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Log.d(TAG, "user retrivied from firebase");
+                    Log.d(TAG, "user retrieved from firebase");
                     User databaseEntries = dataSnapshot.getValue(User.class);
                     Log.d(TAG, "user from db : " + databaseEntries);
                     if (databaseEntries == null) { //No entry for this particuliar entry. It shouldn't happen
@@ -55,30 +61,24 @@ public class UserManager implements Manager<User> {
                         user = new User(databaseEntries);
                     }
                     user.setEmail(firebaseAuth.getCurrentUser().getEmail());
-
                     if (user.getOakId() != null && user.getOak() == null) {
-                        Query oak = dbRef.child(OakManager.OAK_NAME).child(user.getOakId());
-                        oak.addListenerForSingleValueEvent(new ValueEventListener() {
+                        oakManager.find(user.getOakId(), new DatabaseCallback<Oak>() {
                             @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Log.d(TAG, "oak is retrieved for user");
-                                Oak oak = dataSnapshot.getValue(Oak.class);
-                                oak.setUid(dataSnapshot.getKey());
-                                Log.d(TAG, "oak : " + oak);
-                                user.setOak(oak);
+                            public void onSuccess(Oak identifiable) {
+                                user.setOak(identifiable);
                             }
 
                             @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                Log.e(TAG, databaseError.toString());
+                            public void onFailure(DatabaseError error) {
                             }
                         });
                     }
+                    callback.onSuccess(user);
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
+                    callback.onFailure(databaseError);
                 }
             });
         }
@@ -86,8 +86,6 @@ public class UserManager implements Manager<User> {
             user = new User(firebaseAuth.getCurrentUser().getUid());
             user.setEmail(firebaseAuth.getCurrentUser().getEmail());
         }
-        Log.d(TAG, "User returned : " + user);
-        return user;
     }
 
     /**
@@ -142,7 +140,8 @@ public class UserManager implements Manager<User> {
     }
 
     @Override
-    public User find(String uid) {
+    public User find(String uid, DatabaseCallback<User> callback) {
+
         return null;
     }
 
