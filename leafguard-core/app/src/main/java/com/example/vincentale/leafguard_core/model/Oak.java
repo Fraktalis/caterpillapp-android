@@ -18,6 +18,15 @@ public class Oak implements Identifiable{
         setLatitude(latitude);
     }
 
+    public Oak(Oak oak) {
+        setUid(oak.getUid());
+        setLatitude(oak.getLatitude());
+        setLongitude(oak.getLongitude());
+        setOakCircumference(oak.getOakCircumference());
+        setOakHeight(oak.getOakHeight());
+        setInstallationDate(oak.getInstallationDate());
+    }
+
     private String uid;
 
     private float longitude;

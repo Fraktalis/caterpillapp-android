@@ -55,6 +55,7 @@ public class OakFormFragment extends Fragment {
     private User user;
     private String oakUid;
     private Oak oak;
+    private Oak oakSave;
 
     DatePickerDialog.OnDateSetListener date;
 
@@ -109,6 +110,7 @@ public class OakFormFragment extends Fragment {
             @Override
             public void onSuccess(Oak identifiable) {
                 oak = identifiable;
+                oakSave = new Oak(identifiable);
                 longitudeEditText = (EditText) fragmentView.findViewById(R.id.longitudeEditText);
                 latitudeEditText = (EditText) fragmentView.findViewById(R.id.latitudeEditText);
                 oakCircumferenceEditText = (EditText) fragmentView.findViewById(R.id.oakCircumferenceEditText);
@@ -139,7 +141,8 @@ public class OakFormFragment extends Fragment {
                         mySnackbar.setAction(R.string.undo_action, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-
+                                oak = new Oak(oakSave);
+                                oakManager.update(oak);
                             }
                         });
                         mySnackbar.show();
