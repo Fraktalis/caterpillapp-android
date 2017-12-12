@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.OakActivity;
 import com.example.vincentale.leafguard_core.R;
+import com.example.vincentale.leafguard_core.fragment.OakFragment;
 import com.example.vincentale.leafguard_core.model.Identifiable;
 import com.example.vincentale.leafguard_core.model.Oak;
 import com.example.vincentale.leafguard_core.model.User;
@@ -51,6 +52,7 @@ public class OakViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
                 Intent oakIntent = new Intent(context, OakActivity.class);
                 oakIntent.putExtra("oakUid", currentItem.getUid());
+                oakIntent.setAction(OakFragment.EDIT_OAK_ACTION);
                 context.startActivity(oakIntent);
             }
         });

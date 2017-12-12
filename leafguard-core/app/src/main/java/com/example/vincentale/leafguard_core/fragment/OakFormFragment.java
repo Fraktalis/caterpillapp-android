@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,8 @@ public class OakFormFragment extends Fragment {
     private Oak oak;
     private Oak oakSave;
 
+    private Context activityContext;
+
     DatePickerDialog.OnDateSetListener date;
 
 
@@ -106,20 +109,120 @@ public class OakFormFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         final View fragmentView = inflater.inflate(R.layout.fragment_oak_form, container, false);
+        activityContext  = getActivity();
+
+
+        String action = getActivity().getIntent().getAction();
+        switch (action) {
+            case OakFragment.NEW_OAK_ACTION:
+                newOak(fragmentView);
+                break;
+
+            case OakFragment.EDIT_OAK_ACTION:
+                editOak(fragmentView);
+                break;
+            default:
+                Log.d(TAG, "Action " + action + "not supported on this fragment.");
+        }
+
+        return fragmentView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    private void updateLabel(Calendar calendar) {
+        String myFormat = "yyyy/MM/dd"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        installationDate = calendar.getTime().getTime();
+        datePickerInput.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    private void updateLabel(Oak oak) {
+        String myFormat = "yyyy/MM/dd"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        installationDate = oak.getInstallationDate();
+        datePickerInput.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
+    public void editOak(final View fragmentView) {
         oakManager.find(oakUid, new DatabaseCallback<Oak>() {
             @Override
             public void onSuccess(Oak identifiable) {
                 oak = identifiable;
                 oakSave = new Oak(identifiable);
+                installationDate = oak.getInstallationDate();
                 longitudeEditText = (EditText) fragmentView.findViewById(R.id.longitudeEditText);
                 latitudeEditText = (EditText) fragmentView.findViewById(R.id.latitudeEditText);
                 oakCircumferenceEditText = (EditText) fragmentView.findViewById(R.id.oakCircumferenceEditText);
                 oakHeightEditText = (EditText) fragmentView.findViewById(R.id.oakHeightEditText);
+                datePickerInput = (EditText) fragmentView.findViewById(R.id.installationDate);
+                datePickerInput.setKeyListener(null); //To make it uneditable ! Java :D
+                updateLabel(oak);
+
+                date = new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+                        // TODO Auto-generated method stub
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        updateLabel(myCalendar);
+                        datePickerInput.clearFocus();
+                    }
+
+                };
+
+                final Context activityContext = getActivity();
+                datePickerInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean hasFocus) {
+                        if (hasFocus) {
+                            new DatePickerDialog(activityContext, date, myCalendar
+                                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                        }
+                    }
+                });
 
                 longitudeEditText.setText(String.valueOf(oak.getLongitude()));
                 latitudeEditText.setText(String.valueOf(oak.getLatitude()));
                 oakCircumferenceEditText.setText(String.valueOf(oak.getOakCircumference()));
                 oakHeightEditText.setText(String.valueOf(oak.getOakHeight()));
+                installationDate = oak.getInstallationDate();
 
                 validateButton = (Button) fragmentView.findViewById(R.id.validateButton);
                 validateButton.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +237,7 @@ public class OakFormFragment extends Fragment {
                         oak.setLatitude(latitude);
                         oak.setOakCircumference(oakCircumference);
                         oak.setOakHeight(oakHeight);
+                        oak.setInstallationDate(installationDate);
 
                         oakManager.update(oak);
                         Snackbar mySnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_oak_form_layout),
@@ -163,13 +267,12 @@ public class OakFormFragment extends Fragment {
                         myCalendar.set(Calendar.YEAR, year);
                         myCalendar.set(Calendar.MONTH, monthOfYear);
                         myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        updateLabel();
+                        updateLabel(myCalendar);
                         datePickerInput.clearFocus();
                     }
 
                 };
 
-                final Context activityContext = getActivity();
                 datePickerInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View view, boolean hasFocus) {
@@ -187,47 +290,65 @@ public class OakFormFragment extends Fragment {
 
             }
         });
-
-        return fragmentView;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+    public void newOak(final View fragmentView) {
+        longitudeEditText = (EditText) fragmentView.findViewById(R.id.longitudeEditText);
+        latitudeEditText = (EditText) fragmentView.findViewById(R.id.latitudeEditText);
+        oakCircumferenceEditText = (EditText) fragmentView.findViewById(R.id.oakCircumferenceEditText);
+        oakHeightEditText = (EditText) fragmentView.findViewById(R.id.oakHeightEditText);
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+        validateButton = (Button) fragmentView.findViewById(R.id.validateButton);
+        validateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                float longitude = Float.parseFloat(longitudeEditText.getText().toString());
+                float latitude = Float.parseFloat(latitudeEditText.getText().toString());
+                float oakCircumference = Float.parseFloat(oakCircumferenceEditText.getText().toString());
+                float oakHeight = Float.parseFloat(oakHeightEditText.getText().toString());
+                oak = new Oak(user, longitude, latitude);
+                oak.setLongitude(longitude);
+                oak.setLatitude(latitude);
+                oak.setOakCircumference(oakCircumference);
+                oak.setOakHeight(oakHeight);
+                oak.setInstallationDate(installationDate);
 
-    private void updateLabel() {
-        String myFormat = "yyyy/MM/dd"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                oakManager.update(oak);
+                Snackbar mySnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_oak_form_layout),
+                        R.string.oak_saved, Snackbar.LENGTH_SHORT);
+                mySnackbar.show();
 
-        installationDate = myCalendar.getTime().getTime();
-        datePickerInput.setText(sdf.format(myCalendar.getTime()));
-    }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+            }
+        });
+
+        datePickerInput = (EditText) fragmentView.findViewById(R.id.installationDate);
+        datePickerInput.setKeyListener(null); //To make it uneditable ! Java :D
+
+        date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel(myCalendar);
+                datePickerInput.clearFocus();
+            }
+
+        };
+
+        datePickerInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    new DatePickerDialog(activityContext, date, myCalendar
+                            .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                }
+            }
+        });
     }
 }

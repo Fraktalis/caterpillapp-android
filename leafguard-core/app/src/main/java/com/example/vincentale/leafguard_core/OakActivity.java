@@ -21,9 +21,17 @@ public class OakActivity extends AppCompatActivity implements OakFragment.OnFrag
             if (savedInstanceState != null) {
                 return;
             }
-            OakFragment oakFragment = new OakFragment();
-            oakFragment.setArguments(getIntent().getExtras());
-            getSupportFragmentManager().beginTransaction().add(R.id.oak_fragment_container, oakFragment).commit();
+            String action = getIntent().getAction();
+            if (action.equals(OakFragment.EDIT_OAK_ACTION)) {
+                OakFragment oakFragment = new OakFragment();
+                oakFragment.setArguments(getIntent().getExtras());
+                getSupportFragmentManager().beginTransaction().add(R.id.oak_fragment_container, oakFragment).commit();
+            } else if (action.equals(OakFragment.NEW_OAK_ACTION)) {
+                OakFormFragment oakFormFragment = new OakFormFragment();
+                getSupportFragmentManager().beginTransaction().add(R.id.oak_fragment_container, oakFormFragment).commit();
+            } else {
+                Log.d(TAG, "The action of the intent is unsupported.");
+            }
         }
 
     }

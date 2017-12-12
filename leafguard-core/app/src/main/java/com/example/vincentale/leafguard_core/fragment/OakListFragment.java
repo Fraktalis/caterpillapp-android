@@ -1,15 +1,19 @@
 package com.example.vincentale.leafguard_core.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.example.vincentale.leafguard_core.OakActivity;
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.Oak;
 import com.example.vincentale.leafguard_core.model.OakManager;
@@ -36,6 +40,8 @@ public class OakListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private List<Oak> oakList = new ArrayList<>();
+
+    private FloatingActionButton addOakButton;
 
     private UserManager userManager;
     private OakManager oakManager;
@@ -78,6 +84,16 @@ public class OakListFragment extends Fragment {
                 recyclerView = (RecyclerView) fragmentView.findViewById(R.id.oakRecyclerView);
                 recyclerView.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
                 recyclerView.setAdapter(new OakAdapter(oakList, OakListFragment.this.getContext()));
+
+                addOakButton = fragmentView.findViewById(R.id.addOakbutton);
+                addOakButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent newOakItent = new Intent(OakListFragment.this.getContext(), OakActivity.class);
+                        newOakItent.setAction(OakFragment.NEW_OAK_ACTION);
+                        startActivity(newOakItent);
+                    }
+                });
             }
 
             @Override

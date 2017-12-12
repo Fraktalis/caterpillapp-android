@@ -40,6 +40,9 @@ import java.util.Locale;
 public class OakFragment extends Fragment {
     public static final String TAG = "OakFragment";
 
+    public static final String NEW_OAK_ACTION = "new_oak";
+    public static final String EDIT_OAK_ACTION = "edit_oak";
+
     private Calendar myCalendar = Calendar.getInstance();
     private TextView longitudeText;
     private TextView latitudeText;
