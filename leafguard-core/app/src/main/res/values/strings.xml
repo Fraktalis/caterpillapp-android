@@ -84,4 +84,15 @@
     <string name="remember_email_filename">remember_me</string>
     <string name="remember_email">remember_email</string>
     <string name="information_update_success">Information successfuly updated !</string>
+    <string name="no_oak_available">No oak available. You can add one now !</string>
+    <string name="edit_oak_action">Edit oak</string>
+    <string name="circumferenceLabel">circumference :</string>
+    <string name="latitudeLabel">latitude :</string>
+    <string name="longitudeLabel">longitude :</string>
+    <string name="heightLabel">Height :</string>
+    <string name="installationDateLabel">Installation date :</string>
+    <string name="oakDataTitle">Oak Data</string>
+    <string name="oak_saved">Oak Saved</string>
+    <string name="undo_action">Undo</string>
+    <string name="profile_saved">Profile saved</string>
 </resources>

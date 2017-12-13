@@ -1,6 +1,8 @@
 package com.example.vincentale.leafguard_core.model;
 
-public class User {
+import com.google.firebase.database.Exclude;
+
+public class User implements Identifiable {
     public static final int ROLE_USER = 0;
     public static final int ROLE_ADMIN = 1;
 
@@ -8,6 +10,8 @@ public class User {
     private String name;
     private String surname;
     private String email;
+    private Oak oak;
+    private String oakId;
     private int role = ROLE_USER;
 
     public  User() {
@@ -23,12 +27,12 @@ public class User {
         this.name = u.getName();
         this.surname = u.getSurname();
         this.role = u.getRole();
+        this.oakId = u.getOakId();
+        this.oak = u.getOak();
     }
 
-    public User setUid(String uid) {
+    public void setUid(String uid) {
         this.uid = uid;
-
-        return this;
     }
 
     public String getUid() {
@@ -75,6 +79,23 @@ public class User {
         return this;
     }
 
+    public Oak getOak() {
+        return oak;
+    }
+
+    public void setOak(Oak oak) {
+        this.oak = oak;
+        setOakId(oak.getUid());
+    }
+
+    public String getOakId() {
+        return oakId;
+    }
+
+    public void setOakId(String oakId) {
+        this.oakId = oakId;
+    }
+
     public String getDisplayName() {
         return surname + " " + name;
     }
@@ -86,6 +107,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", role=" + role +
+                ", oakId=" + oakId +
+                ", oak=" + oak +
                 '}';
     }
 }

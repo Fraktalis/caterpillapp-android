@@ -3,6 +3,7 @@ package com.example.vincentale.leafguard_core.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
+import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,6 +39,7 @@ public class ProfileFormFragment extends Fragment {
 
     private UserManager userManager;
     private FirebaseDatabase firebaseDatabase;
+    private User user;
 
 
     private OnFragmentInteractionListener mListener;
@@ -60,39 +64,59 @@ public class ProfileFormFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         firebaseDatabase = FirebaseDatabase.getInstance();
+        userManager = UserManager.getInstance();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View fragmentView = inflater.inflate(R.layout.fragment_profil_form, container, false);
+        final View fragmentView = inflater.inflate(R.layout.fragment_profil_form, container, false);
         userManager = UserManager.getInstance();
-        User mUser = userManager.getUser();
-        final String userUid = mUser.getUid();
-        surnameEditText = fragmentView.findViewById(R.id.surnameEditText);
-        if (mUser.getSurname() != null && !mUser.getSurname().isEmpty()) {
-            surnameEditText.setText(mUser.getSurname());
-        }
-        nameEditText = fragmentView.findViewById(R.id.nameEditText);
-        if (mUser.getName() != null && !mUser.getName().isEmpty()) {
-            nameEditText.setText(mUser.getName());
-        }
-        submitButton = fragmentView.findViewById(R.id.submitButton);
-        submitButton.setOnClickListener(new View.OnClickListener() {
+        userManager.getUser(new DatabaseCallback<User>() {
             @Override
-            public void onClick(View view) {
-                DatabaseReference userRef = firebaseDatabase.getReference().child("users").child(userUid);
-                userRef.child("name").setValue(nameEditText.getText().toString());
-                userRef.child("surname").setValue(surnameEditText.getText().toString());
-                Toast.makeText(getActivity(), getText(R.string.information_update_success), Toast.LENGTH_SHORT).show();
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                ProfileFragment formFragment = ProfileFragment.newInstance();
-                fm.beginTransaction()
-                        .replace(R.id.profile_fragment_container, formFragment)
-                        .commit();
+            public void onSuccess(User identifiable) {
+                user = identifiable;
+                surnameEditText = fragmentView.findViewById(R.id.surnameEditText);
+                if (user.getSurname() != null && !user.getSurname().isEmpty()) {
+                    surnameEditText.setText(user.getSurname());
+                }
+                nameEditText = fragmentView.findViewById(R.id.nameEditText);
+                if (user.getName() != null && !user.getName().isEmpty()) {
+                    nameEditText.setText(user.getName());
+                }
+                submitButton = fragmentView.findViewById(R.id.submitButton);
+                submitButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        user.setSurname(surnameEditText.getText().toString());
+                        user.setName(nameEditText.getText().toString());
+                        userManager.update(user);
+                        Snackbar validationSnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_profil_form_layout),
+                                R.string.profile_saved, Snackbar.LENGTH_SHORT);
+                        validationSnackbar.show();
+                        final FragmentManager fm = getActivity().getSupportFragmentManager();
+                        final ProfileFragment formFragment = ProfileFragment.newInstance();
+                        validationSnackbar.addCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onDismissed(Snackbar transientBottomBar, int event) {
+                                super.onDismissed(transientBottomBar, event);
+                                fm.beginTransaction()
+                                        .replace(R.id.profile_fragment_container, formFragment)
+                                        .commit();
+                            }
+                        });
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+
             }
         });
+
         return fragmentView;
     }
 

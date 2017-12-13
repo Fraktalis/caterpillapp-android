@@ -1,47 +1,53 @@
 package com.example.vincentale.leafguard_core.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.vincentale.leafguard_core.OakActivity;
 import com.example.vincentale.leafguard_core.R;
+import com.example.vincentale.leafguard_core.model.Oak;
+import com.example.vincentale.leafguard_core.model.OakManager;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.example.vincentale.leafguard_core.view.OakAdapter;
 import com.google.firebase.database.DatabaseError;
 
-import static com.example.vincentale.leafguard_core.R.id.editButton;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ProfileFragment.OnFragmentInteractionListener} interface
+ * {@link OakListFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ProfileFragment#newInstance} factory method to
+ * Use the {@link OakListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends Fragment {
-
-    private TextView emailText;
-    private TextView nameText;
-    private TextView oakText;
-    private Button editButton;
-
-    private UserManager userManager;
-    private User user;
-
+public class OakListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public ProfileFragment() {
+    private RecyclerView recyclerView;
+    private List<Oak> oakList = new ArrayList<>();
+
+    private FloatingActionButton addOakButton;
+
+    private UserManager userManager;
+    private OakManager oakManager;
+    private User user;
+
+    public OakListFragment() {
         // Required empty public constructor
     }
 
@@ -49,46 +55,43 @@ public class ProfileFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment ProfileFragment.
+     * @return A new instance of fragment OakListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance() {
-        ProfileFragment fragment = new ProfileFragment();
+    public static OakListFragment newInstance() {
+        OakListFragment fragment = new OakListFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userManager = UserManager.getInstance();
+        oakManager = OakManager.getInstance();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        final View fragmentView = inflater.inflate(R.layout.fragment_profile, container, false);
-        userManager = UserManager.getInstance();
+        final View fragmentView =  inflater.inflate(R.layout.fragment_oak_list, container, false);
         userManager.getUser(new DatabaseCallback<User>() {
             @Override
             public void onSuccess(User identifiable) {
                 user = identifiable;
-                emailText = (TextView) fragmentView.findViewById(R.id.emailText);
-                emailText.setText(user.getEmail());
-                nameText = (TextView) fragmentView.findViewById(R.id.nameText);
-                nameText.setText(user.getDisplayName());
-                oakText = (TextView) fragmentView.findViewById(R.id.oakText);
                 if (user.getOak() != null) {
-                    oakText.setText(user.getOak().getUid());
+                    oakList.add(user.getOak());
                 }
-                editButton = fragmentView.findViewById(R.id.editButton);
-                editButton.setOnClickListener(new View.OnClickListener() {
+                recyclerView = (RecyclerView) fragmentView.findViewById(R.id.oakRecyclerView);
+                recyclerView.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
+                recyclerView.setAdapter(new OakAdapter(oakList, OakListFragment.this.getContext()));
+
+                addOakButton = fragmentView.findViewById(R.id.addOakbutton);
+                addOakButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
-                        ProfileFormFragment formFragment = ProfileFormFragment.newInstance();
-                        fm.beginTransaction()
-                                .replace(R.id.profile_fragment_container, formFragment)
-                                .commit();
+                        Intent newOakItent = new Intent(OakListFragment.this.getContext(), OakActivity.class);
+                        newOakItent.setAction(OakFragment.NEW_OAK_ACTION);
+                        startActivity(newOakItent);
                     }
                 });
             }
@@ -98,6 +101,7 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+
 
         return fragmentView;
     }
