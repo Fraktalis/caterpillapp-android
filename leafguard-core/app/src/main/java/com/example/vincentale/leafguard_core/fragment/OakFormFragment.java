@@ -183,6 +183,7 @@ public class OakFormFragment extends Fragment {
                 oak = identifiable;
                 oakSave = new Oak(identifiable);
                 installationDate = oak.getInstallationDate();
+                myCalendar.setTimeInMillis(installationDate);
                 longitudeEditText = (EditText) fragmentView.findViewById(R.id.longitudeEditText);
                 latitudeEditText = (EditText) fragmentView.findViewById(R.id.latitudeEditText);
                 oakCircumferenceEditText = (EditText) fragmentView.findViewById(R.id.oakCircumferenceEditText);
