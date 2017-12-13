@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,16 +27,22 @@ public class HomeActivity extends AppCompatActivity {
     public static final String TAG = "HomeActivity";
     private UserManager mUserManager;
     private User mUser;
+    private LinearLayout profileLoadingLayout;
+    private LinearLayout homeContentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mUserManager = UserManager.getInstance();
+        profileLoadingLayout = (LinearLayout) findViewById(R.id.profile_loading_layout);
+        homeContentLayout = (LinearLayout) findViewById(R.id.home_content_layout);
         mUserManager.getUser(new DatabaseCallback<User>() {
             @Override
             public void onSuccess(User identifiable) {
                 mUser = identifiable;
+                profileLoadingLayout.setVisibility(View.GONE);
+                homeContentLayout.setVisibility(View.VISIBLE);
                 Resources res = getResources();
                 Toast.makeText(HomeActivity.this, "user is loaded !", Toast.LENGTH_SHORT).show();
                 TextView helloText = (TextView) findViewById(R.id.helloText);
@@ -51,15 +58,6 @@ public class HomeActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         Intent oakFormIntent = new Intent(mainContext, OakListActivity.class);
                         startActivity(oakFormIntent);
-                    }
-                });
-
-                Button profilButton = (Button) findViewById(R.id.profilButton);
-                profilButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent profilFormIntent = new Intent(mainContext, ProfileActivity.class);
-                        startActivity(profilFormIntent);
                     }
                 });
 
@@ -115,8 +113,15 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(loginIntent);
                 finish();
                 break;
+            case R.id.action_profile:
+                Intent profilFormIntent = new Intent(this, ProfileActivity.class);
+                startActivity(profilFormIntent);
             default: break;
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }
