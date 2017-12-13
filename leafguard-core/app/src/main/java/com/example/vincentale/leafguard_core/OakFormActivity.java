@@ -4,12 +4,13 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -21,13 +22,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class OakFormActivity extends AppCompatActivity {
+public class OakFormActivity extends AppCompatActivity  {
 
     private Calendar myCalendar = Calendar.getInstance();
     private EditText datePickerInput;
     DatePickerDialog.OnDateSetListener date;
     private EditText longitude;
     private EditText latitude;
+    //private Location mLocation;
+    //public static LocationManager mLocationManager=(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +94,12 @@ public class OakFormActivity extends AppCompatActivity {
 
         // Or use LocationManager.GPS_PROVIDER
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        try {
+        //locationManager = (LocationManager) Context.getSystemService(LOCATION_SERVICE);
+       GetLocalisation getLoc= new GetLocalisation(this);
+       getLoc.execute();
+       // AsyncTaskGps ahaha=new AsyncTaskGps(this);
+        //ahaha.execute();
+       /* try {
             //locationManager.requestLocationUpdates(locationProvider, 0, 0, locationListener);
 
             Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
@@ -113,8 +121,19 @@ public class OakFormActivity extends AppCompatActivity {
 
             dlgAlert.setCancelable(true);
             dlgAlert.create().show();
-        }
+        }*/
 
+    }
+
+
+
+
+    public EditText getLongitude() {
+        return longitude;
+    }
+
+    public EditText getLatitude() {
+        return latitude;
     }
 
 }
