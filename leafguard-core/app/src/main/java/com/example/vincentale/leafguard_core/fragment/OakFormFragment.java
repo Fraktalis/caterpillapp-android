@@ -1,18 +1,31 @@
 package com.example.vincentale.leafguard_core.fragment;
 
+import android.Manifest;
+import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.R;
@@ -21,6 +34,7 @@ import com.example.vincentale.leafguard_core.model.OakManager;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.example.vincentale.leafguard_core.util.LocationHelper;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -38,6 +52,7 @@ import java.util.Locale;
  */
 public class OakFormFragment extends Fragment {
     public static final String TAG = "OakFormfragment";
+    public static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     private Calendar myCalendar = Calendar.getInstance();
     private EditText longitudeEditText;
@@ -49,6 +64,10 @@ public class OakFormFragment extends Fragment {
     private long installationDate;
 
     private Button validateButton;
+    private ImageButton locationImageButton;
+    private LinearLayout geolocationProgressLayout;
+    private LinearLayout geolocationContentLayout;
+    private ProgressBar geolocationProgressBar;
 
     private FirebaseDatabase firebaseDatabase;
     private OakManager oakManager;
@@ -61,6 +80,8 @@ public class OakFormFragment extends Fragment {
     private Context activityContext;
 
     DatePickerDialog.OnDateSetListener date;
+
+    LocationHelper locationHelper;
 
 
     private OnFragmentInteractionListener mListener;
@@ -87,6 +108,7 @@ public class OakFormFragment extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
         userManager = UserManager.getInstance();
         oakManager = OakManager.getInstance();
+        locationHelper = LocationHelper.getInstance();
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             oakUid = bundle.getString("oakUid");
@@ -110,6 +132,60 @@ public class OakFormFragment extends Fragment {
 
         final View fragmentView = inflater.inflate(R.layout.fragment_oak_form, container, false);
         activityContext  = getActivity();
+        geolocationContentLayout = fragmentView.findViewById(R.id.geolocation_content_layout);
+        geolocationProgressLayout = fragmentView.findViewById(R.id.geolocation_progess_layout);
+        geolocationProgressBar = fragmentView.findViewById(R.id.geolocationProgressBar);
+        locationImageButton = fragmentView.findViewById(R.id.locationImageButton);
+        locationImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ObjectAnimator progressAnimation = ObjectAnimator.ofInt(geolocationProgressBar, "progress", 0, 100);
+                progressAnimation.setDuration(LocationHelper.DURATION);
+                progressAnimation.setInterpolator(new DecelerateInterpolator());
+                geolocationProgressLayout.setVisibility(View.VISIBLE);
+                geolocationContentLayout.setVisibility(View.GONE);
+                progressAnimation.start();
+                if (ContextCompat.checkSelfPermission(activityContext,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions((Activity) activityContext,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+                }
+
+                int permissionCheck = ContextCompat.checkSelfPermission(activityContext,
+                        Manifest.permission.ACCESS_FINE_LOCATION);
+
+                if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                    locationHelper.getLocation(activityContext, new LocationHelper.LocationResult() {
+                        @Override
+                        public void acceptLocation(final Location location) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (location == null) {
+                                        Toast.makeText(activityContext, "null location", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(activityContext, "location : " + location.toString(), Toast.LENGTH_SHORT).show();
+                                        longitudeEditText.setText(String.valueOf(location.getLongitude()));
+                                        latitudeEditText.setText(String.valueOf(location.getLatitude()));
+                                    }
+
+                                    geolocationProgressLayout.setVisibility(View.GONE);
+                                    geolocationContentLayout.setVisibility(View.VISIBLE);
+                                }
+                            });
+
+
+                        }
+                    });
+                } else {
+                    geolocationProgressLayout.setVisibility(View.GONE);
+                    geolocationContentLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
 
         String action = getActivity().getIntent().getAction();
