@@ -77,7 +77,7 @@ public class OakFormFragment extends Fragment {
     private Oak oak;
     private Oak oakSave;
 
-    private Context activityContext;
+    private Activity activityContext;
 
     DatePickerDialog.OnDateSetListener date;
 
@@ -135,11 +135,12 @@ public class OakFormFragment extends Fragment {
         geolocationContentLayout = fragmentView.findViewById(R.id.geolocation_content_layout);
         geolocationProgressLayout = fragmentView.findViewById(R.id.geolocation_progess_layout);
         geolocationProgressBar = fragmentView.findViewById(R.id.geolocationProgressBar);
+        geolocationProgressBar.setMax(LocationHelper.DURATION);
         locationImageButton = fragmentView.findViewById(R.id.locationImageButton);
         locationImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ObjectAnimator progressAnimation = ObjectAnimator.ofInt(geolocationProgressBar, "progress", 0, 100);
+                ObjectAnimator progressAnimation = ObjectAnimator.ofInt(geolocationProgressBar, "progress", 0, LocationHelper.DURATION);
                 progressAnimation.setDuration(LocationHelper.DURATION);
                 progressAnimation.setInterpolator(new DecelerateInterpolator());
                 geolocationProgressLayout.setVisibility(View.VISIBLE);
@@ -158,26 +159,28 @@ public class OakFormFragment extends Fragment {
                         Manifest.permission.ACCESS_FINE_LOCATION);
 
                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                    locationHelper = new LocationHelper();
                     locationHelper.getLocation(activityContext, new LocationHelper.LocationResult() {
                         @Override
-                        public void acceptLocation(final Location location) {
-                            getActivity().runOnUiThread(new Runnable() {
+                        public void acceptLocation(Location location) {
+                            final boolean noLocation = (location == null);
+                            final double longitude = (noLocation) ? 0 : location.getLongitude();
+                            final double latitude = (noLocation) ? 0 : location.getLatitude();
+
+                            activityContext.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (location == null) {
+                                    if (noLocation) {
                                         Toast.makeText(activityContext, "null location", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(activityContext, "location : " + location.toString(), Toast.LENGTH_SHORT).show();
-                                        longitudeEditText.setText(String.valueOf(location.getLongitude()));
-                                        latitudeEditText.setText(String.valueOf(location.getLatitude()));
+                                        longitudeEditText.setText(String.valueOf(longitude));
+                                        latitudeEditText.setText(String.valueOf(latitude));
                                     }
 
                                     geolocationProgressLayout.setVisibility(View.GONE);
                                     geolocationContentLayout.setVisibility(View.VISIBLE);
                                 }
                             });
-
-
                         }
                     });
                 } else {
@@ -317,6 +320,8 @@ public class OakFormFragment extends Fragment {
                         oak.setInstallationDate(installationDate);
 
                         oakManager.update(oak);
+                        user.setOak(oak);
+                        userManager.update(user);
                         Snackbar mySnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_oak_form_layout),
                                 R.string.oak_saved, Snackbar.LENGTH_SHORT);
                         mySnackbar.setAction(R.string.undo_action, new View.OnClickListener() {
@@ -391,6 +396,8 @@ public class OakFormFragment extends Fragment {
                 oak.setInstallationDate(installationDate);
 
                 oakManager.update(oak);
+                user.setOak(oak);
+                userManager.update(user);
                 Snackbar mySnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_oak_form_layout),
                         R.string.oak_saved, Snackbar.LENGTH_SHORT);
                 mySnackbar.show();

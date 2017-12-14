@@ -22,7 +22,7 @@ import java.util.TimerTask;
 public class LocationHelper {
 
     final String TAG = "LocationHelper";
-    public final static int DURATION = 10000;
+    public final static int DURATION = 60000;
 
     private static LocationHelper instance;
 
@@ -98,6 +98,7 @@ public class LocationHelper {
 
         public void onLocationChanged(Location location) {
 
+            Log.d(TAG, "onLocationChanged called !");
             // gave a location, cancel the timer
             timer.cancel();
 
@@ -155,10 +156,6 @@ public class LocationHelper {
 
             // In my case, I do not return the last known location, so I DO NOT remove the updates, just return a location value of null
             // or else, if you need the opposite un-comment the comment below
-
-            locationManager.removeUpdates(locationListenerGps);
-            locationManager.removeUpdates(locationListenerNetwork);
-
             Location netLocation = null, gpsLocation = null;
             if (gpsEnabled) {
                 try {
@@ -175,6 +172,9 @@ public class LocationHelper {
                     ex.printStackTrace();
                 }
             }
+
+            locationManager.removeUpdates(locationListenerGps);
+            locationManager.removeUpdates(locationListenerNetwork);
 
             // if there are both values use the latest one
             if (gpsLocation != null && netLocation != null) {
