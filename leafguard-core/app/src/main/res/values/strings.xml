@@ -98,4 +98,11 @@
     <string name="geolocation_in_progress">Geolocation in progress. Please stay close to the tree</string>
     <string name="gps_not_enabled">In order to locate the tree, you must enable the GPS on your device.</string>
     <string name="ok_action">Ok</string>
+    <string name="title_activity_admin">AdminActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="adminButton">Admin</string>
 </resources>

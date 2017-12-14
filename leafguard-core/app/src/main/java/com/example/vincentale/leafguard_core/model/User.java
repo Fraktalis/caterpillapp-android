@@ -100,6 +100,10 @@ public class User implements Identifiable {
         return surname + " " + name;
     }
 
+    public boolean isAdmin() {
+        return role >= ROLE_ADMIN;
+    }
+
     @Override
     public String toString() {
         return "User{" +
