@@ -3,8 +3,10 @@ package com.example.vincentale.leafguard_core.fragment;
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -65,6 +67,7 @@ public class OakFormFragment extends Fragment {
 
     private Button validateButton;
     private ImageButton locationImageButton;
+    private Button cancelLocationButton;
     private LinearLayout geolocationProgressLayout;
     private LinearLayout geolocationContentLayout;
     private ProgressBar geolocationProgressBar;
@@ -140,12 +143,6 @@ public class OakFormFragment extends Fragment {
         locationImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ObjectAnimator progressAnimation = ObjectAnimator.ofInt(geolocationProgressBar, "progress", 0, LocationHelper.DURATION);
-                progressAnimation.setDuration(LocationHelper.DURATION);
-                progressAnimation.setInterpolator(new DecelerateInterpolator());
-                geolocationProgressLayout.setVisibility(View.VISIBLE);
-                geolocationContentLayout.setVisibility(View.GONE);
-                progressAnimation.start();
                 if (ContextCompat.checkSelfPermission(activityContext,
                         Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -160,7 +157,13 @@ public class OakFormFragment extends Fragment {
 
                 if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                     locationHelper = new LocationHelper();
-                    locationHelper.getLocation(activityContext, new LocationHelper.LocationResult() {
+                    ObjectAnimator progressAnimation = ObjectAnimator.ofInt(geolocationProgressBar, "progress", 0, LocationHelper.DURATION);
+                    progressAnimation.setDuration(LocationHelper.DURATION);
+                    progressAnimation.setInterpolator(new DecelerateInterpolator());
+                    geolocationProgressLayout.setVisibility(View.VISIBLE);
+                    geolocationContentLayout.setVisibility(View.GONE);
+                    progressAnimation.start();
+                    boolean locationEnabled = locationHelper.getLocation(activityContext, new LocationHelper.LocationResult() {
                         @Override
                         public void acceptLocation(Location location) {
                             final boolean noLocation = (location == null);
@@ -183,6 +186,20 @@ public class OakFormFragment extends Fragment {
                             });
                         }
                     });
+                    if (!locationEnabled) {
+                        geolocationProgressLayout.setVisibility(View.GONE);
+                        geolocationContentLayout.setVisibility(View.VISIBLE);
+                        AlertDialog.Builder locationDialog = new AlertDialog.Builder(getContext());
+                        locationDialog.setMessage(getString(R.string.gps_not_enabled));
+                        locationDialog.setPositiveButton(getString(R.string.ok_action), new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        locationDialog.show();
+                    }
                 } else {
                     geolocationProgressLayout.setVisibility(View.GONE);
                     geolocationContentLayout.setVisibility(View.VISIBLE);
@@ -190,6 +207,15 @@ public class OakFormFragment extends Fragment {
             }
         });
 
+        cancelLocationButton = fragmentView.findViewById(R.id.locationCancelbutton);
+        cancelLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                locationHelper.cancel();
+                geolocationProgressLayout.setVisibility(View.GONE);
+                geolocationContentLayout.setVisibility(View.VISIBLE);
+            }
+        });
 
         String action = getActivity().getIntent().getAction();
         switch (action) {

@@ -40,6 +40,12 @@ public class LocationHelper {
         return instance;
     }
 
+    public void cancel() {
+        timer.cancel();
+        locationManager.removeUpdates(locationListenerNetwork);
+        locationManager.removeUpdates(locationListenerGps);
+    }
+
     public boolean getLocation(Context context, LocationResult result) {
 
         // I use LocationResult callback class to pass location value from
