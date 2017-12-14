@@ -4,19 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.vincentale.leafguard_core.OakListActivity"
+    android:orientation="vertical"
     android:paddingBottom="16dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingTop="16dp">
-    <ProgressBar
-        android:id="@+id/observation_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
+    android:paddingTop="16dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.vincentale.leafguard_core.OakListActivity">
 
     <ScrollView
         android:id="@+id/observation_form"
@@ -28,10 +22,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <EditText
                     android:id="@+id/nbPartner"
                     android:layout_width="match_parent"
@@ -41,49 +38,98 @@
                     android:hint="@string/nbPartner"
                     android:inputType="textPersonName" />
             </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
+
+            <LinearLayout
+                android:id="@+id/geolocation_progess_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <EditText
-                    android:id="@+id/latitudeEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="@string/latitude"
-                    android:inputType="numberDecimal"
-                    tools:layout_editor_absoluteX="170dp"
-                    tools:layout_editor_absoluteY="82dp" />
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/geolocalisation"
+                    android:id="@+id/geolocationProgressText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="51dp"
-                    android:layout_weight="1"
-                    android:text="@string/geolocalisation"
-                    android:textSize="18sp"
-                    tools:layout_editor_absoluteX="16dp" />
+                    android:layout_height="match_parent"
+                    android:text="@string/geolocation_in_progress"
+                    android:textAlignment="center"
+                    android:textSize="12sp" />
 
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ProgressBar
+                        android:id="@+id/geolocationProgressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/locationCancelbutton"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="×"
+                        android:textSize="30sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/geolocation_content_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/longitudeEditText"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="@string/longitude"
-                    android:inputType="numberDecimal"
-                    tools:layout_editor_absoluteY="81dp" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:id="@+id/latitudeEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:ems="10"
+                        android:hint="@string/latitude"
+                        android:inputType="numberDecimal"
+                        tools:layout_editor_absoluteX="170dp"
+                        tools:layout_editor_absoluteY="82dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4">
+
+                    <EditText
+                        android:id="@+id/longitudeEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:ems="10"
+                        android:hint="@string/longitude"
+                        android:inputType="numberDecimal"
+                        tools:layout_editor_absoluteY="81dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageButton
+                    android:id="@+id/locationImageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.6"
+                    android:tint="@color/cardview_dark_background"
+                    app:srcCompat="@drawable/ic_location" />
+
+            </LinearLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -107,6 +153,7 @@
                     android:text="@string/helpCirconference"
                     tools:layout_editor_absoluteX="16dp" />
             </android.support.design.widget.TextInputLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -122,6 +169,7 @@
                     android:inputType="numberDecimal" />
 
             </android.support.design.widget.TextInputLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -145,6 +193,7 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
                 android:layout_weight="1"
                 android:text="@string/validateButton" />
 

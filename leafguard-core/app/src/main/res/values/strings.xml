@@ -95,4 +95,7 @@
     <string name="oak_saved">Oak Saved</string>
     <string name="undo_action">Undo</string>
     <string name="profile_saved">Profile saved</string>
+    <string name="geolocation_in_progress">Geolocation in progress. Please stay close to the tree</string>
+    <string name="gps_not_enabled">In order to locate the tree, you must enable the GPS on your device.</string>
+    <string name="ok_action">Ok</string>
 </resources>
