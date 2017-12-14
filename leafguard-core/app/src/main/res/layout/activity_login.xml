@@ -96,6 +96,18 @@
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@android:color/holo_blue_dark" />
 
+            <TextView
+                android:id="@+id/lostPasswordLink"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:autoLink="all"
+                android:gravity="center"
+                android:text="@string/action_lostPassword"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textColor="@android:color/holo_blue_dark" />
+
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
