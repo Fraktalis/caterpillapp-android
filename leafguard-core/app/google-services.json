@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "1061771301460",
+    "firebase_url": "https://leafguard-firebase.firebaseio.com",
+    "project_id": "leafguard-firebase",
+    "storage_bucket": "leafguard-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1061771301460:android:5d3db90c43e702e3",
+        "android_client_info": {
+          "package_name": "com.example.vincentale.leafguard_core"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1061771301460-i7jnfhic7rp1pfjn3328ri0fnj90f0pt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vincentale.leafguard_core",
+            "certificate_hash": "39eb0a528610a7491b257edc024e0a4e74ba14e7"
+          }
+        },
+        {
+          "client_id": "1061771301460-aa46kji6lpv1gi97dcnmuujnaklt07gj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vincentale.leafguard_core",
+            "certificate_hash": "cc8c61fc98f3bc13348e642e3a222b34d5b1ec26"
+          }
+        },
+        {
+          "client_id": "1061771301460-p0j9vl5hkne26n27d1vnc1bbbm986smg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vincentale.leafguard_core",
+            "certificate_hash": "ee355d7b029993b4c602587e0d9d6a6f6686d18f"
+          }
+        },
+        {
+          "client_id": "1061771301460-c83fungh833s1t9d45je34qdf983dhgc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4jInV51Yul3pYs01vFhR-xAvEX0jVFwQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1061771301460-c83fungh833s1t9d45je34qdf983dhgc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
