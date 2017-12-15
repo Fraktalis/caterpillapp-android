@@ -4,19 +4,14 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-exports.addMessage = functions.https.onRequest((req, res) => {
-  // Grab the text parameter.
-  const original = req.query.text;
-  // Push the new message into the Realtime Database using the Firebase Admin SDK.
-  admin.database().ref('/messages').push({original: original}).then(snapshot => {
-    // Redirect with 303 SEE OTHER to the URL of the pushed object in the Firebase console.
-    res.redirect(303, snapshot.ref);
-  });
-});
+exports.assertUpload = functions.storage.object().onChange(event => {
+    const object = event.data; // The Storage object.
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+    const fileBucket = object.bucket; // The Storage bucket that contains the file.
+    const filePath = object.name; // File path in the bucket.
+    const contentType = object.contentType; // File content type.
+    const resourceState = object.resourceState; // The resourceState is 'exists' or 'not_exists' (for file/folder deletions).
+    const metageneration = object.metageneration; // Number of times metadata has been generated. New objects have a value of 1
+
+    admin.database().ref('/provisions').push({fileName: filePath, date: (new Date()).toString()});
+});
