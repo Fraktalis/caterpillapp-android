@@ -27,7 +27,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_forgot_password);
         LayoutInflater inflater = this.getLayoutInflater();
 
         context=this;
@@ -35,15 +35,23 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         emailTextView= (EditText) this.findViewById(R.id.emailEditText);
 
 
-       // final Context context= this;
 
-        setContentView(R.layout.activity_forgot_password);
+
         validate = (Button) this.findViewById(R.id.lostPassword);
+        validate.setOnClickListener(new View.OnClickListener(){
+
+
+            @Override
+            public void onClick(View view) {
+                sendEmailValidation2();
+
+            }
+        });
     }
 
-    public void SentEmailValidation(View view) {
+    public void sendEmailValidation2() {
         //TODO add other cheack to the email adress
-        EditText emailTextView = (EditText) findViewById(R.id.emailEditText);
+        //EditText emailTextView = (EditText) findViewById(R.id.emailEditText);
 
         try{
             String emailAddress = emailTextView.getText().toString();
@@ -64,10 +72,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Log.d(TAG, "Email sent.");
-                                Toast.makeText(ForgotPasswordActivity.this, "email envoyer",Toast.LENGTH_LONG).show();
-                            }else{
-                                Toast.makeText(context,"auccun compte associer à cet email",Toast.LENGTH_SHORT);
-                                Log.d(TAG, "Email NOT sent.");
+                                Toast.makeText(ForgotPasswordActivity.this, "email envoyé",Toast.LENGTH_LONG).show();
 
                             }
                         }
@@ -83,4 +88,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
 
     }
+
+
+
 }
