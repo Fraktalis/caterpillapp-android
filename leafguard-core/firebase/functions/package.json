@@ -9,8 +9,12 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
-    "firebase-admin": "~5.4.2",
-    "firebase-functions": "^0.7.1"
+    "@google-cloud/storage": "^1.5.1",
+    "csv": "^2.0.0",
+    "csv-parse": "^2.0.0",
+    "firebase-admin": "^5.5.1",
+    "firebase-functions": "^0.7.1",
+    "google-cloud": "^0.57.0"
   },
   "private": true
 }
