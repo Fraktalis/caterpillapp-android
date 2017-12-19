@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,6 +26,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CameraIntentActivity extends Activity {
+    // TODO: Reduire le choix des settings
+    // TODO : Action depuis la recycle view
+    //TODO : Firebase
 
     private static final int ACTIVITY_START_CAMERA_APP = 0;
     private ImageView mPhotoCapturedImageView;
@@ -38,13 +42,15 @@ public class CameraIntentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_intent);
-
+        Button button =  findViewById(R.id.photoButton);
         createImageGallery();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.galleryRecyclerView);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
         mRecyclerView.setLayoutManager(layoutManager);
         RecyclerView.Adapter imageAdapter = new ImageAdapter(mGalleryFolder);
+        if (imageAdapter.getItemCount() >= 3 )
+            button.setEnabled(false);
         mRecyclerView.setAdapter(imageAdapter);
 
     }
