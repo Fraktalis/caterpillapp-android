@@ -101,6 +101,14 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(cameraIntent);
                     }
                 });
+                Button camera2Button = (Button) findViewById(R.id.camera2Button);
+                camera2Button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent cameraIntent2 = new Intent(mainContext, CameraIntentActivity.class);
+                        startActivity(cameraIntent2);
+                    }
+                });
             }
 
             @Override

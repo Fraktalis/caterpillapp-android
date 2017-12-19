@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.vincentale.leafguard_core">
 
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -16,7 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.vincentale.leafguard.fileprovider"
@@ -26,8 +24,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
-
-
         <activity android:name=".HomeActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -49,6 +45,8 @@
             android:name=".Camera2Activity"
             android:label="@string/title_activity_camera2"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".OakActivity" />
+        <activity android:name=".CameraIntentActivity"></activity>
         <activity android:name=".OakActivity" />
         <activity android:name=".CatterpillarListActivity"></activity>
         <activity android:name=".CatterpillarViewActivity"></activity>

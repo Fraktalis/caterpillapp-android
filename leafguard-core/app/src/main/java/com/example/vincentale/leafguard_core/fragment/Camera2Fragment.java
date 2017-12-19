@@ -763,7 +763,6 @@ public class Camera2Fragment extends Fragment
     private void takePicture() {
         lockFocus();
     }
-
     /**
      * Lock the focus as the first step for a still image capture.
      */
@@ -896,6 +895,7 @@ public class Camera2Fragment extends Fragment
                 }
                 break;
             }
+
         }
     }
 
