@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -183,7 +185,7 @@ public class AdminUserFragment extends Fragment {
                     Uri uri = data.getData();
                     provisionFile = uri;
                     Toast.makeText(getContext(), uri.toString(), Toast.LENGTH_SHORT).show();
-                    browseFileEditText.setText(uri.getLastPathSegment());
+                    browseFileEditText.setText(getFileName(uri));
                     browseFileButton.setEnabled(true);
                 }
         }
@@ -202,5 +204,32 @@ public class AdminUserFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    /**
+     * Utility function to have the the name of a file by its URI
+     * @param uri
+     * @return
+     */
+    public String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = this.getActivity().getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 }
