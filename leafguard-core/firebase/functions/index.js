@@ -29,7 +29,9 @@ var clientApp = firebase.initializeApp(config, 'client');
 const gmailEmail = functions.config().gmail.email;
 const gmailPassword = functions.config().gmail.password;
 const mailTransport = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // use SSL
     auth: {
         user: 'leafguard.core@gmail.com',
         password: 'leafguard781227'
@@ -123,7 +125,7 @@ exports.assertUpload = functions.storage.object().onChange( function (event) {
     })
     .then(function (whatever) {
         console.log("Saving report...");
-        return admin.database().ref('/reports').push().set(finalReport);
+        return admin.database().ref('/reports').child(+ new Date()).set(finalReport);
     })
     .catch( function (err) {
         console.log(err);
