@@ -39,8 +39,8 @@
             android:label="@string/title_activity_camera2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".OakActivity" />
+        <activity android:name=".ForgotPasswordActivity"></activity>
         <activity android:name=".CameraIntentActivity" />
-        <!--<activity android:name=".UploadActivity"></activity>-->
     </application>
 
 </manifest>
