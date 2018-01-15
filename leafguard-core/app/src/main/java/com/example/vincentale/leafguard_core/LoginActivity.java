@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        final Context mainContext=this;
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -121,6 +122,15 @@ public class LoginActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 Toast.makeText(LoginActivity.this, "Processing....", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        TextView lostPasswordLink =(TextView) findViewById(R.id.lostPasswordLink);
+        lostPasswordLink.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent forgotPasswordIntent = new Intent(mainContext, ForgotPasswordActivity.class);
+                startActivity(forgotPasswordIntent);
             }
         });
 
