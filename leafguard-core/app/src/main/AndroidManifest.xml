@@ -3,6 +3,7 @@
     package="com.example.vincentale.leafguard_core">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -38,7 +39,8 @@
             android:label="@string/title_activity_camera2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".OakActivity" />
-        <activity android:name=".CameraIntentActivity"></activity>
+        <activity android:name=".CameraIntentActivity" />
+        <!--<activity android:name=".UploadActivity"></activity>-->
     </application>
 
 </manifest>
