@@ -28,8 +28,8 @@
         android:id="@+id/home_content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/observationButton"
@@ -85,11 +85,6 @@
             app:layout_constraintTop_toBottomOf="@+id/observationButton"
             app:layout_constraintVertical_bias="0.366" />
 
-        <Button
-            android:id="@+id/uploadButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Upload" />
 
         <!--<Button-->
             <!--android:id="@+id/cameraButton"-->

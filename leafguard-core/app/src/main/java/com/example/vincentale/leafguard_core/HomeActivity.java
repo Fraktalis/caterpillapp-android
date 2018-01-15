@@ -3,16 +3,14 @@ package com.example.vincentale.leafguard_core;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -90,14 +88,6 @@ public class HomeActivity extends AppCompatActivity {
 
                         observationIntent.setAction(HomeActivity.SECOND_OBSERVATION_ACTION);
                         startActivity(observationIntent);
-                    }
-                });
-                Button UploadButton = (Button) findViewById(R.id.uploadButton);
-                UploadButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent UploadIntent = new Intent(mainContext, UploadActivity.class);
-                        startActivity(UploadIntent);
                     }
                 });
 

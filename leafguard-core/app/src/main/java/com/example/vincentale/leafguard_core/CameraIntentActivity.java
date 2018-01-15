@@ -3,12 +3,10 @@ package com.example.vincentale.leafguard_core;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +24,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,15 +38,15 @@ public class CameraIntentActivity extends Activity {
     // TODO : Faire une miniature qui se créer sur firebase et cest elle qui sera telecharger
 
     private static final int ACTIVITY_START_CAMERA_APP = 0;
-    private ImageView mPhotoCapturedImageView;
-    private String mImageFileLocation = "";
-    private String GALLERY_LOCATION = "Caterpilapp image gallery";
-    private File mGalleryFolder;
     Uri selectedImage;
     ProgressDialog progressDialog;
     UploadTask uploadTask;
     FirebaseStorage storage;
     StorageReference storageRef,imageRef;
+    private ImageView mPhotoCapturedImageView;
+    private String mImageFileLocation = "";
+    private String GALLERY_LOCATION = "Caterpilapp image gallery";
+    private File mGalleryFolder;
     private RecyclerView mRecyclerView;
 
     @Override
