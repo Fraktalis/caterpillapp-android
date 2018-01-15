@@ -30,8 +30,8 @@ const gmailEmail = functions.config().gmail.email;
 const gmailPassword = functions.config().gmail.password;
 const mailTransport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // use SSL
+        port: 587,
+    secure: false, // use SSL
     auth: {
         user: 'leafguard.core@gmail.com',
         password: 'leafguard781227'
@@ -47,6 +47,10 @@ var finalReport = {
 
 exports.assertUpload = functions.storage.object().onChange( function (event) {
     const object = event.data; // The Storage object.
+    if (object.bucket != "provisions") {
+        console.log("Not a provision file, ignoring.");
+        return true;
+    }
     const file = gcs.bucket(object.bucket).file(object.name);
     return file.download()
     .then(function (content) {
