@@ -92,6 +92,14 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(observationIntent);
                     }
                 });
+                Button UploadButton = (Button) findViewById(R.id.uploadButton);
+                UploadButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent UploadIntent = new Intent(mainContext, UploadActivity.class);
+                        startActivity(UploadIntent);
+                    }
+                });
 
                 Button cameraButton = (Button) findViewById(R.id.cameraButton);
                 cameraButton.setOnClickListener(new View.OnClickListener() {
