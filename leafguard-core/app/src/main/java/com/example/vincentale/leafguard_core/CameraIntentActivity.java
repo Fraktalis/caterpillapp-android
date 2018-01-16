@@ -31,11 +31,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CameraIntentActivity extends Activity {
-    // TODO: Reduire le choix des settings
-    // TODO : Action depuis la recycle view
+    // TODO : Action depuis la recycleview
     // TODO : Récupérer de firebase
-    // TODO : Envoyer vers firebase
-    // TODO : Faire une miniature qui se créer sur firebase et cest elle qui sera telecharger
 
     private static final int ACTIVITY_START_CAMERA_APP = 0;
     Uri selectedImage;
@@ -55,7 +52,6 @@ public class CameraIntentActivity extends Activity {
         setContentView(R.layout.activity_camera_intent);
         Button button =  findViewById(R.id.photoButton);
         createImageGallery();
-
         mRecyclerView = (RecyclerView) findViewById(R.id.galleryRecyclerView);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -80,23 +76,19 @@ public class CameraIntentActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     public void takePhoto(View view) {
         Intent callCameraApplicationIntent = new Intent();
         callCameraApplicationIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-
         File photoFile = null;
         try {
             photoFile = createImageFile();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -111,7 +103,6 @@ public class CameraIntentActivity extends Activity {
             uploadImage();
             RecyclerView.Adapter newImageAdapter = new ImageAdapter(mGalleryFolder);
             mRecyclerView.swapAdapter(newImageAdapter, false);
-
         }
     }
 
@@ -121,19 +112,14 @@ public class CameraIntentActivity extends Activity {
         if(!mGalleryFolder.exists()) {
             mGalleryFolder.mkdirs();
         }
-
     }
 
     File createImageFile() throws IOException {
-
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "IMAGE_" + timeStamp + "_";
-
         File image = File.createTempFile(imageFileName,".jpg", mGalleryFolder);
         mImageFileLocation = image.getAbsolutePath();
-
         return image;
-
     }
 
 
