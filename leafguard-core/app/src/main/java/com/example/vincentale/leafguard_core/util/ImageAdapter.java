@@ -47,6 +47,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     // If we need to get the number of images, count it
     @Override
     public int getItemCount() {
+        if (imagesFile.listFiles() == null) {
+            return 0;
+        }
         return imagesFile.listFiles().length;
     }
 

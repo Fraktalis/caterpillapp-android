@@ -60,8 +60,6 @@ public class CameraIntentActivity extends Activity {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
         mRecyclerView.setLayoutManager(layoutManager);
         RecyclerView.Adapter imageAdapter = new ImageAdapter(mGalleryFolder);
-        if (imageAdapter.getItemCount() >= 3 )
-            button.setEnabled(false);
         mRecyclerView.setAdapter(imageAdapter);
         //accessing the firebase storage
         storage = FirebaseStorage.getInstance();
