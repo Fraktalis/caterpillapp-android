@@ -1,4 +1,4 @@
-package com.example.vincentale.leafguard_core.util;
+package com.example.vincentale.leafguard_core.view;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

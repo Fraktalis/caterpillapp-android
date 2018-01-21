@@ -3,12 +3,15 @@ package com.example.vincentale.leafguard_core;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +20,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.vincentale.leafguard_core.util.ImageAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -33,8 +35,12 @@ import java.util.Date;
 public class CameraIntentActivity extends Activity {
     // TODO : Action depuis la recycleview
     // TODO : Récupérer de firebase
+    // TODO : remettre les string dans le fichier
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
+    private static final int ACTIVITY_START_CAMERA_APP = 1;
 
-    private static final int ACTIVITY_START_CAMERA_APP = 0;
+
     Uri selectedImage;
     ProgressDialog progressDialog;
     UploadTask uploadTask;
@@ -42,7 +48,7 @@ public class CameraIntentActivity extends Activity {
     StorageReference storageRef,imageRef;
     private ImageView mPhotoCapturedImageView;
     private String mImageFileLocation = "";
-    private String GALLERY_LOCATION = "Caterpilapp image gallery";
+    private String GALLERY_LOCATION = "image gallery";
     private File mGalleryFolder;
     private RecyclerView mRecyclerView;
 
@@ -50,17 +56,26 @@ public class CameraIntentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_intent);
-        Button button =  findViewById(R.id.photoButton);
         createImageGallery();
-        mRecyclerView = (RecyclerView) findViewById(R.id.galleryRecyclerView);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
-        mRecyclerView.setLayoutManager(layoutManager);
-        RecyclerView.Adapter imageAdapter = new ImageAdapter(mGalleryFolder);
-        mRecyclerView.setAdapter(imageAdapter);
+//        mRecyclerView = (RecyclerView) findViewById(R.id.galleryRecyclerView);
+//        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
+//        mRecyclerView.setLayoutManager(layoutManager);
+//        RecyclerView.Adapter imageAdapter = new ImageAdapter(mGalleryFolder);
+//        mRecyclerView.setAdapter(imageAdapter);
         //accessing the firebase storage
         storage = FirebaseStorage.getInstance();
         //creates a storage reference
         storageRef = storage.getReference();
+        //Permission
+        Button button = findViewById(R.id.photoButton);
+
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            button.setEnabled(false);
+        } else {
+            button.setEnabled(true);
+        }
     }
 
     @Override
@@ -89,20 +104,18 @@ public class CameraIntentActivity extends Activity {
         File photoFile = null;
         try {
             photoFile = createImageFile();
+            callCameraApplicationIntent.putExtra(MediaStore.EXTRA_OUTPUT, defineUriFromFile(photoFile));
+            startActivityForResult(callCameraApplicationIntent, ACTIVITY_START_CAMERA_APP);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        selectedImage = Uri.fromFile(photoFile);
-        callCameraApplicationIntent.putExtra(MediaStore.EXTRA_OUTPUT, selectedImage);
-        startActivityForResult(callCameraApplicationIntent, ACTIVITY_START_CAMERA_APP);
     }
-
     protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         if(requestCode == ACTIVITY_START_CAMERA_APP && resultCode == RESULT_OK) {
             Toast.makeText(this, "Picture taken successfully", Toast.LENGTH_SHORT).show();
             uploadImage();
-            RecyclerView.Adapter newImageAdapter = new ImageAdapter(mGalleryFolder);
-            mRecyclerView.swapAdapter(newImageAdapter, false);
+//            RecyclerView.Adapter newImageAdapter = new ImageAdapter(mGalleryFolder);
+//            mRecyclerView.swapAdapter(newImageAdapter, false);
         }
     }
 
@@ -119,6 +132,7 @@ public class CameraIntentActivity extends Activity {
         String imageFileName = "IMAGE_" + timeStamp + "_";
         File image = File.createTempFile(imageFileName,".jpg", mGalleryFolder);
         mImageFileLocation = image.getAbsolutePath();
+        selectedImage = defineUriFromFile(image);
         return image;
     }
 
@@ -163,5 +177,15 @@ public class CameraIntentActivity extends Activity {
                 //Picasso.with(CameraIntentActivity.this).load(downloadUrl).into(imageView);
             }
         });
+    }
+
+    private Uri defineUriFromFile(File file) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            return FileProvider.getUriForFile(CameraIntentActivity.this,
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    file);
+        } else {
+            return Uri.fromFile(file);
+        }
     }
 }

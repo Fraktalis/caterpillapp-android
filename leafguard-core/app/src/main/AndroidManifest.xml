@@ -21,7 +21,6 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -40,7 +39,6 @@
             android:label="@string/title_activity_camera2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".OakActivity" />
-        <activity android:name=".OakActivity" />
         <activity android:name=".CatterpillarListActivity"></activity>
         <activity android:name=".CatterpillarViewActivity"></activity>
         <activity
@@ -54,7 +52,15 @@
         </activity>
         <activity android:name=".ForgotPasswordActivity"></activity>
         <activity android:name=".CameraIntentActivity" />
-        <!--<activity android:name=".UploadActivity"></activity>-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>
