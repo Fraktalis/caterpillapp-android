@@ -65,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
                 observationButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent observationIntent = new Intent(mainContext, CattarpillarListActivity.class);
+                        Intent observationIntent = new Intent(mainContext, CatterpillarListActivity.class);
                         startActivity(observationIntent);
                     }
                 });

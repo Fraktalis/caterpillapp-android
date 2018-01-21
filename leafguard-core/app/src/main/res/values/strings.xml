@@ -100,4 +100,16 @@
     <string name="ok_action">Ok</string>
     <string name="title_caterpillar_list">Caterpillars</string>
     <string name="title_caterpillar_detail">Caterpillar Detail</string>
+    <string name="nameofcatterpillar">name of the catterpillar</string>
+    <string name="ismissing">is missing</string>
+    <string name="nbwounds">number of wounds</string>
+    <string name="attackedbyother">attacked by other animals</string>
+    <string name="attackedByInsects">attacked by insects</string>
+    <string name="attackedByBirds">attacked by birds</string>
+    <string name="attackByMammals">attack by mammals</string>
+    <string name="catterpillar">catterpillar</string>
+    <string name="nameOfCatterpillar">name of catterpillar</string>
+    <string name="missing">is missing</string>
+    <string name="attackedByInsect">attacked by insects</string>
+    <string name="attackedByOther">attacked by other things</string>
 </resources>
