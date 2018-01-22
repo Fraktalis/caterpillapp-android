@@ -85,18 +85,29 @@
             app:layout_constraintTop_toBottomOf="@+id/observationButton"
             app:layout_constraintVertical_bias="0.366" />
 
+
+        <!--<Button-->
+            <!--android:id="@+id/cameraButton"-->
+            <!--style="@android:style/Widget.DeviceDefault.Button.Borderless"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="8dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:drawableLeft="@mipmap/ic_photo_camera"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/observationBisButton"-->
+            <!--app:layout_constraintVertical_bias="0.519"-->
+            <!--tools:layout_editor_absoluteX="156dp" />-->
+
         <Button
-            android:id="@+id/cameraButton"
+            android:id="@+id/camera2Button"
             style="@android:style/Widget.DeviceDefault.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:drawableLeft="@mipmap/ic_photo_camera"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/observationBisButton"
-            app:layout_constraintVertical_bias="0.519"
-            tools:layout_editor_absoluteX="156dp" />
+            app:layout_constraintBottom_toBottomOf="parent" />
     </LinearLayout>
 
 
