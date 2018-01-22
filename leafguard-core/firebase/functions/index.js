@@ -73,10 +73,10 @@ exports.assertUpload = functions.storage.object().onChange( function (event) {
                         return true;
                     }
                     console.log('account doesn\'t exist, Creating.');
-                    var pass = generator.generate({
+                    var pass = "leafguard";/*generator.generate({
                         length: 12,
                         numbers: true
-                    });
+                    });*/
                     return admin.auth().createUser({
                         email: elem['e-mail'],
                         password: pass,
