@@ -15,6 +15,20 @@
         android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="false">
+        <ImageView
+            android:id="@+id/checkImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:adjustViewBounds="false"
+            android:cropToPadding="true"
+            android:foregroundTint="@color/accent"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/ic_check_black_24dp"
+            tools:ignore="VectorDrawableCompat" />
 
         <TextView
             android:id="@+id/catterpillarName"
@@ -25,7 +39,7 @@
             android:layout_centerHorizontal="true" />
 
         <ImageView
-            android:id="@+id/checkImage"
+            android:id="@+id/checkImage0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
