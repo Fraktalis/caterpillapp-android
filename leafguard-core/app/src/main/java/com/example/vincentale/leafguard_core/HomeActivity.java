@@ -32,6 +32,7 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
     public static final String TAG = "HomeActivity";
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     public static final String FIRST_OBSERVATION_ACTION = "first_observation";
     public static final String SECOND_OBSERVATION_ACTION = "second_observation";
 
@@ -84,7 +85,6 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent observationIntent = new Intent(mainContext, CatterpillarListActivity.class);
-
                         observationIntent.setAction(HomeActivity.FIRST_OBSERVATION_ACTION);
                         startActivity(observationIntent);
                     }
@@ -95,7 +95,6 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent observationIntent = new Intent(mainContext, CatterpillarListActivity.class);
-
                         observationIntent.setAction(HomeActivity.SECOND_OBSERVATION_ACTION);
                         startActivity(observationIntent);
                     }
