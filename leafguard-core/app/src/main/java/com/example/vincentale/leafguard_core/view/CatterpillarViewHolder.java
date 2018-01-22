@@ -72,7 +72,8 @@ public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
         this.curentCatterpillar = curentCatterpillar;
     }
 
-    public void onActivityResult(){
+
+    public void updateFeedbackIcon(){
         if(curentCatterpillar.isEdited()){
             feedBackIcon.setVisibility(View.VISIBLE);
         }else{

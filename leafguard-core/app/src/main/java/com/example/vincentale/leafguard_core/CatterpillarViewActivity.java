@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.vincentale.leafguard_core.dummy.DummyContent;
@@ -24,6 +25,8 @@ public class CatterpillarViewActivity extends AppCompatActivity {
     private Catterpillar item;
     private TextView catterpillarName;
     private CheckBox isMissing;
+
+    private LinearLayout woundLayout;
     private CheckBox attackedByMammals;
     private CheckBox attackedByInsect;
     private CheckBox attackedByBird;
@@ -51,11 +54,28 @@ public class CatterpillarViewActivity extends AppCompatActivity {
         attackedByOther= (CheckBox) findViewById(R.id.attackedByOther);
         nbWound=(EditText) findViewById(R.id.nbWounds);
         validate=(Button) findViewById(R.id.validateCatterpillarButton);
+        woundLayout =(LinearLayout) findViewById(R.id.woundsLayout);
+
 
         catterpillarName.setText(iD);
 
         nbWound.setText(String.valueOf(item.getWounds()));
         isMissing.setChecked(item.isCatterpillarMissing());
+        if (isMissing.isChecked())
+        {
+            woundLayout.setVisibility(View.INVISIBLE);
+        }
+        isMissing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isMissing.isChecked())
+                {
+                woundLayout.setVisibility(View.INVISIBLE);
+                }else{
+                    woundLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         attackedByBird.setChecked(item.isWoundByBird());
         attackedByInsect.setChecked(item.isWoundByInsect());
