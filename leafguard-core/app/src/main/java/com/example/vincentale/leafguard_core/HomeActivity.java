@@ -30,6 +30,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private UserManager mUserManager;
     private User mUser;
+    private Menu homeMenu;
     private LinearLayout profileLoadingLayout;
     private LinearLayout homeContentLayout;
 
@@ -46,6 +47,12 @@ public class HomeActivity extends AppCompatActivity {
                 mUser = identifiable;
                 profileLoadingLayout.setVisibility(View.GONE);
                 homeContentLayout.setVisibility(View.VISIBLE);
+                if (homeMenu != null) {
+                    MenuItem adminItem = homeMenu.findItem(R.id.action_admin);
+                    if (adminItem != null) {
+                        adminItem.setVisible(mUser.isAdmin());
+                    }
+                }
                 Resources res = getResources();
                 Toast.makeText(HomeActivity.this, "user is loaded !", Toast.LENGTH_SHORT).show();
                 TextView helloText = (TextView) findViewById(R.id.helloText);
@@ -107,6 +114,7 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
+        homeMenu = menu;
         return true;
     }
 
@@ -123,6 +131,12 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.action_profile:
                 Intent profilFormIntent = new Intent(this, ProfileActivity.class);
                 startActivity(profilFormIntent);
+                break;
+            case R.id.action_admin:
+                if (mUser != null && mUser.isAdmin()) {
+                    Intent adminIntent = new Intent(this, AdminActivity.class);
+                    startActivity(adminIntent);
+                }
             default: break;
         }
         return true;

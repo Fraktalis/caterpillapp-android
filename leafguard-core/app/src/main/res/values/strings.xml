@@ -112,5 +112,13 @@
     <string name="missing">is missing</string>
     <string name="attackedByInsect">attacked by insects</string>
     <string name="attackedByOther">attacked by other things</string>
+
+    <string name="title_activity_admin">AdminActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="adminButton">Admin</string>
     <string name="action_lostPassword">Lost Password?</string>
 </resources>
