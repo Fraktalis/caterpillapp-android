@@ -112,4 +112,5 @@
     <string name="missing">is missing</string>
     <string name="attackedByInsect">attacked by insects</string>
     <string name="attackedByOther">attacked by other things</string>
+    <string name="action_lostPassword">Lost Password?</string>
 </resources>
