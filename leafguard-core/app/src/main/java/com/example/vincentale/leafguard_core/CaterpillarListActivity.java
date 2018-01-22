@@ -11,11 +11,11 @@ import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.dummy.DummyContent;
 import com.example.vincentale.leafguard_core.model.Catterpillar;
-import com.example.vincentale.leafguard_core.view.CatterpillarListAdapter;
+import com.example.vincentale.leafguard_core.view.CaterpillarListAdapter;
 
 import java.util.List;
 
-public class CatterpillarListActivity extends AppCompatActivity {
+public class CaterpillarListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -37,7 +37,7 @@ public class CatterpillarListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         List<Catterpillar> input= DummyContent.ITEMS;
-        mAdapter =new CatterpillarListAdapter(input);
+        mAdapter =new CaterpillarListAdapter(input);
         recyclerView.setAdapter(mAdapter);
 
         saveObservation= (FloatingActionButton) findViewById(R.id.saveObservation);

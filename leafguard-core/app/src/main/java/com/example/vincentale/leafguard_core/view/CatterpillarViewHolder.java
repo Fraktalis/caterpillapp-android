@@ -5,15 +5,11 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import com.example.vincentale.leafguard_core.CatterpillarListActivity;
 import com.example.vincentale.leafguard_core.CatterpillarViewActivity;
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.Catterpillar;
-
-import static android.support.v4.content.ContextCompat.startActivity;
 
 /**
  * Created by mathilde on 08/01/18.
@@ -54,7 +50,7 @@ public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
     public void bind(Catterpillar myObject){
 
         CharSequence text= iD.getText();
-        iD.setText(myObject.getiD());
+        iD.setText(myObject.getUid());
         //Name.setText("Catterpillar");
 
         if(myObject.isEdited()){

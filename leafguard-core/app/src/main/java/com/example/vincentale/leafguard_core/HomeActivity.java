@@ -3,7 +3,6 @@ package com.example.vincentale.leafguard_core;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -68,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
                 observationButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent observationIntent = new Intent(mainContext, CatterpillarListActivity.class);
+                        Intent observationIntent = new Intent(mainContext, CaterpillarListActivity.class);
 
                         observationIntent.setAction(HomeActivity.FIRST_OBSERVATION_ACTION);
                         startActivity(observationIntent);
@@ -79,7 +78,7 @@ public class HomeActivity extends AppCompatActivity {
                 observationBisButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent observationIntent = new Intent(mainContext, CatterpillarListActivity.class);
+                        Intent observationIntent = new Intent(mainContext, CaterpillarListActivity.class);
 
                         observationIntent.setAction(HomeActivity.SECOND_OBSERVATION_ACTION);
                         startActivity(observationIntent);
