@@ -31,7 +31,6 @@
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profil_form"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ObservationActivity" />
         <activity
             android:name=".Camera2Activity"
             android:label="@string/title_activity_camera2"
