@@ -33,10 +33,15 @@ public class HomeActivity extends AppCompatActivity {
 
     public static final String TAG = "HomeActivity";
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    public static final String FIRST_OBSERVATION_ACTION = "first_observation";
+    public static final String SECOND_OBSERVATION_ACTION = "second_observation";
+
     private UserManager mUserManager;
     private User mUser;
+    private Menu homeMenu;
     private LinearLayout profileLoadingLayout;
     private LinearLayout homeContentLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,12 @@ public class HomeActivity extends AppCompatActivity {
                 mUser = identifiable;
                 profileLoadingLayout.setVisibility(View.GONE);
                 homeContentLayout.setVisibility(View.VISIBLE);
+                if (homeMenu != null) {
+                    MenuItem adminItem = homeMenu.findItem(R.id.action_admin);
+                    if (adminItem != null) {
+                        adminItem.setVisible(mUser.isAdmin());
+                    }
+                }
                 Resources res = getResources();
                 Toast.makeText(HomeActivity.this, "user is loaded !", Toast.LENGTH_SHORT).show();
                 TextView helloText = (TextView) findViewById(R.id.helloText);
@@ -72,7 +83,8 @@ public class HomeActivity extends AppCompatActivity {
                 observationButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent observationIntent = new Intent(mainContext, ObservationActivity.class);
+                        Intent observationIntent = new Intent(mainContext, CatterpillarListActivity.class);
+                        observationIntent.setAction(HomeActivity.FIRST_OBSERVATION_ACTION);
                         startActivity(observationIntent);
                     }
                 });
@@ -81,8 +93,9 @@ public class HomeActivity extends AppCompatActivity {
                 observationBisButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent observationBisIntent = new Intent(mainContext, ObservationActivity.class);
-                        startActivity(observationBisIntent);
+                        Intent observationIntent = new Intent(mainContext, CatterpillarListActivity.class);
+                        observationIntent.setAction(HomeActivity.SECOND_OBSERVATION_ACTION);
+                        startActivity(observationIntent);
                     }
                 });
 
@@ -112,6 +125,7 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
+        homeMenu = menu;
         return true;
     }
 
@@ -128,6 +142,12 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.action_profile:
                 Intent profilFormIntent = new Intent(this, ProfileActivity.class);
                 startActivity(profilFormIntent);
+                break;
+            case R.id.action_admin:
+                if (mUser != null && mUser.isAdmin()) {
+                    Intent adminIntent = new Intent(this, AdminActivity.class);
+                    startActivity(adminIntent);
+                }
             default: break;
         }
         return true;
