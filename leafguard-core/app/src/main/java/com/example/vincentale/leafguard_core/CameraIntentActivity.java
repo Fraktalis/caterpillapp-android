@@ -20,8 +20,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.vincentale.leafguard_core.model.ImageUploadInfo;
+import com.example.vincentale.leafguard_core.view.ImageAdapter;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -30,22 +35,29 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CameraIntentActivity extends Activity {
     // TODO : Action depuis la recycleview
     // TODO : Récupérer de firebase
     // TODO : remettre les string dans le fichier
-    public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
-    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
     private static final int ACTIVITY_START_CAMERA_APP = 1;
-
-
     Uri selectedImage;
     ProgressDialog progressDialog;
     UploadTask uploadTask;
     FirebaseStorage storage;
     StorageReference storageRef,imageRef;
+    // Creating DatabaseReference.
+    DatabaseReference databaseReference;
+    // Creating RecyclerView.
+    RecyclerView recyclerView;
+    // Creating RecyclerView.Adapter.
+    RecyclerView.Adapter adapter;
+    // Creating List of ImageUploadInfo class.
+    List<ImageAdapter> listImage = new ArrayList<>();
+    List<ImageUploadInfo> list = new ArrayList<>();
     private ImageView mPhotoCapturedImageView;
     private String mImageFileLocation = "";
     private String GALLERY_LOCATION = "image gallery";
@@ -57,15 +69,62 @@ public class CameraIntentActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_intent);
         createImageGallery();
-//        mRecyclerView = (RecyclerView) findViewById(R.id.galleryRecyclerView);
-//        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
-//        mRecyclerView.setLayoutManager(layoutManager);
-//        RecyclerView.Adapter imageAdapter = new ImageAdapter(mGalleryFolder);
-//        mRecyclerView.setAdapter(imageAdapter);
         //accessing the firebase storage
         storage = FirebaseStorage.getInstance();
         //creates a storage reference
-        storageRef = storage.getReference();
+        storageRef = storage.getReference().child("images");
+        ImageView imageView = findViewById(R.id.imageView);
+        Glide.with(this /* context */)
+                .using(new FirebaseImageLoader())
+                .load(storageRef)
+                .into(imageView);
+// Assign id to RecyclerView.
+//        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(CameraIntentActivity.this));
+//        recyclerView.setAdapter(adapter);
+//       // recyclerView.setAdapter(new RecyclerViewAdapter(getApplicationContext(), ));
+//        // Assign activity this to progress dialog.
+//        progressDialog = new ProgressDialog(CameraIntentActivity.this);
+//        progressDialog.setMessage("Loading Images From Firebase.");
+//        progressDialog.show();
+//        // Assign FirebaseDatabase instance with root database name.
+//        databaseReference = FirebaseDatabase.getInstance().getReference("images");
+//
+//// Adding Add Value Event Listener to databaseReference.
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//
+//                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+//
+//                    ImageUploadInfo imageUploadInfo = postSnapshot.getValue(ImageUploadInfo.class);
+//                       // ImageAdapter image = postSnapshot.getValue(ImageAdapter.class);
+//                       // listImage.add(image);
+//                    list.add(imageUploadInfo);
+//                }
+//
+//                adapter = new RecyclerViewAdapter(getApplicationContext(), list);
+//
+//                recyclerView.setAdapter(adapter);
+//
+//                // Hiding the progress dialog.
+//                progressDialog.dismiss();
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//                // Hiding the progress dialog.
+//                progressDialog.dismiss();
+//
+//            }
+//        });
+//        Log.d("database", list+" 123456789");
+        //       RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
+        // mRecyclerView.setLayoutManager(layoutManager);
+        //RecyclerView.Adapter imageAdapter = new ImageAdapter(mGalleryFolder);
+        // mRecyclerView.setAdapter(imageAdapter);
         //Permission
         Button button = findViewById(R.id.photoButton);
 
@@ -139,7 +198,7 @@ public class CameraIntentActivity extends Activity {
 
     public void uploadImage() {
         //create reference to images folder and assing a name to the file that will be uploaded
-        imageRef = storageRef.child("images/"+selectedImage.getLastPathSegment());
+        imageRef = storageRef.child(selectedImage.getLastPathSegment());
         //creating and showing progress dialog
         progressDialog = new ProgressDialog(this);
         progressDialog.setMax(100);
