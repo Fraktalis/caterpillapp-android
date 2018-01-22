@@ -20,15 +20,6 @@
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.vincentale.leafguard.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
-        </provider>
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -51,10 +42,7 @@
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profil_form"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ObservationActivity" />
         <activity android:name=".OakActivity" />
-        <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".CameraIntentActivity" />
         <activity android:name=".CatterpillarListActivity"></activity>
         <activity android:name=".CatterpillarViewActivity"></activity>
         <activity
@@ -66,5 +54,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.vincentale.leafguard_core.HomeActivity" />
         </activity>
+        <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name=".CameraIntentActivity" />
     </application>
 </manifest>

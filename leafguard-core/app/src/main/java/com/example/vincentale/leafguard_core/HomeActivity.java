@@ -32,17 +32,14 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
     public static final String TAG = "HomeActivity";
-    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     public static final String FIRST_OBSERVATION_ACTION = "first_observation";
     public static final String SECOND_OBSERVATION_ACTION = "second_observation";
-
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private UserManager mUserManager;
     private User mUser;
     private Menu homeMenu;
     private LinearLayout profileLoadingLayout;
     private LinearLayout homeContentLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
