@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/attackByMammals" />
+                    android:text="@string/attackedByMammals" />
 
                 <CheckBox
                     android:id="@+id/attackedByBirds"
@@ -85,11 +85,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:defaultFocusHighlightEnabled="true"
                         android:ems="10"
-                        android:hint="@string/nbwounds"
-                        android:inputType="number"
                         android:focusable="true"
-                        android:focusableInTouchMode="true"/>
+                        android:focusableInTouchMode="true"
+                        android:hint="@string/nbwounds"
+                        android:inputType="number" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
