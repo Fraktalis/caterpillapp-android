@@ -15,11 +15,11 @@ import java.util.List;
  * Created by mathilde on 10/01/18.
  */
 
-public class CatterpillarListAdapter extends RecyclerView.Adapter<CatterpillarViewHolder> {
+public class CaterpillarListAdapter extends RecyclerView.Adapter<CatterpillarViewHolder> {
 
     private List<Catterpillar> items;
 
-    public CatterpillarListAdapter(List<Catterpillar> items) {
+    public CaterpillarListAdapter(List<Catterpillar> items) {
         this.items = items;
     }
 

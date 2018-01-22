@@ -4,9 +4,9 @@ package com.example.vincentale.leafguard_core.model;
  * Created by mathilde on 08/01/18.
  */
 
-public class Catterpillar {
+public class Catterpillar implements Identifiable{
     private String location;
-    private String iD;
+    private String uid;
     private int numberOfWound=0;
     private boolean woundByMammal=false;
     private boolean woundByInsect=false;
@@ -19,12 +19,12 @@ public class Catterpillar {
 
     public Catterpillar(String location, String iD) {
         this.location = location;
-        this.iD = iD;
+        this.uid = iD;
     }
 
     public Catterpillar(String location, String iD, int numberOfWound) {
         this.location = location;
-        this.iD = iD;
+        this.uid = iD;
         this.numberOfWound = numberOfWound;
         this.woundByMammal = woundByMammal;
         this.woundByInsect = woundByInsect;
@@ -35,7 +35,7 @@ public class Catterpillar {
 
     public Catterpillar(String location, String iD, int numberOfWound, boolean woundByMammal, boolean woundByInsect, boolean woundByBird, boolean woundByOther, boolean edited, boolean catterpillarMissing) {
         this.location = location;
-        this.iD = iD;
+        this.uid = iD;
         this.numberOfWound = numberOfWound;
         this.woundByMammal = woundByMammal;
         this.woundByInsect = woundByInsect;
@@ -43,10 +43,6 @@ public class Catterpillar {
         this.woundByOther = woundByOther;
         this.edited = edited;
         this.catterpillarMissing = catterpillarMissing;
-    }
-
-    public String getiD() {
-        return iD;
     }
 
     public int getWounds() {
@@ -103,5 +99,16 @@ public class Catterpillar {
 
     public void setEdited(boolean edited) {
         this.edited = edited;
+    }
+
+    @Override
+    public String getUid() {
+        return uid;
+    }
+
+    @Override
+    public void setUid(String uid) {
+
+        this.uid=uid;
     }
 }
