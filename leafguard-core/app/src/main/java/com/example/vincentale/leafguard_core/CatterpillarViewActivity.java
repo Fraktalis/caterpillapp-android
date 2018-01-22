@@ -77,6 +77,7 @@ public class CatterpillarViewActivity extends AppCompatActivity {
                 item.setWoundByInsect(attackedByInsect.isChecked());
                 item.setWoundByMammal(attackedByMammals.isChecked());
                 item.setWoundByOther(attackedByOther.isChecked());
+                finish();
 
             }
         });

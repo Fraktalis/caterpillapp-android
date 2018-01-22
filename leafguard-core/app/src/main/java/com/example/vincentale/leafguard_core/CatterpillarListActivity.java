@@ -21,7 +21,7 @@ public class CatterpillarListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cattarpillar_list);
-        recyclerView=(RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView=(RecyclerView) findViewById(R.id.catterpillarRecycleView);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);

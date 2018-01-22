@@ -46,6 +46,7 @@ public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
                 catterIntent.putExtra("catteriD", iD.getText());
 
                 context.startActivity(catterIntent);
+
             }
         });
     }
@@ -69,5 +70,14 @@ public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
 
     public void setCurrentItem(Catterpillar curentCatterpillar) {
         this.curentCatterpillar = curentCatterpillar;
+    }
+
+    public void onActivityResult(){
+        if(curentCatterpillar.isEdited()){
+            feedBackIcon.setVisibility(View.VISIBLE);
+        }else{
+            feedBackIcon.setVisibility(View.INVISIBLE);
+        }
+
     }
 }
