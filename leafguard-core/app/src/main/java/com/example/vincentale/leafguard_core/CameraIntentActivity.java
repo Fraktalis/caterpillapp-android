@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +24,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.vincentale.leafguard_core.model.ImageUploadInfo;
 import com.example.vincentale.leafguard_core.view.ImageAdapter;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -72,54 +72,23 @@ public class CameraIntentActivity extends Activity {
         //accessing the firebase storage
         storage = FirebaseStorage.getInstance();
         //creates a storage reference
-        storageRef = storage.getReference().child("images");
-        ImageView imageView = findViewById(R.id.imageView);
-        Glide.with(this /* context */)
-                .using(new FirebaseImageLoader())
-                .load(storageRef)
-                .into(imageView);
-// Assign id to RecyclerView.
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(CameraIntentActivity.this));
-//        recyclerView.setAdapter(adapter);
-//       // recyclerView.setAdapter(new RecyclerViewAdapter(getApplicationContext(), ));
-//        // Assign activity this to progress dialog.
-//        progressDialog = new ProgressDialog(CameraIntentActivity.this);
-//        progressDialog.setMessage("Loading Images From Firebase.");
-//        progressDialog.show();
-//        // Assign FirebaseDatabase instance with root database name.
-//        databaseReference = FirebaseDatabase.getInstance().getReference("images");
-//
-//// Adding Add Value Event Listener to databaseReference.
-//        databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//
-//                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-//
-//                    ImageUploadInfo imageUploadInfo = postSnapshot.getValue(ImageUploadInfo.class);
-//                       // ImageAdapter image = postSnapshot.getValue(ImageAdapter.class);
-//                       // listImage.add(image);
-//                    list.add(imageUploadInfo);
-//                }
-//
-//                adapter = new RecyclerViewAdapter(getApplicationContext(), list);
-//
-//                recyclerView.setAdapter(adapter);
-//
-//                // Hiding the progress dialog.
-//                progressDialog.dismiss();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//                // Hiding the progress dialog.
-//                progressDialog.dismiss();
-//
-//            }
-//        });
+        storageRef = storage.getReference();
+        imageRef = storageRef.child("images");
+        final ImageView imageView = findViewById(R.id.imageView);
+
+        Log.d("store", "pk " + storageRef.getDownloadUrl());
+        imageRef.child("IMAGE_20180121_173345_144153276.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(getApplicationContext()).load(uri.toString()).into(imageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
 //        Log.d("database", list+" 123456789");
         //       RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
         // mRecyclerView.setLayoutManager(layoutManager);
@@ -195,10 +164,9 @@ public class CameraIntentActivity extends Activity {
         return image;
     }
 
-
     public void uploadImage() {
         //create reference to images folder and assing a name to the file that will be uploaded
-        imageRef = storageRef.child(selectedImage.getLastPathSegment());
+        imageRef = storageRef.child("images/" + selectedImage.getLastPathSegment());
         //creating and showing progress dialog
         progressDialog = new ProgressDialog(this);
         progressDialog.setMax(100);
