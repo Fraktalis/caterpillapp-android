@@ -34,10 +34,6 @@
             android:label="@string/title_activity_profil_form"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ObservationActivity" />
-        <activity
-            android:name=".Camera2Activity"
-            android:label="@string/title_activity_camera2"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".OakActivity" />
         <activity android:name=".CatterpillarListActivity"></activity>
         <activity android:name=".CatterpillarViewActivity"></activity>
@@ -61,6 +57,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <activity android:name=".view.RecyclerViewAdapter" />
+        <activity android:name=".model.ImageUploadInfo"></activity>
     </application>
 
 </manifest>
