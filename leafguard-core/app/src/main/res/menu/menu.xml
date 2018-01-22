@@ -10,6 +10,13 @@
     </item>
 
     <item
+        android:id="@+id/action_admin"
+        android:checkable="false"
+        android:title="@string/adminButton"
+        app:showAsAction="withText">
+    </item>
+
+    <item
         android:id="@+id/action_logout"
         android:checkable="false"
         android:icon="@drawable/ic_menu_logout"

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_users"
+            android:icon="@drawable/ic_person"
+            android:title="Users" />
+        <item
+            android:id="@+id/nav_oaks"
+            android:icon="@drawable/ic_nature"
+            android:title="Oaks" />
+        <item
+            android:id="@+id/nav_observations"
+            android:icon="@drawable/ic_observation"
+            android:title="Observations" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_notifications"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Notifications" />
+        </menu>
+    </item>
+
+</menu>
