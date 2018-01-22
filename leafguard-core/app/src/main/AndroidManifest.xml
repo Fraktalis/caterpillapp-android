@@ -61,6 +61,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.vincentale.leafguard_core.HomeActivity" />
         </activity>
+        <activity android:name=".ForgotPasswordActivity"></activity>
     </application>
 
 </manifest>

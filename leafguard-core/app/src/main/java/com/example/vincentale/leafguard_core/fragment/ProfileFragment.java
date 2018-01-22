@@ -10,15 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.firebase.database.DatabaseError;
-
-import static com.example.vincentale.leafguard_core.R.id.editButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,7 +69,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onSuccess(User identifiable) {
                 user = identifiable;
-                emailText = (TextView) fragmentView.findViewById(R.id.emailText);
+                emailText = (TextView) fragmentView.findViewById(R.id.emailEditText);
                 emailText.setText(user.getEmail());
                 nameText = (TextView) fragmentView.findViewById(R.id.nameText);
                 nameText.setText(user.getDisplayName());
