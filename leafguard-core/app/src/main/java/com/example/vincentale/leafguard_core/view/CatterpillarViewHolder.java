@@ -23,7 +23,6 @@ public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
 
     public Catterpillar curentCatterpillar;
     private TextView iD;
-    private TextView Name;
     private ImageView feedBackIcon;
 
     //private
