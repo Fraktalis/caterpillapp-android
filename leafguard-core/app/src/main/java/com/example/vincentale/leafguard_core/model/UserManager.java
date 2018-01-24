@@ -19,16 +19,13 @@ import java.util.ArrayList;
 
 public class UserManager implements Manager<User> {
     public final static String TAG = "UserManager";
-    public final static String USER_NAME = "users";
+    public final static String NODE_NAME = "users";
     public final static String[] fieldsMapping = {"name", "surname", "email", "oakId", "role"};
-
-    private FirebaseAuth firebaseAuth;
     private static FirebaseUser firebaseUser;
-
-    private FirebaseDatabase firebaseDatabase;
-
     private static User user;
     private static UserManager userManager;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase firebaseDatabase;
     private OakManager oakManager;
 
 
@@ -38,6 +35,22 @@ public class UserManager implements Manager<User> {
         oakManager = OakManager.getInstance();
     }
 
+    /**
+     *
+     * @return a singleton instance of {@link UserManager}
+     */
+    public static UserManager getInstance() {
+        if (userManager == null) {
+            userManager = new UserManager();
+        }
+
+        return userManager;
+    }
+
+    /**
+     * Method to retrieve the main user of the application as a singleton.
+     * @param callback
+     */
     public void getUser(final DatabaseCallback<User> callback) {
         if (user != null) {
             callback.onSuccess(user);
@@ -47,7 +60,7 @@ public class UserManager implements Manager<User> {
         if (user == null) {
             firebaseAuth = FirebaseAuth.getInstance();
             firebaseUser = firebaseAuth.getCurrentUser();
-            Query users = dbRef.child(USER_NAME).child(firebaseUser.getUid());
+            Query users = dbRef.child(NODE_NAME).child(firebaseUser.getUid());
             users.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -89,18 +102,6 @@ public class UserManager implements Manager<User> {
     }
 
     /**
-     *
-     * @return a singleton instance of {@link UserManager}
-     */
-    public static UserManager getInstance() {
-        if (userManager == null) {
-            userManager = new UserManager();
-        }
-
-        return userManager;
-    }
-
-    /**
      * Wrapper method to sign out from firebase Auth and clear user cache
      */
     public void signOut() {
@@ -111,7 +112,7 @@ public class UserManager implements Manager<User> {
     @Override
     public void update(@NonNull User object) {
         firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference oakRef = firebaseDatabase.getReference().child(USER_NAME).child(object.getUid());
+        DatabaseReference oakRef = firebaseDatabase.getReference().child(NODE_NAME).child(object.getUid());
         try {
             for (String field :
                     fieldsMapping) {
@@ -140,9 +141,9 @@ public class UserManager implements Manager<User> {
     }
 
     @Override
-    public User find(String uid, DatabaseCallback<User> callback) {
+    public void find(String uid, DatabaseCallback<User> callback) {
 
-        return null;
+
     }
 
     @Override

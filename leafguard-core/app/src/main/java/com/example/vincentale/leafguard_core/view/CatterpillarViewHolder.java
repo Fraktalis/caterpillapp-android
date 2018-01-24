@@ -58,9 +58,6 @@ public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
         }else{
             feedBackIcon.setVisibility(View.INVISIBLE);
         }
-
-        //int wound = myObject.getWounds();
-
     }
 
     public void setCurrentItem(Catterpillar curentCatterpillar) {

@@ -10,9 +10,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.dummy.DummyContent;
+import com.example.vincentale.leafguard_core.model.CaterpillarManager;
 import com.example.vincentale.leafguard_core.model.Catterpillar;
+import com.example.vincentale.leafguard_core.model.Oak;
+import com.example.vincentale.leafguard_core.model.User;
+import com.example.vincentale.leafguard_core.model.UserManager;
 import com.example.vincentale.leafguard_core.view.CaterpillarListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CaterpillarListActivity extends AppCompatActivity {
@@ -20,9 +25,12 @@ public class CaterpillarListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private FloatingActionButton saveObservation;
     private FloatingActionButton sendObservation;
     private String action;
+
+    private UserManager userManager = UserManager.getInstance();
+    private CaterpillarManager caterpillarManager = CaterpillarManager.getInstance();
+    private ArrayList<Catterpillar> catterpillars = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,40 +44,22 @@ public class CaterpillarListActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        List<Catterpillar> input= DummyContent.ITEMS;
-        mAdapter =new CaterpillarListAdapter(input);
+        mAdapter =new CaterpillarListAdapter(catterpillars);
         recyclerView.setAdapter(mAdapter);
 
-        saveObservation= (FloatingActionButton) findViewById(R.id.saveObservation);
-        saveObservation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context=getApplicationContext();
-
-                CharSequence text= "add action to save the catterpillars";
-                int duration= Toast.LENGTH_SHORT;
-                Toast.makeText(context, text, duration).show();
-
-
-            }
-        });
         sendObservation= (FloatingActionButton) findViewById(R.id.sendObservation);
         sendObservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Context context=getApplicationContext();
 
-                CharSequence text= "add action to send the catterpillars";
+                String text= "add action to send the catterpillars";
                 int duration= Toast.LENGTH_SHORT;
                 Toast.makeText(context, text, duration).show();
 
 
             }
         });
-
-
-
     }
-
 
 }

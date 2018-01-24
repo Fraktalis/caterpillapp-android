@@ -6,6 +6,10 @@ import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 
 import java.util.ArrayList;
 
+/**
+ * Interface to handle an object of type T into the database
+ * @param <T>
+ */
 interface Manager<T extends Identifiable> {
     /**
      * Update all fields (Or create a new entry if necessary) of the {@link T} object
@@ -18,6 +22,14 @@ interface Manager<T extends Identifiable> {
      * @param object
      */
     public void delete(@NonNull  T object);
-    public T find(String uid, DatabaseCallback<T> callback);
+
+    /**
+     * Retrieve the object of type T with the given uid, and feed the given callback with it.
+     * @param uid
+     * @param callback
+     */
+    public void find(String uid, DatabaseCallback<T> callback);
+
+
     public ArrayList<T> findAll();
 }

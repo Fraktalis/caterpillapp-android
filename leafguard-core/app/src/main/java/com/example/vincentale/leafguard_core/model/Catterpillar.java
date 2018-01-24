@@ -5,47 +5,31 @@ package com.example.vincentale.leafguard_core.model;
  */
 
 public class Catterpillar implements Identifiable {
-    public CardinalPoint getOrientation() {
-        return orientation;
-    }
 
-    public enum CardinalPoint{
-        North,
-        Est,
-        South,
-        West
-    }
-    private String location;
     private CardinalPoint orientation;
     private String uid;
     private String oakUid;
     private  Oak oak;
-    private int numberOfWound=0;
     private boolean woundByMammal=false;
     private boolean woundByInsect=false;
     private boolean woundByBird=false;
     private boolean woundByOther=false;
     private boolean edited=false;
     private boolean catterpillarMissing=false;
-
-
-
-    public Catterpillar(String location, String uid) {
-        this.location = location;
+    public Catterpillar(String uid) {
         this.uid = uid;
     }
 
-    public Catterpillar(String location, String uid, String oakUid) {
-        this.location = location;
+
+
+    public Catterpillar(String uid, Oak parentOak) {
         this.uid = uid;
-        this.oakUid = oakUid;
+        this.oak = parentOak;
+        this.oakUid = parentOak.getUid();
     }
 
-
-    public Catterpillar(String location, String uid, int numberOfWound, boolean woundByMammal, boolean woundByInsect, boolean woundByBird, boolean woundByOther, boolean edited, boolean catterpillarMissing) {
-        this.location = location;
+    public Catterpillar(String uid, boolean woundByMammal, boolean woundByInsect, boolean woundByBird, boolean woundByOther, boolean edited, boolean catterpillarMissing) {
         this.uid = uid;
-        this.numberOfWound = numberOfWound;
         this.woundByMammal = woundByMammal;
         this.woundByInsect = woundByInsect;
         this.woundByBird = woundByBird;
@@ -54,6 +38,7 @@ public class Catterpillar implements Identifiable {
         this.catterpillarMissing = catterpillarMissing;
     }
 
+    @Override
     public String getUid() {
         return uid;
     }
@@ -63,12 +48,8 @@ public class Catterpillar implements Identifiable {
         this.uid=uid;
     }
 
-    public int getWounds() {
-        return numberOfWound;
-    }
-
-    public void setNumberOfWWound(int wound) {
-        numberOfWound = wound;
+    public CardinalPoint getOrientation() {
+        return orientation;
     }
 
     public boolean isWoundByMammal() {
@@ -119,7 +100,6 @@ public class Catterpillar implements Identifiable {
         this.edited = edited;
     }
 
-
     public String getOakUid() {
         return oakUid;
     }
@@ -134,5 +114,12 @@ public class Catterpillar implements Identifiable {
 
     public void setOak(Oak oak) {
         this.oak = oak;
+    }
+
+    public enum CardinalPoint{
+        EST,
+        NORTH,
+        SOUTH,
+        WEST
     }
 }

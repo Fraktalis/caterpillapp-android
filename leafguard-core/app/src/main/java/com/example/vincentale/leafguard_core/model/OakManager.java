@@ -17,10 +17,10 @@ import java.util.ArrayList;
 public class OakManager implements Manager<Oak> {
     public static final String TAG = "OakManager";
 
-    public static final String OAK_NAME = "oaks";
-    private FirebaseDatabase firebaseDatabase;
-    private static OakManager manager;
+    public static final String NODE_NAME = "oaks";
     private static final String[] fieldsMapping = {"longitude", "latitude", "oakCircumference", "oakHeight", "installationDate"};
+    private static OakManager manager;
+    private FirebaseDatabase firebaseDatabase;
 
 
     public OakManager() {
@@ -37,7 +37,7 @@ public class OakManager implements Manager<Oak> {
 
     @Override
     public void update(@NonNull Oak object) {
-        DatabaseReference oakRef = firebaseDatabase.getReference().child(OAK_NAME).child(object.getUid());
+        DatabaseReference oakRef = firebaseDatabase.getReference().child(NODE_NAME).child(object.getUid());
         try {
             for (String field :
                     fieldsMapping) {
@@ -61,9 +61,9 @@ public class OakManager implements Manager<Oak> {
     }
 
     @Override
-    public Oak find(String uid, final DatabaseCallback<Oak> callback) {
+    public void find(String uid, final DatabaseCallback<Oak> callback) {
         DatabaseReference databaseReference = firebaseDatabase.getReference();
-        DatabaseReference oakRef = databaseReference.child(OAK_NAME).child(uid);
+        DatabaseReference oakRef = databaseReference.child(NODE_NAME).child(uid);
         oakRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -77,8 +77,6 @@ public class OakManager implements Manager<Oak> {
                 callback.onFailure(databaseError);
             }
         });
-
-        return null;
     }
 
     @Override
