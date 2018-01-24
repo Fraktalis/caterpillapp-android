@@ -39,7 +39,7 @@ public class DummyContent {
 
     private static void addItem(Catterpillar item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.getiD(), item);
+        ITEM_MAP.put(item.getUid(), item);
     }
 
 
