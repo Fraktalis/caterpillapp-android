@@ -5,6 +5,10 @@ package com.example.vincentale.leafguard_core.model;
  */
 
 public class Catterpillar implements Identifiable {
+    public CardinalPoint getOrientation() {
+        return orientation;
+    }
+
     public enum CardinalPoint{
         North,
         Est,
@@ -12,7 +16,7 @@ public class Catterpillar implements Identifiable {
         West
     }
     private String location;
-    private CardinalPoint oriantation;
+    private CardinalPoint orientation;
     private String uid;
     private String oakUid;
     private  Oak oak;
