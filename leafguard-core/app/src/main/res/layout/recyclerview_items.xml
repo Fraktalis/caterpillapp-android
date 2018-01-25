@@ -22,17 +22,6 @@
             android:layout_marginTop="10dp"
             android:src="@drawable/tree" />
 
-        <TextView
-            android:id="@+id/ImageNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="JSon Image Name"
-            android:textColor="#000"
-            android:textSize="20dp" />
-
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

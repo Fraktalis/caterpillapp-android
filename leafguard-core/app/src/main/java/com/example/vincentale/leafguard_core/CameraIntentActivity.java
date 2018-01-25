@@ -2,6 +2,7 @@ package com.example.vincentale.leafguard_core;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -12,21 +13,25 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.vincentale.leafguard_core.model.ImageUploadInfo;
-import com.example.vincentale.leafguard_core.view.ImageAdapter;
+import com.example.vincentale.leafguard_core.model.ImageCaterpillar;
+import com.example.vincentale.leafguard_core.view.RecyclerViewAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -40,28 +45,19 @@ import java.util.Date;
 import java.util.List;
 
 public class CameraIntentActivity extends Activity {
-    // TODO : Action depuis la recycleview
-    // TODO : Récupérer de firebase
     // TODO : remettre les string dans le fichier
     private static final int ACTIVITY_START_CAMERA_APP = 1;
     Uri selectedImage;
     ProgressDialog progressDialog;
-    UploadTask uploadTask;
     FirebaseStorage storage;
     StorageReference storageRef,imageRef;
-    // Creating DatabaseReference.
     DatabaseReference databaseReference;
-    // Creating RecyclerView.
     RecyclerView recyclerView;
-    // Creating RecyclerView.Adapter.
     RecyclerView.Adapter adapter;
-    // Creating List of ImageUploadInfo class.
-    List<ImageUploadInfo> list = new ArrayList<>();
-    private ImageView mPhotoCapturedImageView;
+    List<ImageCaterpillar> list = new ArrayList<>();
     private String mImageFileLocation = "";
     private String GALLERY_LOCATION = "image gallery";
     private File mGalleryFolder;
-    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,82 +69,9 @@ public class CameraIntentActivity extends Activity {
         storageRef = storage.getReference();
         imageRef = storageRef.child("images");
         final ImageView imageView = findViewById(R.id.imageView);
-//        Glide.with(this)
-//                .load("https://firebasestorage.googleapis.com/v0/b/leafguard-firebase.appspot.com/o/IMAGE_20180122_161651_-2071772904.jpg?alt=media&token=8e383c52-cbea-4c71-a0f6-ce501ce67046")
-//                .into(imageView);
-
-
-//        imageRef.child("IMAGE_20180121_173345_144153276.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Glide.with(getApplicationContext()).load(uri.toString()).into(imageView);
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                // Handle any errors
-//            }
-//        });
-
-
-
-//        Log.d("store", "pk " + storageRef.getDownloadUrl());
-//        imageRef.child("IMAGE_20180121_173345_144153276.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Glide.with(getApplicationContext()).load(uri.toString()).into(imageView);
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                // Handle any errors
-//            }
-//        });
-
-//        // Assign id to RecyclerView.
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-//
-//        // Setting RecyclerView size true.
-//        recyclerView.setHasFixedSize(true);
-//
-//        // Setting RecyclerView layout as LinearLayout.
-//        recyclerView.setLayoutManager(new LinearLayoutManager(CameraIntentActivity.this));
-//
-//        // Assign activity this to progress dialog.
-//        progressDialog = new ProgressDialog(CameraIntentActivity.this);
-//
-//        // Setting up message in Progress dialog.
-//        progressDialog.setMessage("Loading Images From Firebase.");
-//
-//        // Showing progress dialog.
-//        progressDialog.show();
-//        // The path is already defined in MainActivity.
-//        databaseReference = FirebaseDatabase.getInstance().getReference("images");
-//        // Adding Add Value Event Listener to databaseReference.
-//        databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-//                    ImageUploadInfo imageUploadInfo = postSnapshot.getValue(ImageUploadInfo.class);
-//                    list.add(imageUploadInfo);
-//                }
-//                adapter = new RecyclerViewAdapter(getApplicationContext(), list);
-//                recyclerView.setAdapter(adapter);
-//                // Hiding the progress dialog.
-//                progressDialog.dismiss();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//                // Hiding the progress dialog.
-//                progressDialog.dismiss();
-//
-//            }
-//        });
 
         //Permission
-        Button button = findViewById(R.id.photoButton);
+        final Button button = findViewById(R.id.photoButton);
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -156,6 +79,40 @@ public class CameraIntentActivity extends Activity {
         } else {
             button.setEnabled(true);
         }
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(CameraIntentActivity.this));
+        progressDialog = new ProgressDialog(CameraIntentActivity.this);
+        progressDialog.setMessage("Loading Images From Firebase.");
+        progressDialog.show();
+        //todo: Remplacer par le numero de l'arbre et de la chenille
+        databaseReference = FirebaseDatabase.getInstance().getReference("images").child("arbrenum").child("chenilleNum");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                list.clear();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    ImageCaterpillar imageUploadInfo = postSnapshot.getValue(ImageCaterpillar.class);
+                    list.add(imageUploadInfo);
+                }
+                adapter = new RecyclerViewAdapter(getApplicationContext(), list);
+                recyclerView.setAdapter(adapter);
+                progressDialog.dismiss();
+                if (adapter.getItemCount() >= 3) {
+                    button.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+                // Hiding the progress dialog.
+                progressDialog.dismiss();
+
+            }
+        });
     }
 
     @Override
@@ -215,46 +172,45 @@ public class CameraIntentActivity extends Activity {
     }
 
     public void uploadImage() {
-        //create reference to images folder and assing a name to the file that will be uploaded
-        imageRef = storageRef.child(selectedImage.getLastPathSegment());
-        //creating and showing progress dialog
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMax(100);
-        progressDialog.setMessage("Uploading...");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.show();
-        progressDialog.setCancelable(false);
-        //starting upload
-        uploadTask = imageRef.putFile(selectedImage);
-        // Observe state change events such as progress, pause, and resume
-        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                //sets and increments value of progressbar
-                progressDialog.incrementProgressBy((int) progress);
-            }
-        });
-        // Register observers to listen for when the download is done or if it fails
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-                Toast.makeText(CameraIntentActivity.this,"Error in uploading!",Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                //adding an upload to firebase database
-//                String uploadId = databaseReference.push().getKey();
-//                databaseReference.child(uploadId).setValue(downloadUrl.toString());
-                Toast.makeText(CameraIntentActivity.this,"Upload successful",Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        });
+        // Checking whether FilePathUri Is empty or not.
+        if (selectedImage != null) {
+            progressDialog.setTitle("Image is Uploading...");
+            progressDialog.show();
+            //create reference to images folder and assing a name to the file that will be uploaded
+            imageRef = storageRef.child("images/" + selectedImage.getLastPathSegment());
+            //imageRef = storageRef.child("images" + System.currentTimeMillis() + "." + GetFileExtension(selectedImage));
+
+            imageRef.putFile(selectedImage)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Image Uploaded Successfully ", Toast.LENGTH_LONG).show();
+                            @SuppressWarnings("VisibleForTests")
+                            ImageCaterpillar imageUploadInfo = new ImageCaterpillar(taskSnapshot.getDownloadUrl().toString());
+                            String ImageUploadId = databaseReference.push().getKey();
+                            databaseReference.child(ImageUploadId).setValue(imageUploadInfo);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Hiding the progressDialog.
+                            progressDialog.dismiss();
+                            // Showing exception erro message.
+                            Toast.makeText(CameraIntentActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+
+                    // On progress change upload time.
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            // Setting progressDialog Title.
+                            progressDialog.setTitle("Image is Uploading...");
+                        }
+                    });
+        }
     }
 
     private Uri defineUriFromFile(File file) {
@@ -265,5 +221,17 @@ public class CameraIntentActivity extends Activity {
         } else {
             return Uri.fromFile(file);
         }
+    }
+
+    // Creating Method to get the selected image file Extension from File Path URI.
+    public String GetFileExtension(Uri uri) {
+
+        ContentResolver contentResolver = getContentResolver();
+
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+
+        // Returning the file Extension.
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+
     }
 }
