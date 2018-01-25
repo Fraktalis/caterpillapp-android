@@ -18,30 +18,23 @@ import com.example.vincentale.leafguard_core.model.Catterpillar;
 public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
 
     public Catterpillar curentCatterpillar;
-    private TextView iD;
+    private TextView catterName;
     private ImageView feedBackIcon;
 
     //private
     //itemView est la vue correspondante à 1 cellule
     public CatterpillarViewHolder(View itemView, final Context context) {
         super(itemView);
-
-        iD = (TextView) itemView.findViewById(R.id.catterpillarName);
-
-       // Name=(TextView) itemView.findViewById(R.id.nameofcattarpillar);
-
+        catterName = (TextView) itemView.findViewById(R.id.catterpillarName);
         feedBackIcon= (ImageView) itemView.findViewById(R.id.checkImage);
-
 
         itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Intent catterIntent= new Intent (context, CatterpillarViewActivity.class);
-
-                catterIntent.putExtra("catteriD", iD.getText());
-
+                catterIntent.putExtra("catterUID", curentCatterpillar.getUid());
+                catterIntent.putExtra("caterIndex", curentCatterpillar.getIndex());
                 context.startActivity(catterIntent);
-
             }
         });
     }
@@ -49,9 +42,7 @@ public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
 
     public void bind(Catterpillar myObject){
 
-        CharSequence text= iD.getText();
-        iD.setText(myObject.getUid());
-        //Name.setText("Catterpillar");
+        catterName.setText(myObject.getUid());
 
         if(myObject.isEdited()){
             feedBackIcon.setVisibility(View.VISIBLE);

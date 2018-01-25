@@ -5,8 +5,8 @@ package com.example.vincentale.leafguard_core.model;
  */
 
 public class Catterpillar implements Identifiable {
-
-    private CardinalPoint orientation;
+    public static final int INDEX_LIMIT = 20;
+    private int index;
     private String uid;
     private String oakUid;
     private  Oak oak;
@@ -16,26 +16,24 @@ public class Catterpillar implements Identifiable {
     private boolean woundByOther=false;
     private boolean edited=false;
     private boolean catterpillarMissing=false;
-    public Catterpillar(String uid) {
-        this.uid = uid;
+
+    public Catterpillar() {
     }
 
-
-
-    public Catterpillar(String uid, Oak parentOak) {
-        this.uid = uid;
+    /**
+     * Constructor of a Cattepillar.
+     * UId of the caterpillar is created with parent Oak uid and index
+     * @param parentOak
+     * @param index
+     */
+    public Catterpillar(Oak parentOak, int index) {
+        if (index < 1 || index > INDEX_LIMIT) {
+            throw new IllegalArgumentException("Wrong index for catterpilar. Excepted between 1 and " + INDEX_LIMIT + ", got " + index);
+        }
+        this.index = index;
+        this.uid = parentOak.getUid() + "_" + index;
         this.oak = parentOak;
         this.oakUid = parentOak.getUid();
-    }
-
-    public Catterpillar(String uid, boolean woundByMammal, boolean woundByInsect, boolean woundByBird, boolean woundByOther, boolean edited, boolean catterpillarMissing) {
-        this.uid = uid;
-        this.woundByMammal = woundByMammal;
-        this.woundByInsect = woundByInsect;
-        this.woundByBird = woundByBird;
-        this.woundByOther = woundByOther;
-        this.edited = edited;
-        this.catterpillarMissing = catterpillarMissing;
     }
 
     @Override
@@ -46,10 +44,6 @@ public class Catterpillar implements Identifiable {
     @Override
     public void setUid(String uid) {
         this.uid=uid;
-    }
-
-    public CardinalPoint getOrientation() {
-        return orientation;
     }
 
     public boolean isWoundByMammal() {
@@ -116,10 +110,12 @@ public class Catterpillar implements Identifiable {
         this.oak = oak;
     }
 
-    public enum CardinalPoint{
-        EST,
-        NORTH,
-        SOUTH,
-        WEST
+    @Override
+    public String toString() {
+        return String.valueOf(index);
+    }
+
+    public int getIndex() {
+        return index;
     }
 }
