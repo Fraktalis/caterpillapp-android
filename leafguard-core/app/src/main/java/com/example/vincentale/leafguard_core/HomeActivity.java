@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -40,6 +41,7 @@ public class HomeActivity extends AppCompatActivity {
     private Menu homeMenu;
     private LinearLayout profileLoadingLayout;
     private LinearLayout homeContentLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +78,10 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(oakFormIntent);
                     }
                 });
+                if (mUser.getOakId() != null) {
+                    Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
+                    ourOakButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
+                }
 
                 Button observationButton = (Button) findViewById(R.id.observationButton);
                 observationButton.setOnClickListener(new View.OnClickListener() {
