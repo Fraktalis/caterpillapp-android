@@ -33,11 +33,9 @@ public class CaterpillarListAdapter extends RecyclerView.Adapter<CatterpillarVie
 
         boolean shouldAttachToParentImmediately = false;
         View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
-        CatterpillarViewHolder viewHolder= new CatterpillarViewHolder(view,context);
-        //CatterpillarViewHolder vh = new CatterpillarViewHolder(v);
+        CatterpillarViewHolder viewHolder = new CatterpillarViewHolder(view,context);
 
 
-        //return vh;
         return viewHolder;
     }
 
@@ -49,6 +47,6 @@ public class CaterpillarListAdapter extends RecyclerView.Adapter<CatterpillarVie
 
     @Override
     public int getItemCount() {
-        return 20;
+        return items.size();
     }
 }

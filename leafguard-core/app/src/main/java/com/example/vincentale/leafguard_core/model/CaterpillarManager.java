@@ -52,6 +52,7 @@ public class CaterpillarManager implements Manager<Catterpillar> {
         HashMap<String, Catterpillar> catterpillarMap = new HashMap<>();
         for (Catterpillar catterpillar : catterpillars) {
             catterpillarMap.put(catterpillar.getUid(), catterpillar);
+            Log.d(TAG, "toHashMap: map("+catterpillar.getUid()+") = " + catterpillar.toString());
         }
 
         return catterpillarMap;
@@ -64,7 +65,7 @@ public class CaterpillarManager implements Manager<Catterpillar> {
             for (String field :
                     fieldsMapping) {
                 String getterName;
-                if (Catterpillar.class.getField(field).getType() == Boolean.class) {
+                if (Catterpillar.class.getDeclaredField(field).getType().equals(boolean.class)) {
                     getterName = "is" + capitalize(field);
                 } else {
                     getterName = "get" + capitalize(field);
@@ -93,8 +94,11 @@ public class CaterpillarManager implements Manager<Catterpillar> {
 
     @Override
     public void find(String uid, final DatabaseCallback<Catterpillar> callback) {
+
+        String[] splitResult = uid.split("_");
+        String oakUid = splitResult[0] + "_" + splitResult[1] + "_" + splitResult[2]; // We have to extract the oak UID from the caterpillar one
         DatabaseReference databaseReference = firebaseDatabase.getReference();
-        DatabaseReference caterRef = databaseReference.child(NODE_NAME).child(uid);
+        DatabaseReference caterRef = databaseReference.child(NODE_NAME).child(oakUid).child(uid);
         caterRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -127,7 +131,9 @@ public class CaterpillarManager implements Manager<Catterpillar> {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    catterpillars.add(ds.getValue(Catterpillar.class));
+                    Catterpillar newValue = ds.getValue(Catterpillar.class);
+                    newValue.setUid(ds.getKey());
+                    catterpillars.add(newValue);
                 }
                 callback.onSuccess(catterpillars);
             }

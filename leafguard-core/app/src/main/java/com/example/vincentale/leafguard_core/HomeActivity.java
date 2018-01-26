@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(HomeActivity.this, "user is loaded !", Toast.LENGTH_SHORT).show();
                 TextView helloText = (TextView) findViewById(R.id.helloText);
                 if (mUser != null) {
-                    helloText.setText(res.getString(R.string.hello_name, mUser.getUid()));
+                    helloText.setText(res.getString(R.string.hello_name, mUser.getSurname()));
                 } else {
                     Log.i(TAG, "You shouldn't be anonymous on this activity !");
                 }

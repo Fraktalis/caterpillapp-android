@@ -1,18 +1,22 @@
 package com.example.vincentale.leafguard_core;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.model.CaterpillarManager;
 import com.example.vincentale.leafguard_core.model.Catterpillar;
-import com.example.vincentale.leafguard_core.model.Oak;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
@@ -29,6 +33,7 @@ public class CaterpillarListActivity extends AppCompatActivity {
     private static final String TAG = "CatterpillarListAct";
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
+    private LinearLayout loadingLayout;
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton sendObservation;
 
@@ -36,15 +41,14 @@ public class CaterpillarListActivity extends AppCompatActivity {
     private User currentUser;
     private CaterpillarManager caterpillarManager = CaterpillarManager.getInstance();
     private ArrayList<Catterpillar> catterpillars = new ArrayList<>();
+    private int editedCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cattarpillar_list);
         recyclerView=(RecyclerView) findViewById(R.id.catterpillarRecycleView);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+        loadingLayout = findViewById(R.id.list_loading_layout);
 
         userManager.getUser(new DatabaseCallback<User>() {
             @Override
@@ -65,25 +69,61 @@ public class CaterpillarListActivity extends AppCompatActivity {
                                     catterpillars.add(newCaterpillar);
                                 } else {
                                     catterpillars.add(catterpillarHashMap.get(currentKey));
+                                    editedCount++;
                                 }
                             }
 
-
-
                             mAdapter =new CaterpillarListAdapter(catterpillars);
                             recyclerView.setAdapter(mAdapter);
+                            loadingLayout.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            layoutManager = new LinearLayoutManager(CaterpillarListActivity.this);
+                            recyclerView.setLayoutManager(layoutManager);
+                            recyclerView.setHasFixedSize(true);
 
                             sendObservation= (FloatingActionButton) findViewById(R.id.sendObservation);
+                            sendObservation.setVisibility(View.VISIBLE);
                             sendObservation.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     Context context=getApplicationContext();
+                                    if (editedCount != Catterpillar.INDEX_LIMIT) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(CaterpillarListActivity.this);
+                                        builder.setMessage(R.string.not_all_caterpillars_edited)
+                                                .setPositiveButton(R.string.ok_action, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                                    String text= "add action to send the catterpillars";
-                                    int duration= Toast.LENGTH_SHORT;
-                                    Toast.makeText(context, text, duration).show();
+                                                    }
+                                                });
+                                        builder.create().show();
+                                    } else {
+                                        AlertDialog.Builder warningBuilder = new AlertDialog.Builder(CaterpillarListActivity.this);
+                                        warningBuilder.setMessage(R.string.observation_send_irreversible)
+                                                .setPositiveButton(R.string.send_action, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_caterpillar_list_layout), R.string.observation_successfully_sent, Snackbar.LENGTH_SHORT);
+                                                        snackbar.addCallback(new Snackbar.Callback() {
+                                                            public void onDismissed(Snackbar snackbar, int event) {
+                                                                finish();
+                                                            }
+                                                        });
+
+                                                        snackbar.show();
+                                                    }
+                                                }).setNegativeButton(R.string.cancel_action, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                            }
+                                        });
+                                        warningBuilder.create().show();
+
+
+
+                                    }
                                 }
-                            });
+                                  });
                         }
 
                         @Override
@@ -101,5 +141,10 @@ public class CaterpillarListActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+       finish();
+       startActivity(getIntent()); //Brute method to invalidate the recycler view and refresh the view...
+    }
 }

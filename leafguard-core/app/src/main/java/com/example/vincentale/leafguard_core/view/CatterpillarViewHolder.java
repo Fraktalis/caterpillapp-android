@@ -18,6 +18,7 @@ import com.example.vincentale.leafguard_core.model.Catterpillar;
 public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
 
     public Catterpillar curentCatterpillar;
+    private Context context;
     private TextView catterName;
     private ImageView feedBackIcon;
 
@@ -25,6 +26,7 @@ public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
     //itemView est la vue correspondante à 1 cellule
     public CatterpillarViewHolder(View itemView, final Context context) {
         super(itemView);
+        this.context = context;
         catterName = (TextView) itemView.findViewById(R.id.catterpillarName);
         feedBackIcon= (ImageView) itemView.findViewById(R.id.checkImage);
 
@@ -42,7 +44,7 @@ public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
 
     public void bind(Catterpillar myObject){
 
-        catterName.setText(myObject.getUid());
+        catterName.setText(context.getResources().getString(R.string.catterpillar_with_number, myObject.getIndex()));
 
         if(myObject.isEdited()){
             feedBackIcon.setVisibility(View.VISIBLE);

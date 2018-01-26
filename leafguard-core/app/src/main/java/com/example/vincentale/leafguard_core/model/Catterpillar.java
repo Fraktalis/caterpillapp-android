@@ -112,7 +112,17 @@ public class Catterpillar implements Identifiable {
 
     @Override
     public String toString() {
-        return String.valueOf(index);
+        return "Catterpillar{" +
+                "index=" + index +
+                ", uid='" + uid + '\'' +
+                ", oakUid='" + oakUid + '\'' +
+                ", woundByMammal=" + woundByMammal +
+                ", woundByInsect=" + woundByInsect +
+                ", woundByBird=" + woundByBird +
+                ", woundByOther=" + woundByOther +
+                ", edited=" + edited +
+                ", catterpillarMissing=" + catterpillarMissing +
+                '}';
     }
 
     public int getIndex() {
