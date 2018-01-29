@@ -15,11 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.model.Caterpillar;
+import com.example.vincentale.leafguard_core.model.CaterpillarObservation;
 import com.example.vincentale.leafguard_core.model.manager.CaterpillarManager;
 import com.example.vincentale.leafguard_core.model.User;
+import com.example.vincentale.leafguard_core.model.manager.CaterpillarObservationManager;
 import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
+import com.example.vincentale.leafguard_core.util.OnUpdateCallback;
 import com.example.vincentale.leafguard_core.view.CaterpillarListAdapter;
 import com.google.firebase.database.DatabaseError;
 
@@ -40,12 +43,15 @@ public class CaterpillarListActivity extends AppCompatActivity {
     private User currentUser;
     private CaterpillarManager caterpillarManager = CaterpillarManager.getInstance();
     private ArrayList<Caterpillar> caterpillars = new ArrayList<>();
+    private CaterpillarObservationManager caterpillarObservationManager = CaterpillarObservationManager.getInstance();
     private int editedCount = 0;
+    private int observationIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cattarpillar_list);
+        observationIndex = getIntent().getIntExtra("observationIndex", -1);
         recyclerView=(RecyclerView) findViewById(R.id.catterpillarRecycleView);
         loadingLayout = findViewById(R.id.list_loading_layout);
 
@@ -55,6 +61,7 @@ public class CaterpillarListActivity extends AppCompatActivity {
                 currentUser = identifiable;
                 if (identifiable.getOak() == null) {
                     Toast.makeText(CaterpillarListActivity.this, "You didn't set up the tree you want to manage", Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
                     caterpillarManager.findAllbyOak(currentUser.getOak(), new DatabaseListCallback<Caterpillar>() {
                         @Override
@@ -102,14 +109,30 @@ public class CaterpillarListActivity extends AppCompatActivity {
                                                 .setPositiveButton(R.string.send_action, new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                                        Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_caterpillar_list_layout), R.string.observation_successfully_sent, Snackbar.LENGTH_SHORT);
-                                                        snackbar.addCallback(new Snackbar.Callback() {
-                                                            public void onDismissed(Snackbar snackbar, int event) {
-                                                                finish();
+                                                        final CaterpillarObservation observation = new CaterpillarObservation(currentUser.getOak(), observationIndex);
+                                                        observation.setCaterpillars(caterpillars);
+                                                        caterpillarObservationManager.update(observation, new OnUpdateCallback() {
+                                                            @Override
+                                                            public void onSuccess() {
+                                                                currentUser.addObservation(observation.getUid());
+                                                                userManager.update(currentUser,null);
+                                                                Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_caterpillar_list_layout), R.string.observation_successfully_sent, Snackbar.LENGTH_SHORT);
+                                                                snackbar.addCallback(new Snackbar.Callback() {
+                                                                    public void onDismissed(Snackbar snackbar, int event) {
+                                                                        finish();
+                                                                    }
+                                                                });
+
+                                                                snackbar.show();
+                                                            }
+
+                                                            @Override
+                                                            public void onError(Throwable err) {
+                                                                Log.e(TAG, "Update error : " , err);
+                                                                Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_caterpillar_list_layout), R.string.error_occured, Snackbar.LENGTH_SHORT);
+                                                                snackbar.show();
                                                             }
                                                         });
-
-                                                        snackbar.show();
                                                     }
                                                 }).setNegativeButton(R.string.cancel_action, new DialogInterface.OnClickListener() {
                                             @Override
@@ -117,12 +140,9 @@ public class CaterpillarListActivity extends AppCompatActivity {
                                             }
                                         });
                                         warningBuilder.create().show();
-
-
-
                                     }
                                 }
-                                  });
+                                                              });
                         }
 
                         @Override

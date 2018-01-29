@@ -53,6 +53,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onSuccess(User identifiable) {
                 mUser = identifiable;
+
                 profileLoadingLayout.setVisibility(View.GONE);
                 homeContentLayout.setVisibility(View.VISIBLE);
                 if (homeMenu != null) {
@@ -83,25 +84,42 @@ public class HomeActivity extends AppCompatActivity {
                     ourOakButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
                 }
 
+                String obervationUid = mUser.getOakId() + "_" + 1;
                 Button observationButton = (Button) findViewById(R.id.observationButton);
-                observationButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent observationIntent = new Intent(mainContext, CaterpillarListActivity.class);
-                        observationIntent.setAction(HomeActivity.FIRST_OBSERVATION_ACTION);
-                        startActivity(observationIntent);
-                    }
-                });
+                if (mUser.hasObservation(obervationUid)) {
+                    Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
+                    observationButton.setEnabled(false);
+                    observationButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
+                } else {
+                    Log.d(TAG, "onSuccess: " + mUser.getObservationUids());
+                    observationButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent observationIntent = new Intent(mainContext, CaterpillarListActivity.class);
+                            observationIntent.setAction(HomeActivity.FIRST_OBSERVATION_ACTION);
+                            observationIntent.putExtra("observationIndex", 1);
+                            startActivity(observationIntent);
+                        }
+                    });
+                }
 
+                obervationUid = mUser.getOakId() + "_" + 2;
                 Button observationBisButton = (Button) findViewById(R.id.observationBisButton);
-                observationBisButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent observationIntent = new Intent(mainContext, CaterpillarListActivity.class);
-                        observationIntent.setAction(HomeActivity.SECOND_OBSERVATION_ACTION);
-                        startActivity(observationIntent);
-                    }
-                });
+                if (mUser.hasObservation(obervationUid)) {
+                    Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
+                    observationBisButton.setEnabled(false);
+                    observationBisButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
+                } else {
+                    observationBisButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent observationIntent = new Intent(mainContext, CaterpillarListActivity.class);
+                            observationIntent.setAction(HomeActivity.SECOND_OBSERVATION_ACTION);
+                            observationIntent.putExtra("observationIndex", 2);
+                            startActivity(observationIntent);
+                        }
+                    });
+                }
 
                 Button camera2Button = (Button) findViewById(R.id.camera2Button);
                 camera2Button.setOnClickListener(new View.OnClickListener() {

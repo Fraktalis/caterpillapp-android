@@ -16,6 +16,7 @@ import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.example.vincentale.leafguard_core.util.OnUpdateCallback;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -88,22 +89,32 @@ public class ProfileFormFragment extends Fragment {
                     public void onClick(View view) {
                         user.setSurname(surnameEditText.getText().toString());
                         user.setName(nameEditText.getText().toString());
-                        userManager.update(user);
-                        Snackbar validationSnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_profil_form_layout),
-                                R.string.profile_saved, Snackbar.LENGTH_SHORT);
-                        validationSnackbar.show();
-                        final FragmentManager fm = getActivity().getSupportFragmentManager();
-                        final ProfileFragment formFragment = ProfileFragment.newInstance();
-                        validationSnackbar.addCallback(new Snackbar.Callback() {
+                        userManager.update(user, new OnUpdateCallback() {
                             @Override
-                            public void onDismissed(Snackbar transientBottomBar, int event) {
-                                super.onDismissed(transientBottomBar, event);
-                                fm.beginTransaction()
-                                        .replace(R.id.profile_fragment_container, formFragment)
-                                        .commit();
+                            public void onSuccess() {
+                                Snackbar validationSnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_profil_form_layout),
+                                        R.string.profile_saved, Snackbar.LENGTH_SHORT);
+                                validationSnackbar.show();
+                                final FragmentManager fm = getActivity().getSupportFragmentManager();
+                                final ProfileFragment formFragment = ProfileFragment.newInstance();
+                                validationSnackbar.addCallback(new Snackbar.Callback() {
+                                    @Override
+                                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                                        super.onDismissed(transientBottomBar, event);
+                                        fm.beginTransaction()
+                                                .replace(R.id.profile_fragment_container, formFragment)
+                                                .commit();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onError(Throwable err) {
+                                Snackbar validationSnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_profil_form_layout),
+                                        R.string.error_occured, Snackbar.LENGTH_SHORT);
+                                validationSnackbar.show();
                             }
                         });
-
                     }
                 });
             }

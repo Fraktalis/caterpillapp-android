@@ -129,4 +129,5 @@
     <string name="cancel_action">Cancel</string>
     <string name="attackedbybirds">Attacked by birds</string>
     <string name="attackedByLizard">Attacked by lizards</string>
+    <string name="error_occured">An error occured. Please try again.</string>
 </resources>

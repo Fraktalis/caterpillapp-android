@@ -1,9 +1,12 @@
 package com.example.vincentale.leafguard_core.model.manager;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.example.vincentale.leafguard_core.model.Identifiable;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
+import com.example.vincentale.leafguard_core.util.OnUpdateCallback;
 
 import java.util.ArrayList;
 
@@ -16,7 +19,7 @@ interface Manager<T extends Identifiable> {
      * Update all fields (Or create a new entry if necessary) of the {@link T} object
      * @param object
      */
-    public void update(@NonNull  T object);
+    public void update(@NonNull  T object, @Nullable final OnUpdateCallback onUpdateCallback);
 
     /**
      * Delete all entries of this object in database
@@ -32,5 +35,5 @@ interface Manager<T extends Identifiable> {
     public void find(String uid, DatabaseCallback<T> callback);
 
 
-    public ArrayList<T> findAll();
+    public void findAll(DatabaseListCallback<T> listCallback);
 }

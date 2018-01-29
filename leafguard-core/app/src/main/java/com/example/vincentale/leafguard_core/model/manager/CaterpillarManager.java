@@ -1,12 +1,14 @@
 package com.example.vincentale.leafguard_core.model.manager;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.vincentale.leafguard_core.model.Caterpillar;
 import com.example.vincentale.leafguard_core.model.Oak;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
+import com.example.vincentale.leafguard_core.util.OnUpdateCallback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,6 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.example.vincentale.leafguard_core.util.StringHelper.capitalize;
 
 /**
  * Created by mathilde on 22/01/18.
@@ -60,7 +64,7 @@ public class CaterpillarManager implements Manager<Caterpillar> {
     }
 
     @Override
-    public void update(@NonNull Caterpillar object) {
+    public void update(@NonNull Caterpillar object, @Nullable final OnUpdateCallback updateCallback) {
         DatabaseReference caterRef = firebaseDatabase.getReference().child(NODE_NAME).child(object.getOakUid()).child(object.getUid());
         try {
             for (String field :
@@ -76,15 +80,13 @@ public class CaterpillarManager implements Manager<Caterpillar> {
                 Log.d(TAG, ""+getter.invoke(object));
                 caterRef.child(field).setValue(getter.invoke(object));
             }
-        } catch (NoSuchMethodException e) {
+        } catch (Exception e) {
             Log.e(TAG, "update: ", e);
-        } catch (InvocationTargetException e) {
-            Log.e(TAG, "update: ", e);
-        } catch (IllegalAccessException e) {
-            Log.e(TAG, "update: ", e);
-        } catch (NoSuchFieldException e) {
-            Log.e(TAG, "update: ", e);
+            if (updateCallback != null)
+                updateCallback.onError(e);
         }
+        if (updateCallback != null)
+            updateCallback.onSuccess();
 
     }
 
@@ -120,8 +122,8 @@ public class CaterpillarManager implements Manager<Caterpillar> {
     }
 
     @Override
-    public ArrayList<Caterpillar> findAll() {
-        return null;
+    public void findAll(DatabaseListCallback listCallback) {
+        //TODO: Implements if necessary
     }
 
     public void findAllbyOak(Oak oak, final DatabaseListCallback<Caterpillar> callback) {
@@ -144,9 +146,5 @@ public class CaterpillarManager implements Manager<Caterpillar> {
                 callback.onFailure(databaseError);
             }
         });
-    }
-
-    private String capitalize(final String line) {
-        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
     }
 }

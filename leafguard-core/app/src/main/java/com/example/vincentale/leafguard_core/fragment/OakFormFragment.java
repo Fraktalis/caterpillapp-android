@@ -319,16 +319,16 @@ public class OakFormFragment extends Fragment {
                         oak.setOakHeight(oakHeight);
                         oak.setInstallationDate(installationDate);
 
-                        oakManager.update(oak);
+                        oakManager.update(oak, null);
                         user.setOak(oak);
-                        userManager.update(user);
+                        userManager.update(user, null);
                         Snackbar mySnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_oak_form_layout),
                                 R.string.oak_saved, Snackbar.LENGTH_SHORT);
                         mySnackbar.setAction(R.string.undo_action, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 oak = new Oak(oakSave);
-                                oakManager.update(oak);
+                                oakManager.update(oak, null);
                             }
                         });
                         mySnackbar.show();
@@ -395,9 +395,9 @@ public class OakFormFragment extends Fragment {
                 oak.setOakHeight(oakHeight);
                 oak.setInstallationDate(installationDate);
 
-                oakManager.update(oak);
+                oakManager.update(oak, null);
                 user.setOak(oak);
-                userManager.update(user);
+                userManager.update(user, null);
                 Snackbar mySnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_oak_form_layout),
                         R.string.oak_saved, Snackbar.LENGTH_SHORT);
                 mySnackbar.show();

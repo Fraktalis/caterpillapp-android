@@ -62,6 +62,13 @@
                     android:text="@string/attackedByBirds" />
 
                 <CheckBox
+                    android:id="@+id/attackedByLizards"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/attackedByLizard" />
+
+                <CheckBox
                     android:id="@+id/attackedByInsect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

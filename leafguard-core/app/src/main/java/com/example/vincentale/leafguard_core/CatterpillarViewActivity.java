@@ -50,7 +50,7 @@ public class CatterpillarViewActivity extends AppCompatActivity {
         attackedByBird = (CheckBox) findViewById(R.id.attackedByBirds);
         attackedByMammals = (CheckBox) findViewById(R.id.attackedByMammals);
         attackedByInsect = (CheckBox) findViewById(R.id.attackedByInsect);
-        attackedByLizard = findViewById(R.id.isAttackByLizard);
+        attackedByLizard = (CheckBox) findViewById(R.id.attackedByLizards);
         attackedByOther = (CheckBox) findViewById(R.id.attackedByOther);
         validate = (Button) findViewById(R.id.validateCatterpillarButton);
         woundLayout = (LinearLayout) findViewById(R.id.woundsLayout);
@@ -70,7 +70,7 @@ public class CatterpillarViewActivity extends AppCompatActivity {
                         } else {
                             item = identifiable;
                         }
-                        catterpillarName.setText(getResources().getText(R.string.catterpillar) + " " + item.getIndex());
+                        catterpillarName.setText(String.format(getResources().getString(R.string.catterpillar_with_number), item.getIndex()));
 
                         isMissing.setChecked(item.isCatterpillarMissing());
                         if (isMissing.isChecked()) {
@@ -105,7 +105,7 @@ public class CatterpillarViewActivity extends AppCompatActivity {
                                 item.setWoundByMammal(attackedByMammals.isChecked());
                                 item.setWoundByLizard(attackedByLizard.isChecked());
                                 item.setWoundByOther(attackedByOther.isChecked());
-                                caterpillarManager.update(item);
+                                caterpillarManager.update(item, null);
                                 finish();
 
                             }

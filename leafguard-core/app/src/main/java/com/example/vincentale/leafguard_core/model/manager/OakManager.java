@@ -1,10 +1,15 @@
 package com.example.vincentale.leafguard_core.model.manager;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.vincentale.leafguard_core.model.Caterpillar;
 import com.example.vincentale.leafguard_core.model.Oak;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
+import com.example.vincentale.leafguard_core.util.OnUpdateCallback;
+import com.example.vincentale.leafguard_core.util.StringHelper;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -14,6 +19,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+
+import static com.example.vincentale.leafguard_core.util.StringHelper.capitalize;
 
 public class OakManager implements Manager<Oak> {
     public static final String TAG = "OakManager";
@@ -37,24 +44,29 @@ public class OakManager implements Manager<Oak> {
     }
 
     @Override
-    public void update(@NonNull Oak object) {
+    public void update(@NonNull Oak object, @Nullable final OnUpdateCallback updateCallback) {
         DatabaseReference oakRef = firebaseDatabase.getReference().child(NODE_NAME).child(object.getUid());
         try {
             for (String field :
                     fieldsMapping) {
-                String getterName = "get" + capitalize(field);
+                String getterName;
+                if (Oak.class.getDeclaredField(field).getType().equals(boolean.class)) {
+                    getterName = "is" + capitalize(field);
+                } else {
+                    getterName = "get" + capitalize(field);
+                }
                 Log.d(TAG, getterName);
                 Method getter = Oak.class.getMethod(getterName);
                 Log.d(TAG, ""+getter.invoke(object));
                 oakRef.child(field).setValue(getter.invoke(object));
             }
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Log.e(TAG, "update:", e);
+            if (updateCallback != null)
+                updateCallback.onError(e);
         }
+        if (updateCallback != null)
+            updateCallback.onSuccess();
     }
 
     @Override
@@ -81,12 +93,6 @@ public class OakManager implements Manager<Oak> {
     }
 
     @Override
-    public ArrayList<Oak> findAll() {
-
-        return null;
-    }
-
-    private String capitalize(final String line) {
-        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
+    public void findAll(DatabaseListCallback<Oak> listCallback) {
     }
 }
