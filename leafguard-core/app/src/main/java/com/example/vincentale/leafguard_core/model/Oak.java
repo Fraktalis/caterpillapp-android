@@ -22,7 +22,7 @@ public class Oak implements Identifiable{
 
     private long installationDate;
 
-    private List<Catterpillar> catterpillars;
+    private List<Caterpillar> caterpillars;
 
     private Oak() {
 

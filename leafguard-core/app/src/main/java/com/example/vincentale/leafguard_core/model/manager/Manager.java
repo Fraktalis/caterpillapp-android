@@ -1,7 +1,8 @@
-package com.example.vincentale.leafguard_core.model;
+package com.example.vincentale.leafguard_core.model.manager;
 
 import android.support.annotation.NonNull;
 
+import com.example.vincentale.leafguard_core.model.Identifiable;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 
 import java.util.ArrayList;

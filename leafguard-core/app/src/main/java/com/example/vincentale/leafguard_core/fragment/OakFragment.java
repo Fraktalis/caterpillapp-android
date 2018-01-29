@@ -1,6 +1,5 @@
 package com.example.vincentale.leafguard_core.fragment;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,16 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.Oak;
-import com.example.vincentale.leafguard_core.model.OakManager;
+import com.example.vincentale.leafguard_core.model.manager.OakManager;
 import com.example.vincentale.leafguard_core.model.User;
-import com.example.vincentale.leafguard_core.model.UserManager;
+import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;

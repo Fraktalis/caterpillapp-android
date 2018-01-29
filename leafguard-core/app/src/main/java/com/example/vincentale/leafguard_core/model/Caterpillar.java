@@ -4,7 +4,7 @@ package com.example.vincentale.leafguard_core.model;
  * Created by mathilde on 08/01/18.
  */
 
-public class Catterpillar implements Identifiable {
+public class Caterpillar implements Identifiable {
     public static final int INDEX_LIMIT = 20;
     private int index;
     private String uid;
@@ -13,11 +13,12 @@ public class Catterpillar implements Identifiable {
     private boolean woundByMammal=false;
     private boolean woundByInsect=false;
     private boolean woundByBird=false;
+    private boolean woundByLizard = false;
     private boolean woundByOther=false;
     private boolean edited=false;
     private boolean catterpillarMissing=false;
 
-    public Catterpillar() {
+    public Caterpillar() {
     }
 
     /**
@@ -26,7 +27,7 @@ public class Catterpillar implements Identifiable {
      * @param parentOak
      * @param index
      */
-    public Catterpillar(Oak parentOak, int index) {
+    public Caterpillar(Oak parentOak, int index) {
         if (index < 1 || index > INDEX_LIMIT) {
             throw new IllegalArgumentException("Wrong index for catterpilar. Excepted between 1 and " + INDEX_LIMIT + ", got " + index);
         }
@@ -68,6 +69,14 @@ public class Catterpillar implements Identifiable {
 
     public void setWoundByBird(boolean woundByBird) {
         this.woundByBird = woundByBird;
+    }
+
+    public boolean isWoundByLizard() {
+        return woundByLizard;
+    }
+
+    public void setWoundByLizard(boolean woundByLizard) {
+        this.woundByLizard = woundByLizard;
     }
 
     public boolean isWoundByOther() {
@@ -112,7 +121,7 @@ public class Catterpillar implements Identifiable {
 
     @Override
     public String toString() {
-        return "Catterpillar{" +
+        return "Caterpillar{" +
                 "index=" + index +
                 ", uid='" + uid + '\'' +
                 ", oakUid='" + oakUid + '\'' +

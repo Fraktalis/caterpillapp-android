@@ -1,8 +1,10 @@
-package com.example.vincentale.leafguard_core.model;
+package com.example.vincentale.leafguard_core.model.manager;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.vincentale.leafguard_core.model.Oak;
+import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

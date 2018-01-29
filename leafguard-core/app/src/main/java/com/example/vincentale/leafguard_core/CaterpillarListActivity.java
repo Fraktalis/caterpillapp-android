@@ -9,16 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.vincentale.leafguard_core.model.CaterpillarManager;
-import com.example.vincentale.leafguard_core.model.Catterpillar;
+import com.example.vincentale.leafguard_core.model.Caterpillar;
+import com.example.vincentale.leafguard_core.model.manager.CaterpillarManager;
 import com.example.vincentale.leafguard_core.model.User;
-import com.example.vincentale.leafguard_core.model.UserManager;
+import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
 import com.example.vincentale.leafguard_core.view.CaterpillarListAdapter;
@@ -40,7 +39,7 @@ public class CaterpillarListActivity extends AppCompatActivity {
     private UserManager userManager = UserManager.getInstance();
     private User currentUser;
     private CaterpillarManager caterpillarManager = CaterpillarManager.getInstance();
-    private ArrayList<Catterpillar> catterpillars = new ArrayList<>();
+    private ArrayList<Caterpillar> caterpillars = new ArrayList<>();
     private int editedCount = 0;
 
     @Override
@@ -57,23 +56,23 @@ public class CaterpillarListActivity extends AppCompatActivity {
                 if (identifiable.getOak() == null) {
                     Toast.makeText(CaterpillarListActivity.this, "You didn't set up the tree you want to manage", Toast.LENGTH_SHORT).show();
                 } else {
-                    caterpillarManager.findAllbyOak(currentUser.getOak(), new DatabaseListCallback<Catterpillar>() {
+                    caterpillarManager.findAllbyOak(currentUser.getOak(), new DatabaseListCallback<Caterpillar>() {
                         @Override
-                        public void onSuccess(List<Catterpillar> identifiables) {
-                            HashMap<String, Catterpillar> catterpillarHashMap = (HashMap<String, Catterpillar>) CaterpillarManager.toHashMap(identifiables);
+                        public void onSuccess(List<Caterpillar> identifiables) {
+                            HashMap<String, Caterpillar> catterpillarHashMap = (HashMap<String, Caterpillar>) CaterpillarManager.toHashMap(identifiables);
                             for (int i = 1; i <= 20; i++) {
                                 String currentKey = currentUser.getOak().getUid() + "_" + i;
                                 if (!catterpillarHashMap.containsKey(currentKey)) { // The caterpillar doesn't exist in Firebase. We need to create it
-                                    Catterpillar newCaterpillar = new Catterpillar(currentUser.getOak(), i);
+                                    Caterpillar newCaterpillar = new Caterpillar(currentUser.getOak(), i);
                                     catterpillarHashMap.put(currentKey, newCaterpillar);
-                                    catterpillars.add(newCaterpillar);
+                                    caterpillars.add(newCaterpillar);
                                 } else {
-                                    catterpillars.add(catterpillarHashMap.get(currentKey));
+                                    caterpillars.add(catterpillarHashMap.get(currentKey));
                                     editedCount++;
                                 }
                             }
 
-                            mAdapter =new CaterpillarListAdapter(catterpillars);
+                            mAdapter =new CaterpillarListAdapter(caterpillars);
                             recyclerView.setAdapter(mAdapter);
                             loadingLayout.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
@@ -87,7 +86,7 @@ public class CaterpillarListActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View view) {
                                     Context context=getApplicationContext();
-                                    if (editedCount != Catterpillar.INDEX_LIMIT) {
+                                    if (editedCount != Caterpillar.INDEX_LIMIT) {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(CaterpillarListActivity.this);
                                         builder.setMessage(R.string.not_all_caterpillars_edited)
                                                 .setPositiveButton(R.string.ok_action, new DialogInterface.OnClickListener() {

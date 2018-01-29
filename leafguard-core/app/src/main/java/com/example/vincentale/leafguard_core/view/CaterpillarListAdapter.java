@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vincentale.leafguard_core.R;
-import com.example.vincentale.leafguard_core.model.Catterpillar;
+import com.example.vincentale.leafguard_core.model.Caterpillar;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ import java.util.List;
 
 public class CaterpillarListAdapter extends RecyclerView.Adapter<CatterpillarViewHolder> {
 
-    private List<Catterpillar> items;
+    private List<Caterpillar> items;
 
-    public CaterpillarListAdapter(List<Catterpillar> items) {
+    public CaterpillarListAdapter(List<Caterpillar> items) {
         this.items = items;
     }
 

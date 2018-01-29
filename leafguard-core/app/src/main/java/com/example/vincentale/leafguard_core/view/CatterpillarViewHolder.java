@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.example.vincentale.leafguard_core.CatterpillarViewActivity;
 import com.example.vincentale.leafguard_core.R;
-import com.example.vincentale.leafguard_core.model.Catterpillar;
+import com.example.vincentale.leafguard_core.model.Caterpillar;
 
 /**
  * Created by mathilde on 08/01/18.
@@ -17,7 +17,7 @@ import com.example.vincentale.leafguard_core.model.Catterpillar;
 
 public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
 
-    public Catterpillar curentCatterpillar;
+    public Caterpillar curentCaterpillar;
     private Context context;
     private TextView catterName;
     private ImageView feedBackIcon;
@@ -34,15 +34,15 @@ public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
             @Override
             public void onClick(View view) {
                 Intent catterIntent= new Intent (context, CatterpillarViewActivity.class);
-                catterIntent.putExtra("catterUID", curentCatterpillar.getUid());
-                catterIntent.putExtra("caterIndex", curentCatterpillar.getIndex());
+                catterIntent.putExtra("catterUID", curentCaterpillar.getUid());
+                catterIntent.putExtra("caterIndex", curentCaterpillar.getIndex());
                 context.startActivity(catterIntent);
             }
         });
     }
 
 
-    public void bind(Catterpillar myObject){
+    public void bind(Caterpillar myObject){
 
         catterName.setText(context.getResources().getString(R.string.catterpillar_with_number, myObject.getIndex()));
 
@@ -53,14 +53,14 @@ public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
         }
     }
 
-    public void setCurrentItem(Catterpillar curentCatterpillar) {
-        this.curentCatterpillar = curentCatterpillar;
+    public void setCurrentItem(Caterpillar curentCaterpillar) {
+        this.curentCaterpillar = curentCaterpillar;
     }
 
 
 
     public void updateFeedbackIcon(){
-        if(curentCatterpillar.isEdited()){
+        if(curentCaterpillar.isEdited()){
             feedBackIcon.setVisibility(View.VISIBLE);
         }else{
             feedBackIcon.setVisibility(View.INVISIBLE);
