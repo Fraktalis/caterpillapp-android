@@ -140,7 +140,7 @@ public class User implements Identifiable {
     }
 
     public String getObservationUids() {
-        return Arrays.toString(observationUidSet.toArray());
+        return observationUidSet.toString();
     }
 
     public void setObservationUids(String observationUids) {

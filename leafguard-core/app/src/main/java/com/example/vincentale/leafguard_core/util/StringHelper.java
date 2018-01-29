@@ -16,7 +16,7 @@ public class StringHelper {
 
     public static String[] parse(String s) {
 String listString = s.substring(1, s.length() - 1); // chop off brackets
-        String[] output = listString.split("', ");
+        String[] output = listString.split(", ");
         return output;
     }
 }
