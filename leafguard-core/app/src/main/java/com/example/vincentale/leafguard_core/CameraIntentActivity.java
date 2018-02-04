@@ -94,7 +94,7 @@ public class CameraIntentActivity extends Activity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(CameraIntentActivity.this));
         progressDialog = new ProgressDialog(CameraIntentActivity.this);
-        progressDialog.setMessage("Loading Images From Firebase.");
+        progressDialog.setMessage(getString(R.string.loadingFirebase));
         progressDialog.show();
         //todo: Remplacer par le numero de l'arbre et de la chenille
         databaseReference = FirebaseDatabase.getInstance().getReference("images").child("arbrenum").child("chenilleNum2");
@@ -168,11 +168,11 @@ public class CameraIntentActivity extends Activity {
 
     protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         if(requestCode == ACTIVITY_START_CAMERA_APP && resultCode == RESULT_OK) {
-            Toast.makeText(this, "Picture taken successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(R.string.photoToast), Toast.LENGTH_SHORT).show();
             uploadImage();
         }
         if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK) {
-            Toast.makeText(CameraIntentActivity.this, "Image selected, click on upload button", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CameraIntentActivity.this, getText(R.string.pictureToast), Toast.LENGTH_SHORT).show();
             selectedImage = data.getData();
             uploadImage();
         }
@@ -198,7 +198,7 @@ public class CameraIntentActivity extends Activity {
     public void uploadImage() {
         // Checking whether FilePathUri Is empty or not.
         if (selectedImage != null) {
-            progressDialog.setTitle("Image is Uploading...");
+            progressDialog.setTitle(getString(R.string.imageUploading));
             progressDialog.show();
             //create reference to images folder and assing a name to the file that will be uploaded
             imageRef = storageRef.child("images/" + selectedImage.getLastPathSegment());
@@ -209,7 +209,7 @@ public class CameraIntentActivity extends Activity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Image Uploaded Successfully ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.imageUploadFirebase), Toast.LENGTH_LONG).show();
                             @SuppressWarnings("VisibleForTests")
                             ImageCaterpillar imageUploadInfo = new ImageCaterpillar(taskSnapshot.getDownloadUrl().toString());
                             String ImageUploadId = databaseReference.push().getKey();
@@ -231,7 +231,7 @@ public class CameraIntentActivity extends Activity {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             // Setting progressDialog Title.
-                            progressDialog.setTitle("Image is Uploading...");
+                            progressDialog.setTitle(getString(R.string.imageUploading));
                         }
                     });
         }
