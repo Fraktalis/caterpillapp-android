@@ -17,7 +17,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:onClick="uploadPhoto"
-        android:text="Upload Photo" />
+        android:text="@string/uploadPhotoButton" />
     <Button
         android:id="@+id/photoButton"
         android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
         android:layout_marginEnd="33dp"
         android:layout_marginRight="33dp"
         android:onClick="takePhoto"
-        android:text="Take Photo" />
+        android:text="@string/takePhotoButton" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

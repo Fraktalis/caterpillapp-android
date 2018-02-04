@@ -159,13 +159,13 @@ public class HomeActivity extends AppCompatActivity {
         List<String> permissionsNeeded = new ArrayList<String>();
         final List<String> permissionsList = new ArrayList<String>();
         if (!addPermission(permissionsList, android.Manifest.permission.CAMERA))
-            permissionsNeeded.add("Camera");
+            permissionsNeeded.add(getString(R.string.cameraPermission));
         if (!addPermission(permissionsList, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
-            permissionsNeeded.add("Storage");
+            permissionsNeeded.add(getString(R.string.storagePermission));
         if (permissionsList.size() > 0) {
             if (permissionsNeeded.size() > 0) {
                 // Need Rationale
-                String message = "You need to grant access to " + permissionsNeeded.get(0);
+                String message = getString(R.string.messagePermission) + permissionsNeeded.get(0);
                 for (int i = 1; i < permissionsNeeded.size(); i++)
                     message = message + ", " + permissionsNeeded.get(i);
                 showMessageOKCancel(message,
