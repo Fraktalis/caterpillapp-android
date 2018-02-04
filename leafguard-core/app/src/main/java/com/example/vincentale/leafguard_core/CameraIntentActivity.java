@@ -1,5 +1,6 @@
 package com.example.vincentale.leafguard_core;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -47,6 +48,7 @@ import java.util.List;
 public class CameraIntentActivity extends Activity {
     // TODO : remettre les string dans le fichier
     private static final int ACTIVITY_START_CAMERA_APP = 1;
+    private static final int SELECT_PHOTO = 100;
     Uri selectedImage;
     ProgressDialog progressDialog;
     FirebaseStorage storage;
@@ -72,12 +74,20 @@ public class CameraIntentActivity extends Activity {
 
         //Permission
         final Button button = findViewById(R.id.photoButton);
+        final Button button2 = findViewById(R.id.selectImageButton);
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             button.setEnabled(false);
         } else {
             button.setEnabled(true);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            button2.setEnabled(false);
+        } else {
+            button2.setEnabled(true);
         }
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -87,7 +97,7 @@ public class CameraIntentActivity extends Activity {
         progressDialog.setMessage("Loading Images From Firebase.");
         progressDialog.show();
         //todo: Remplacer par le numero de l'arbre et de la chenille
-        databaseReference = FirebaseDatabase.getInstance().getReference("images").child("arbrenum").child("chenilleNum");
+        databaseReference = FirebaseDatabase.getInstance().getReference("images").child("arbrenum").child("chenilleNum2");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -102,6 +112,7 @@ public class CameraIntentActivity extends Activity {
                 progressDialog.dismiss();
                 if (adapter.getItemCount() >= 3) {
                     button.setEnabled(false);
+                    button2.setEnabled(false);
                 }
             }
 
@@ -147,9 +158,22 @@ public class CameraIntentActivity extends Activity {
             e.printStackTrace();
         }
     }
+
+    public void uploadPhoto(View view) {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        selectedImage = photoPickerIntent.getData();
+        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+    }
+
     protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         if(requestCode == ACTIVITY_START_CAMERA_APP && resultCode == RESULT_OK) {
             Toast.makeText(this, "Picture taken successfully", Toast.LENGTH_SHORT).show();
+            uploadImage();
+        }
+        if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK) {
+            Toast.makeText(CameraIntentActivity.this, "Image selected, click on upload button", Toast.LENGTH_SHORT).show();
+            selectedImage = data.getData();
             uploadImage();
         }
     }
