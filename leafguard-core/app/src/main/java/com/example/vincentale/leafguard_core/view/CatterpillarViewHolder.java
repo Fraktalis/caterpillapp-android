@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.vincentale.leafguard_core.CaterpillarListActivity;
 import com.example.vincentale.leafguard_core.CaterpillarViewActivity;
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.Caterpillar;
@@ -35,6 +36,7 @@ public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
         itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                CaterpillarListActivity.setLastKnownIndex(currentCaterpillar.getIndex());
                 Intent catterIntent= new Intent (context, CaterpillarViewActivity.class);
                 catterIntent.putExtra(CaterpillarViewActivity.CATERPILLAR_UID, currentCaterpillar.getUid());
                 catterIntent.putExtra(CaterpillarViewActivity.CATERPILLAR_INDEX, currentCaterpillar.getIndex());

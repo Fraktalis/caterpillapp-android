@@ -2,6 +2,7 @@ package com.example.vincentale.leafguard_core;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -33,6 +34,7 @@ import java.util.List;
 public class CaterpillarListActivity extends AppCompatActivity {
 
     private static final String TAG = "CatterpillarListAct";
+    private static int lastKnownIndex = -1;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private LinearLayout loadingLayout;
@@ -46,6 +48,10 @@ public class CaterpillarListActivity extends AppCompatActivity {
     private CaterpillarObservationManager caterpillarObservationManager = CaterpillarObservationManager.getInstance();
     private int editedCount = 0;
     private int observationIndex = -1;
+
+    public static void setLastKnownIndex(int newIndex) {
+        lastKnownIndex = newIndex;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +92,15 @@ public class CaterpillarListActivity extends AppCompatActivity {
                             layoutManager = new LinearLayoutManager(CaterpillarListActivity.this);
                             recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setHasFixedSize(true);
+                            Log.d(TAG, "onSuccess: lastKnownIndex = " + lastKnownIndex);
+                            if (lastKnownIndex > 0) {
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        recyclerView.smoothScrollToPosition(lastKnownIndex);
+                                    }
+                                }, 200);
+                            }
 
                             sendObservation= (FloatingActionButton) findViewById(R.id.sendObservation);
                             sendObservation.setVisibility(View.VISIBLE);
