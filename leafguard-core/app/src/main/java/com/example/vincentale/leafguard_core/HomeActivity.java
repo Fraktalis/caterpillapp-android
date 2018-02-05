@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -46,6 +45,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        givePermission();
         mUserManager = UserManager.getInstance();
         profileLoadingLayout = (LinearLayout) findViewById(R.id.profile_loading_layout);
         homeContentLayout = (LinearLayout) findViewById(R.id.home_content_layout);
@@ -121,19 +121,19 @@ public class HomeActivity extends AppCompatActivity {
                     });
                 }
 
-                Button camera2Button = (Button) findViewById(R.id.camera2Button);
-                camera2Button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        givePermission();
-                        if (ContextCompat.checkSelfPermission(HomeActivity.this,
-                                android.Manifest.permission.CAMERA)
-                                == PackageManager.PERMISSION_GRANTED) {
-                            Intent cameraIntent2 = new Intent(HomeActivity.this, CameraIntentActivity.class);
-                            startActivity(cameraIntent2);
-                        }
-                    }
-                });
+//                Button camera2Button = (Button) findViewById(R.id.camera2Button);
+//                camera2Button.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        givePermission();
+//                        if (ContextCompat.checkSelfPermission(HomeActivity.this,
+//                                android.Manifest.permission.CAMERA)
+//                                == PackageManager.PERMISSION_GRANTED) {
+//                            Intent cameraIntent2 = new Intent(HomeActivity.this, CameraIntentActivity.class);
+//                            startActivity(cameraIntent2);
+//                        }
+//                    }
+//                });
             }
 
             @Override
