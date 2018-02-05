@@ -68,9 +68,9 @@ public class CaterpillarListActivity extends AppCompatActivity {
                         public void onSuccess(List<Caterpillar> identifiables) {
                             HashMap<String, Caterpillar> catterpillarHashMap = (HashMap<String, Caterpillar>) CaterpillarManager.toHashMap(identifiables);
                             for (int i = 1; i <= 20; i++) {
-                                String currentKey = currentUser.getOak().getUid() + "_" + i;
+                                String currentKey = currentUser.getOak().getUid() + "_" + observationIndex + "_" + i;
                                 if (!catterpillarHashMap.containsKey(currentKey)) { // The caterpillar doesn't exist in Firebase. We need to create it
-                                    Caterpillar newCaterpillar = new Caterpillar(currentUser.getOak(), i);
+                                    Caterpillar newCaterpillar = new Caterpillar(currentUser.getOak(), observationIndex, i);
                                     catterpillarHashMap.put(currentKey, newCaterpillar);
                                     caterpillars.add(newCaterpillar);
                                 } else {

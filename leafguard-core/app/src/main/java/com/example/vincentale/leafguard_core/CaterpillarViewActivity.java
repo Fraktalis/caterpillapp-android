@@ -17,9 +17,12 @@ import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.firebase.database.DatabaseError;
 
-public class CatterpillarViewActivity extends AppCompatActivity {
+public class CaterpillarViewActivity extends AppCompatActivity {
 
     public static final String TAG = "CatterpillarViewActi";
+    public static final String CATERPILLAR_UID = "caterUID";
+    public static final String CATERPILLAR_INDEX = "caterIndex";
+    public static final String OBSERVATION_INDEX = "observationIndex";
 
     private CaterpillarManager caterpillarManager = CaterpillarManager.getInstance();
     private Caterpillar item;
@@ -56,8 +59,9 @@ public class CatterpillarViewActivity extends AppCompatActivity {
         woundLayout = (LinearLayout) findViewById(R.id.woundsLayout);
 
         Intent intent = getIntent();
-        final String catterUID = intent.getStringExtra("catterUID");
-        final int caterIndex = intent.getIntExtra("caterIndex", 0);
+        final String catterUID = intent.getStringExtra(CATERPILLAR_UID);
+        final int caterIndex = intent.getIntExtra(CATERPILLAR_INDEX, 0);
+        final int observationIndex = intent.getIntExtra(OBSERVATION_INDEX, -1);
         userManager.getUser(new DatabaseCallback<User>() {
             @Override
             public void onSuccess(User identifiable) {
@@ -66,7 +70,7 @@ public class CatterpillarViewActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Caterpillar identifiable) {
                         if (identifiable == null) {
-                            item = new Caterpillar(user.getOak(), caterIndex);
+                            item = new Caterpillar(user.getOak(), observationIndex, caterIndex);
                         } else {
                             item = identifiable;
                         }
@@ -91,7 +95,6 @@ public class CatterpillarViewActivity extends AppCompatActivity {
                         attackedByInsect.setChecked(item.isWoundByInsect());
                         attackedByMammals.setChecked(item.isWoundByMammal());
                         attackedByLizard.setChecked(item.isWoundByLizard());
-                        Log.d("isWoundByMammal", Boolean.toString(item.isWoundByMammal()));
 
                         attackedByOther.setChecked(item.isWoundByOther());
                         validate.setOnClickListener(new View.OnClickListener() {
