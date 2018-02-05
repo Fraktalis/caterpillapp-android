@@ -2,11 +2,27 @@ package com.example.vincentale.leafguard_core.model;
 
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
 /**
  * Created by vincentale on 06/12/17.
  */
 
 public class Oak implements Identifiable{
+
+    private String uid;
+
+    private float longitude;
+
+    private float latitude;
+
+    private float oakCircumference;
+
+    private float oakHeight;
+
+    private long installationDate;
+
+    private List<Caterpillar> caterpillars;
 
     private Oak() {
 
@@ -26,18 +42,6 @@ public class Oak implements Identifiable{
         setOakHeight(oak.getOakHeight());
         setInstallationDate(oak.getInstallationDate());
     }
-
-    private String uid;
-
-    private float longitude;
-
-    private float latitude;
-
-    private float oakCircumference;
-
-    private float oakHeight;
-
-    private long installationDate;
 
     public String getUid() {
         return uid;

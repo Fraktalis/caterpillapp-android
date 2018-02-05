@@ -43,8 +43,8 @@
             android:label="@string/title_activity_profil_form"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".OakActivity" />
-        <activity android:name=".CatterpillarListActivity"></activity>
-        <activity android:name=".CatterpillarViewActivity"></activity>
+        <activity android:name=".CaterpillarListActivity"></activity>
+        <activity android:name=".CaterpillarViewActivity"></activity>
         <activity
             android:name=".AdminActivity"
             android:label="@string/title_activity_admin"

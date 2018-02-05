@@ -1,11 +1,20 @@
 package com.example.vincentale.leafguard_core.model;
 
+import android.util.Log;
+
+import com.example.vincentale.leafguard_core.util.StringHelper;
 import com.google.firebase.database.Exclude;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class User implements Identifiable {
     public static final int ROLE_USER = 0;
     public static final int ROLE_ADMIN = 1;
 
+    private String observationUids;
+    private Set<String> observationUidSet = new HashSet<>();
     private String uid;
     private String name;
     private String surname;
@@ -29,14 +38,15 @@ public class User implements Identifiable {
         this.role = u.getRole();
         this.oakId = u.getOakId();
         this.oak = u.getOak();
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
+        setObservationUids(u.getObservationUids());
     }
 
     public String getUid() {
         return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {
@@ -113,6 +123,31 @@ public class User implements Identifiable {
                 ", role=" + role +
                 ", oakId=" + oakId +
                 ", oak=" + oak +
+                ", observationUids=" + observationUids +
                 '}';
+    }
+
+    public void addObservation(String observationUid) {
+        observationUidSet.add(observationUid);
+    }
+
+    public boolean hasObservation(String observationUid) {
+        return observationUidSet.contains(observationUid);
+    }
+
+    public Set<String> getObservationUidSet() {
+        return observationUidSet;
+    }
+
+    public String getObservationUids() {
+        return observationUidSet.toString();
+    }
+
+    public void setObservationUids(String observationUids) {
+        this.observationUids = observationUids;
+        for (String s : StringHelper.parse(observationUids)) {
+            Log.d("USER", "setObservationUids: " + s);
+            addObservation(s);
+        }
     }
 }

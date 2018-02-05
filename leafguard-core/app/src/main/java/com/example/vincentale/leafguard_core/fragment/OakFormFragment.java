@@ -9,8 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -32,9 +30,9 @@ import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.Oak;
-import com.example.vincentale.leafguard_core.model.OakManager;
+import com.example.vincentale.leafguard_core.model.manager.OakManager;
 import com.example.vincentale.leafguard_core.model.User;
-import com.example.vincentale.leafguard_core.model.UserManager;
+import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.example.vincentale.leafguard_core.util.LocationHelper;
 import com.google.firebase.database.DatabaseError;
@@ -55,23 +53,21 @@ import java.util.Locale;
 public class OakFormFragment extends Fragment {
     public static final String TAG = "OakFormfragment";
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-
+    DatePickerDialog.OnDateSetListener date;
+    LocationHelper locationHelper;
     private Calendar myCalendar = Calendar.getInstance();
     private EditText longitudeEditText;
     private EditText latitudeEditText;
     private EditText oakCircumferenceEditText;
     private EditText oakHeightEditText;
-
     private EditText datePickerInput;
     private long installationDate;
-
     private Button validateButton;
     private ImageButton locationImageButton;
     private Button cancelLocationButton;
     private LinearLayout geolocationProgressLayout;
     private LinearLayout geolocationContentLayout;
     private ProgressBar geolocationProgressBar;
-
     private FirebaseDatabase firebaseDatabase;
     private OakManager oakManager;
     private UserManager userManager;
@@ -79,14 +75,7 @@ public class OakFormFragment extends Fragment {
     private String oakUid;
     private Oak oak;
     private Oak oakSave;
-
     private Activity activityContext;
-
-    DatePickerDialog.OnDateSetListener date;
-
-    LocationHelper locationHelper;
-
-
     private OnFragmentInteractionListener mListener;
 
     public OakFormFragment() {
@@ -266,21 +255,6 @@ public class OakFormFragment extends Fragment {
         datePickerInput.setText(sdf.format(myCalendar.getTime()));
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
     public void editOak(final View fragmentView) {
         oakManager.find(oakUid, new DatabaseCallback<Oak>() {
             @Override
@@ -345,16 +319,16 @@ public class OakFormFragment extends Fragment {
                         oak.setOakHeight(oakHeight);
                         oak.setInstallationDate(installationDate);
 
-                        oakManager.update(oak);
+                        oakManager.update(oak, null);
                         user.setOak(oak);
-                        userManager.update(user);
+                        userManager.update(user, null);
                         Snackbar mySnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_oak_form_layout),
                                 R.string.oak_saved, Snackbar.LENGTH_SHORT);
                         mySnackbar.setAction(R.string.undo_action, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 oak = new Oak(oakSave);
-                                oakManager.update(oak);
+                                oakManager.update(oak, null);
                             }
                         });
                         mySnackbar.show();
@@ -421,9 +395,9 @@ public class OakFormFragment extends Fragment {
                 oak.setOakHeight(oakHeight);
                 oak.setInstallationDate(installationDate);
 
-                oakManager.update(oak);
+                oakManager.update(oak, null);
                 user.setOak(oak);
-                userManager.update(user);
+                userManager.update(user, null);
                 Snackbar mySnackbar = Snackbar.make(fragmentView.findViewById(R.id.fragment_oak_form_layout),
                         R.string.oak_saved, Snackbar.LENGTH_SHORT);
                 mySnackbar.show();
@@ -460,5 +434,20 @@ public class OakFormFragment extends Fragment {
                 }
             }
         });
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 }

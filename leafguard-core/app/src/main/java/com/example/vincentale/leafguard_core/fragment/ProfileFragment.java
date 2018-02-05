@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.User;
-import com.example.vincentale.leafguard_core.model.UserManager;
+import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.firebase.database.DatabaseError;
 

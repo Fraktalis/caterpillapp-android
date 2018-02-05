@@ -1,9 +1,15 @@
-package com.example.vincentale.leafguard_core.model;
+package com.example.vincentale.leafguard_core.model.manager;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.vincentale.leafguard_core.model.Oak;
+import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
+import com.example.vincentale.leafguard_core.util.OnUpdateCallback;
+import com.example.vincentale.leafguard_core.util.StringHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -16,19 +22,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UserManager implements Manager<User> {
     public final static String TAG = "UserManager";
-    public final static String USER_NAME = "users";
-    public final static String[] fieldsMapping = {"name", "surname", "email", "oakId", "role"};
-
-    private FirebaseAuth firebaseAuth;
+    public final static String NODE_NAME = "users";
+    public final static String[] fieldsMapping = {"name", "surname", "email", "oakId", "role", "observationUids"};
     private static FirebaseUser firebaseUser;
-
-    private FirebaseDatabase firebaseDatabase;
-
     private static User user;
     private static UserManager userManager;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase firebaseDatabase;
     private OakManager oakManager;
 
 
@@ -38,6 +42,22 @@ public class UserManager implements Manager<User> {
         oakManager = OakManager.getInstance();
     }
 
+    /**
+     *
+     * @return a singleton instance of {@link UserManager}
+     */
+    public static UserManager getInstance() {
+        if (userManager == null) {
+            userManager = new UserManager();
+        }
+
+        return userManager;
+    }
+
+    /**
+     * Method to retrieve the main user of the application as a singleton.
+     * @param callback
+     */
     public void getUser(final DatabaseCallback<User> callback) {
         if (user != null) {
             callback.onSuccess(user);
@@ -47,7 +67,7 @@ public class UserManager implements Manager<User> {
         if (user == null) {
             firebaseAuth = FirebaseAuth.getInstance();
             firebaseUser = firebaseAuth.getCurrentUser();
-            Query users = dbRef.child(USER_NAME).child(firebaseUser.getUid());
+            Query users = dbRef.child(NODE_NAME).child(firebaseUser.getUid());
             users.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -73,6 +93,7 @@ public class UserManager implements Manager<User> {
                             }
                         });
                     }
+                    Log.d(TAG, "onDataChange: " + user);
                     callback.onSuccess(user);
                 }
 
@@ -89,18 +110,6 @@ public class UserManager implements Manager<User> {
     }
 
     /**
-     *
-     * @return a singleton instance of {@link UserManager}
-     */
-    public static UserManager getInstance() {
-        if (userManager == null) {
-            userManager = new UserManager();
-        }
-
-        return userManager;
-    }
-
-    /**
      * Wrapper method to sign out from firebase Auth and clear user cache
      */
     public void signOut() {
@@ -109,29 +118,35 @@ public class UserManager implements Manager<User> {
     }
 
     @Override
-    public void update(@NonNull User object) {
+    public void update(@NonNull User object, @Nullable final OnUpdateCallback updateCallback) {
         firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference oakRef = firebaseDatabase.getReference().child(USER_NAME).child(object.getUid());
+        DatabaseReference userRef = firebaseDatabase.getReference().child(NODE_NAME).child(object.getUid());
         try {
             for (String field :
                     fieldsMapping) {
-                String getterName = "get" + capitalize(field);
+                String getterName;
+                if (User.class.getDeclaredField(field).getType().equals(boolean.class)) {
+                    getterName = "is" + StringHelper.capitalize(field);
+                } else {
+                    getterName = "get" + StringHelper.capitalize(field);
+                }
                 Method getter = User.class.getMethod(getterName);
                 Object res = getter.invoke(object);
                 if (res != null && res instanceof Oak) { //if res is an Oak, we only want it's UID
                     Log.d(TAG, "Res is an Oak");
-                    oakRef.child(field).setValue(((Oak) res).getUid());
+                    userRef.child(field).setValue(((Oak) res).getUid());
                 } else {
-                    oakRef.child(field).setValue(res);
+                    userRef.child(field).setValue(res);
                 }
             }
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            userRef.child("observationUids").setValue(Arrays.toString(user.getObservationUidSet().toArray()));
+        } catch (Exception e) {
+            Log.e(TAG, "update:", e);
+            if (updateCallback != null)
+                updateCallback.onError(e);
         }
+        if (updateCallback != null)
+            updateCallback.onSuccess();
     }
 
     @Override
@@ -140,17 +155,14 @@ public class UserManager implements Manager<User> {
     }
 
     @Override
-    public User find(String uid, DatabaseCallback<User> callback) {
+    public void find(String uid, DatabaseCallback<User> callback) {
 
-        return null;
+
     }
 
     @Override
-    public ArrayList<User> findAll() {
-        return null;
+    public void findAll(DatabaseListCallback<User> listCallback) {
     }
 
-    private String capitalize(final String line) {
-        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
-    }
+
 }

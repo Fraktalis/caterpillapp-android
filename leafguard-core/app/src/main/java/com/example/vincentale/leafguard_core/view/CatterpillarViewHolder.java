@@ -3,17 +3,15 @@ package com.example.vincentale.leafguard_core.view;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import com.example.vincentale.leafguard_core.CatterpillarListActivity;
-import com.example.vincentale.leafguard_core.CatterpillarViewActivity;
+import com.example.vincentale.leafguard_core.CaterpillarListActivity;
+import com.example.vincentale.leafguard_core.CaterpillarViewActivity;
 import com.example.vincentale.leafguard_core.R;
-import com.example.vincentale.leafguard_core.model.Catterpillar;
-
-import static android.support.v4.content.ContextCompat.startActivity;
+import com.example.vincentale.leafguard_core.model.Caterpillar;
 
 /**
  * Created by mathilde on 08/01/18.
@@ -21,60 +19,54 @@ import static android.support.v4.content.ContextCompat.startActivity;
 
 public class CatterpillarViewHolder extends RecyclerView.ViewHolder{
 
-    public Catterpillar curentCatterpillar;
-    private TextView iD;
+    private static final String TAG = "CaterpillarViewHolder";
+    public Caterpillar currentCaterpillar;
+    private Context context;
+    private TextView catterName;
     private ImageView feedBackIcon;
 
     //private
     //itemView est la vue correspondante à 1 cellule
     public CatterpillarViewHolder(View itemView, final Context context) {
         super(itemView);
-
-        iD = (TextView) itemView.findViewById(R.id.catterpillarName);
-
-       // Name=(TextView) itemView.findViewById(R.id.nameofcattarpillar);
-
+        this.context = context;
+        catterName = (TextView) itemView.findViewById(R.id.catterpillarName);
         feedBackIcon= (ImageView) itemView.findViewById(R.id.checkImage);
-
 
         itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent catterIntent= new Intent (context, CatterpillarViewActivity.class);
-
-                catterIntent.putExtra("catteriD", iD.getText());
-
+                CaterpillarListActivity.setLastKnownIndex(currentCaterpillar.getIndex());
+                Intent catterIntent= new Intent (context, CaterpillarViewActivity.class);
+                catterIntent.putExtra(CaterpillarViewActivity.CATERPILLAR_UID, currentCaterpillar.getUid());
+                catterIntent.putExtra(CaterpillarViewActivity.CATERPILLAR_INDEX, currentCaterpillar.getIndex());
+                catterIntent.putExtra(CaterpillarViewActivity.OBSERVATION_INDEX, currentCaterpillar.getObservationIndex());
                 context.startActivity(catterIntent);
-
             }
         });
     }
 
 
-    public void bind(Catterpillar myObject){
+    public void bind(Caterpillar myObject){
 
-        CharSequence text= iD.getText();
-        iD.setText(myObject.getiD());
-        //Name.setText("Catterpillar");
+        Log.d(TAG, "bind: "+ myObject.toString());
+        catterName.setText(context.getResources().getString(R.string.catterpillar_with_number, myObject.getIndex()));
 
         if(myObject.isEdited()){
             feedBackIcon.setVisibility(View.VISIBLE);
         }else{
             feedBackIcon.setVisibility(View.INVISIBLE);
         }
-
-        //int wound = myObject.getWounds();
-
     }
 
-    public void setCurrentItem(Catterpillar curentCatterpillar) {
-        this.curentCatterpillar = curentCatterpillar;
+    public void setCurrentItem(Caterpillar curentCaterpillar) {
+        this.currentCaterpillar = curentCaterpillar;
     }
 
 
 
     public void updateFeedbackIcon(){
-        if(curentCatterpillar.isEdited()){
+        if(currentCaterpillar.isEdited()){
             feedBackIcon.setVisibility(View.VISIBLE);
         }else{
             feedBackIcon.setVisibility(View.INVISIBLE);

@@ -7,27 +7,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.OakActivity;
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.fragment.OakFragment;
-import com.example.vincentale.leafguard_core.model.Identifiable;
 import com.example.vincentale.leafguard_core.model.Oak;
 import com.example.vincentale.leafguard_core.model.User;
-import com.example.vincentale.leafguard_core.model.UserManager;
+import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.firebase.database.DatabaseError;
 
 public class OakViewHolder extends RecyclerView.ViewHolder {
 
+    public static Context context;
     public View currentView;
     public Oak currentItem;
     private TextView oakNameText;
     private ImageView checkImage;
     private UserManager userManager;
     private User user;
-    public static Context context;
 
     public OakViewHolder(View itemView, final Context context) {
         super(itemView);
