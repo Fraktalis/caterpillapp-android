@@ -55,6 +55,5 @@
                 android:value="com.example.vincentale.leafguard_core.HomeActivity" />
         </activity>
         <activity android:name=".ForgotPasswordActivity"></activity>
-        <activity android:name=".CameraIntentActivity" />
     </application>
 </manifest>
