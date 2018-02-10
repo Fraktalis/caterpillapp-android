@@ -136,6 +136,9 @@ exports.assertUpload = functions.storage.object().onChange( function (event) {
     });
 });
 
+/**
+* Cleanse of users that never logged in
+*/
 exports.cleanseUsers = functions.https.onRequest(function (req, res) {
     var pageToken;
     return admin.auth().listUsers(1000)
@@ -155,6 +158,15 @@ exports.cleanseUsers = functions.https.onRequest(function (req, res) {
             return Promise.all(usersToDeletePromises);
         });
     });
+
+exports.exportObservations = functions.https.onRequest(function (req, res) {
+    var ref = admin.database().ref("/caterpillar_observations");
+    return ref.once('value', function (snapshot) {
+        snapshot.forEach(function (child) {
+            console.log(child.key + " : " + child.val());
+        });
+    });
+});
 
 
 function array_combine (keys, values) { // eslint-disable-line camelcase

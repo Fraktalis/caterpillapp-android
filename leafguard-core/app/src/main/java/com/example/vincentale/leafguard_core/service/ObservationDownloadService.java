@@ -1,9 +1,11 @@
 package com.example.vincentale.leafguard_core.service;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
@@ -12,6 +14,7 @@ import com.example.vincentale.leafguard_core.fragment.admin.AdminObservationFrag
 
 public class ObservationDownloadService extends Service {
 
+    private Handler handler;
     private NotificationManager notificationManager;
     private int NOTIFICATION = R.string.download_service_started;
 
@@ -22,6 +25,7 @@ public class ObservationDownloadService extends Service {
     public void onCreate() {
         super.onCreate();
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        handler = new Handler();
     }
 
     @Override
@@ -30,11 +34,30 @@ public class ObservationDownloadService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public void showNotification() {
+    public Notification showNotification() {
         NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(this, "CHANNEL_ID")
                 .setSmallIcon(R.drawable.ic_nature)
                 .setContentTitle("My notification")
                 .setContentText("content of notification");
+        Notification notification = notifBuilder.build();
+        notificationManager.notify(NOTIFICATION, notification);
+
+        return notification;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Notification notif = showNotification();
+        final Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                notificationManager.cancel(NOTIFICATION);
+                ObservationDownloadService.this.stopSelf();
+            }
+        };
+
+        handler.postDelayed(r, 5000);
+        return super.onStartCommand(intent, flags, startId);
     }
 
     public class DownloadBinder extends Binder {
@@ -42,4 +65,6 @@ public class ObservationDownloadService extends Service {
             return ObservationDownloadService.this;
         }
     }
+
+
 }
