@@ -160,11 +160,25 @@ exports.cleanseUsers = functions.https.onRequest(function (req, res) {
     });
 
 exports.exportObservations = functions.https.onRequest(function (req, res) {
+    var observationList = [];
     var ref = admin.database().ref("/caterpillar_observations");
     return ref.once('value', function (snapshot) {
-        snapshot.forEach(function (child) {
-            console.log(child.key + " : " + child.val());
+        var key = snapshot.key;
+        var splitKey = key.split("_");
+        var observation = {};
+        observation.userId = splitKey[0];
+        observation.longitude = parseFloat(splitKey[1])/100;
+        observation.latitude = parseFloat(splitKey[2])/100;
+        snapshot.forEach(function (indexedObservation) {
+            indexedObservation.forEach(function (observationData) {
+                console.log(observationData);
+            });
         });
+    }).then(function () {
+        res.send(0);
+    }).catch(function (err) {
+        console.log(err);
+        res.send(-1);
     });
 });
 
