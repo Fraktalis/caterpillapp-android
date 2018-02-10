@@ -3,7 +3,7 @@
     package="com.example.vincentale.leafguard_core">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -26,10 +26,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
         <activity android:name=".HomeActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -43,8 +45,8 @@
             android:label="@string/title_activity_profil_form"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".OakActivity" />
-        <activity android:name=".CaterpillarListActivity"></activity>
-        <activity android:name=".CaterpillarViewActivity"></activity>
+        <activity android:name=".CaterpillarListActivity" />
+        <activity android:name=".CaterpillarViewActivity" />
         <activity
             android:name=".AdminActivity"
             android:label="@string/title_activity_admin"
@@ -54,7 +56,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.vincentale.leafguard_core.HomeActivity" />
         </activity>
-        <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".CameraIntentActivity" />
+
+        <service
+            android:name=".service.ObservationDownloadService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
+
 </manifest>

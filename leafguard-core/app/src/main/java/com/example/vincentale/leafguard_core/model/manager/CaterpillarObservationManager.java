@@ -43,7 +43,7 @@ public class CaterpillarObservationManager implements Manager<CaterpillarObserva
 
     @Override
     public void update(@NonNull CaterpillarObservation object, @Nullable final OnUpdateCallback updateCallback) {
-        DatabaseReference observationRef = firebaseDatabase.getReference().child(NODE_NAME).child(object.getUid());
+        DatabaseReference observationRef = firebaseDatabase.getReference().child(NODE_NAME).child(object.getUid()).child(String.valueOf(object.getObservationIndex()));
         try {
             for (String field :
                     fieldsMapping) {

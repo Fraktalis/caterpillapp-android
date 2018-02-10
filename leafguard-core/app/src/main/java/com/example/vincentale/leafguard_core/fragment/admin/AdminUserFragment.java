@@ -38,10 +38,10 @@ import java.io.File;
 
 @SuppressWarnings("VisibleForTests")
 public class AdminUserFragment extends Fragment {
+    public static final String LABEL = "Users";
     private static final int FILE_SELECT_CODE = 0;
     private static final int MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 2;
     private static final String TAG = "AdminUserFragment";
-
     private Button browseFileButton;
     private EditText browseFileEditText;
     private LinearLayout adminUserProgressLayout;
@@ -192,21 +192,6 @@ public class AdminUserFragment extends Fragment {
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
-    /**
      * Utility function to have the the name of a file by its URI
      * @param uri
      * @return
@@ -231,5 +216,20 @@ public class AdminUserFragment extends Fragment {
             }
         }
         return result;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 }

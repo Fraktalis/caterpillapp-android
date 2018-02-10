@@ -23,13 +23,15 @@ public class CaterpillarObservation extends AbstractObservation {
     private int mammalPredationMarks = 0;
     private int lizardPredationMarks = 0;
 
+    private int observationIndex = 0;
 
     public CaterpillarObservation(Oak referedOak, int observationIndex) {
         super();
         if (observationIndex <= 0 || observationIndex > OBSERVATION_LIMIT) {
             throw new IllegalArgumentException("observationIndex is not valid. Expected between 0 and " + OBSERVATION_LIMIT + ", got : " + observationIndex);
         }
-        this.uid = referedOak.getUid() + "_" + observationIndex;
+        this.uid = referedOak.getUid();
+        this.observationIndex = observationIndex;
         this.caterpillars = new ArrayList<>(Caterpillar.INDEX_LIMIT);
     }
 
@@ -97,5 +99,8 @@ public class CaterpillarObservation extends AbstractObservation {
         return this;
     }
 
+    public int getObservationIndex() {
+        return observationIndex;
+    }
 
 }
