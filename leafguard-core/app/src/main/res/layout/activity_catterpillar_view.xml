@@ -113,13 +113,17 @@
                     android:onClick="takePhoto"
                     android:text="@string/takePhotoButton" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@id/photoButton"
-                    android:layout_weight="1" />
             </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="1" />
+
             <Button
                 android:id="@+id/validateCatterpillarButton"
                 style="@style/Widget.AppCompat.Button.Colored"
