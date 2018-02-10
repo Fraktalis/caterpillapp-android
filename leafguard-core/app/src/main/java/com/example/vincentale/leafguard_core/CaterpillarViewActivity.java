@@ -1,13 +1,11 @@
 package com.example.vincentale.leafguard_core;
 
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -16,10 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -76,19 +72,18 @@ public class CaterpillarViewActivity extends AppCompatActivity {
     private CheckBox attackedByLizard;
     private CheckBox attackedByOther;
     private Button photoButton;
-    private Button selectImgaeButton;
+    private Button selectImageButton;
     private Button validate;
 
     private Uri selectedImage;
     private ProgressDialog progressDialog;
-    private FirebaseStorage storage;
     private StorageReference storageRef, imageRef;
     private DatabaseReference databaseReference;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<ImageCaterpillar> list = new ArrayList<>();
     private String mImageFileLocation = "";
-    private String GALLERY_LOCATION = "image gallery";
+    private String GALLERY_LOCATION = "caterpillapp";
     private File mGalleryFolder;
     private File photoFile = null;
 
@@ -100,11 +95,10 @@ public class CaterpillarViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catterpillar_view);
-        storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReference();
+        storageRef = FirebaseStorage.getInstance().getReference();
         imageRef = storageRef.child("images");
         photoButton = (Button) findViewById(R.id.photoButton);
-        selectImgaeButton = (Button) findViewById(R.id.selectImageButton);
+        selectImageButton = (Button) findViewById(R.id.selectImageButton);
         catterpillarName = (TextView) findViewById(R.id.catterpillarName);
         isMissing = (CheckBox) findViewById(R.id.isMissing);
         attackedByBird = (CheckBox) findViewById(R.id.attackedByBirds);
@@ -115,7 +109,7 @@ public class CaterpillarViewActivity extends AppCompatActivity {
         validate = (Button) findViewById(R.id.validateCatterpillarButton);
         woundLayout = (LinearLayout) findViewById(R.id.woundsLayout);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        createImageGallery();
+        //createImageGallery();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(CaterpillarViewActivity.this));
         Intent intent = getIntent();
@@ -127,14 +121,14 @@ public class CaterpillarViewActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
             photoButton.setEnabled(false);
         } else {
-            selectImgaeButton.setEnabled(true);
+            selectImageButton.setEnabled(true);
         }
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             photoButton.setEnabled(false);
         } else {
-            selectImgaeButton.setEnabled(true);
+            selectImageButton.setEnabled(true);
         }
         userManager.getUser(new DatabaseCallback<User>() {
             @Override
@@ -201,7 +195,7 @@ public class CaterpillarViewActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                                 if (adapter.getItemCount() >= 3) {
                                     photoButton.setEnabled(false);
-                                    selectImgaeButton.setEnabled(false);
+                                    selectImageButton.setEnabled(false);
                                 }
                             }
 
@@ -225,12 +219,12 @@ public class CaterpillarViewActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_camera_intent, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_camera_intent, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -246,14 +240,15 @@ public class CaterpillarViewActivity extends AppCompatActivity {
     }
 
     public void takePhoto(View view) {
-        Intent callCameraApplicationIntent = new Intent();
-        callCameraApplicationIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-        try {
-            photoFile = createImageFile();
-            callCameraApplicationIntent.putExtra(MediaStore.EXTRA_OUTPUT, defineUriFromFile(photoFile));
-            startActivityForResult(callCameraApplicationIntent, ACTIVITY_START_CAMERA_APP);
-        } catch (IOException e) {
-            e.printStackTrace();
+        Intent callCameraApplicationIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (callCameraApplicationIntent.resolveActivity(getPackageManager()) != null) {
+            try {
+                photoFile = createImageFile();
+                callCameraApplicationIntent.putExtra(MediaStore.EXTRA_OUTPUT, defineUriFromFile(photoFile));
+                startActivityForResult(callCameraApplicationIntent, ACTIVITY_START_CAMERA_APP);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -276,18 +271,19 @@ public class CaterpillarViewActivity extends AppCompatActivity {
         }
     }
 
-    private void createImageGallery() {
-        File storageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        mGalleryFolder = new File(storageDirectory, GALLERY_LOCATION);
-        if (!mGalleryFolder.exists()) {
-            mGalleryFolder.mkdirs();
-        }
-    }
+//    private void createImageGallery() {
+//       // File storageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//        File storageDirectory = getApplicationContext().getDir(GALLERY_LOCATION, Context.MODE_PRIVATE);
+//        mGalleryFolder = new File(storageDirectory, GALLERY_LOCATION);
+//        if (!mGalleryFolder.exists()) {
+//            mGalleryFolder.mkdirs();
+//        }
+//    }
 
     File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "IMAGE_" + timeStamp + "_";
-        File image = File.createTempFile(imageFileName, ".jpg", mGalleryFolder);
+        File image = File.createTempFile(imageFileName, ".jpg", this.getFilesDir());
         mImageFileLocation = image.getAbsolutePath();
         selectedImage = defineUriFromFile(image);
         return image;
@@ -310,9 +306,9 @@ public class CaterpillarViewActivity extends AppCompatActivity {
                             ImageCaterpillar imageUploadInfo = new ImageCaterpillar(taskSnapshot.getDownloadUrl().toString());
                             String ImageUploadId = databaseReference.push().getKey();
                             databaseReference.child(ImageUploadId).setValue(imageUploadInfo);
-                            if (requestCode == ACTIVITY_START_CAMERA_APP) {
-                                photoFile.delete();
-                            }
+//                            if (requestCode == ACTIVITY_START_CAMERA_APP) {
+//                                photoFile.delete();
+//                            }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -343,12 +339,5 @@ public class CaterpillarViewActivity extends AppCompatActivity {
         } else {
             return Uri.fromFile(file);
         }
-    }
-
-    // Creating Method to get the selected image file Extension from File Path URI.
-    public String GetFileExtension(Uri uri) {
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 }
