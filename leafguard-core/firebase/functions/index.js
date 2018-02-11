@@ -4,6 +4,8 @@ const nodemailer = require('nodemailer');           // Used to send email via SM
 const gcs = require('@google-cloud/storage')();     // Service to handle google firebase cloud storage
 const generator = require('generate-password');     // A password generator
 const parse = require('csv-parse/lib/sync');          // A CSV parser library
+const stringify  =require('csv-stringify');
+const moment = require("moment");
 const admin = require('firebase-admin');            // The Firebase Admin SDK to access the Firebase Realtime Database.
 const APP_NAME = 'Leafguard'
 
@@ -127,7 +129,7 @@ exports.assertUpload = functions.storage.object().onChange( function (event) {
     .catch(function (err) {
         console.log('A promise failed to resolve', err);
     })
-    .then(function (whatever) {
+    .then(function () {
         console.log("Saving report...");
         return admin.database().ref('/reports').child(+ new Date()).set(finalReport);
     })
@@ -159,7 +161,13 @@ exports.cleanseUsers = functions.https.onRequest(function (req, res) {
         });
     });
 
+
+
+/**
+* Function to generate a csv representation of observations in database
+*/
 exports.exportObservations = functions.https.onRequest(function (req, res) {
+    var observationRef = admin.storage().bucket("observations/observations.csv");
     var observationList = [];
     var ref = admin.database().ref("/caterpillar_observations");
     return ref.once('value', function (snapshot) {
@@ -171,15 +179,11 @@ exports.exportObservations = functions.https.onRequest(function (req, res) {
         observation.latitude = parseFloat(splitKey[2])/100;
         snapshot.forEach(function (indexedObservation) {
             indexedObservation.forEach(function (observationData) {
-                console.log(observationData);
+                observationList.push(observationData);
             });
         });
-    }).then(function () {
-        res.send(0);
-    }).catch(function (err) {
-        console.log(err);
-        res.send(-1);
-    });
+        return observationList;
+    })
 });
 
 
