@@ -1,19 +1,19 @@
 package com.example.vincentale.leafguard_core;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -47,6 +47,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.ipaulpro.afilechooser.utils.FileUtils.getPath;
 
 public class CaterpillarViewActivity extends AppCompatActivity {
 
@@ -181,7 +183,7 @@ public class CaterpillarViewActivity extends AppCompatActivity {
                         progressDialog = new ProgressDialog(CaterpillarViewActivity.this);
                         progressDialog.setMessage(getString(R.string.loadingFirebase));
                         progressDialog.show();
-                        databaseReference = FirebaseDatabase.getInstance().getReference("images").child(user.getOakId()).child(item.getIndex() + "");
+                        databaseReference = FirebaseDatabase.getInstance().getReference("images").child(user.getOakId()).child(item.getObservationIndex() + "").child(item.getIndex() + "");
                         databaseReference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot snapshot) {
@@ -219,12 +221,12 @@ public class CaterpillarViewActivity extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_camera_intent, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_camera_intent, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -243,13 +245,28 @@ public class CaterpillarViewActivity extends AppCompatActivity {
         Intent callCameraApplicationIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (callCameraApplicationIntent.resolveActivity(getPackageManager()) != null) {
             try {
-                photoFile = createImageFile();
-                callCameraApplicationIntent.putExtra(MediaStore.EXTRA_OUTPUT, defineUriFromFile(photoFile));
+                createImageFile();
+                callCameraApplicationIntent.putExtra(MediaStore.EXTRA_OUTPUT, selectedImage);
                 startActivityForResult(callCameraApplicationIntent, ACTIVITY_START_CAMERA_APP);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
+    }
+
+
+    public void createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "IMAGE_" + timeStamp + "_";
+//        File image = File.createTempFile(imageFileName, ".jpg", this.getFilesDir());
+//        mImageFileLocation = image.getAbsolutePath();
+//        selectedImage = defineUriFromFile(image);
+
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, imageFileName);
+        selectedImage = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
     }
 
     public void uploadPhoto(View view) {
@@ -262,6 +279,7 @@ public class CaterpillarViewActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ACTIVITY_START_CAMERA_APP && resultCode == RESULT_OK) {
             Toast.makeText(this, getText(R.string.photoToast), Toast.LENGTH_SHORT).show();
+            mImageFileLocation = getPath(CaterpillarViewActivity.this, selectedImage);
             uploadImage(ACTIVITY_START_CAMERA_APP);
         }
         if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK) {
@@ -271,25 +289,7 @@ public class CaterpillarViewActivity extends AppCompatActivity {
         }
     }
 
-//    private void createImageGallery() {
-//       // File storageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//        File storageDirectory = getApplicationContext().getDir(GALLERY_LOCATION, Context.MODE_PRIVATE);
-//        mGalleryFolder = new File(storageDirectory, GALLERY_LOCATION);
-//        if (!mGalleryFolder.exists()) {
-//            mGalleryFolder.mkdirs();
-//        }
-//    }
-
-    File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "IMAGE_" + timeStamp + "_";
-        File image = File.createTempFile(imageFileName, ".jpg", this.getFilesDir());
-        mImageFileLocation = image.getAbsolutePath();
-        selectedImage = defineUriFromFile(image);
-        return image;
-    }
-
-    public void uploadImage(final int requestCode) {
+    public void uploadImage(int requestCode) {
         // Checking whether FilePathUri Is empty or not.
         if (selectedImage != null) {
             progressDialog.setTitle(getString(R.string.imageUploading));
@@ -328,16 +328,6 @@ public class CaterpillarViewActivity extends AppCompatActivity {
                             progressDialog.setTitle(getString(R.string.imageUploading));
                         }
                     });
-        }
-    }
-
-    private Uri defineUriFromFile(File file) {
-        if (Build.VERSION.SDK_INT >= 24) {
-            return FileProvider.getUriForFile(CaterpillarViewActivity.this,
-                    BuildConfig.APPLICATION_ID + ".provider",
-                    file);
-        } else {
-            return Uri.fromFile(file);
         }
     }
 }

@@ -192,8 +192,6 @@ public class CaterpillarListActivity extends AppCompatActivity {
             permissionsNeeded.add(getString(R.string.cameraPermission));
         if (!addPermission(permissionsList, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
             permissionsNeeded.add(getString(R.string.storagePermission));
-        if (!addPermission(permissionsList, android.Manifest.permission.READ_EXTERNAL_STORAGE))
-            permissionsNeeded.add(getString(R.string.storagePermission));
         if (permissionsList.size() > 0) {
             if (permissionsNeeded.size() > 0) {
                 // Need Rationale
