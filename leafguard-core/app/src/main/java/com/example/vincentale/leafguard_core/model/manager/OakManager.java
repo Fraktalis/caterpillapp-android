@@ -9,6 +9,7 @@ import com.example.vincentale.leafguard_core.model.Oak;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
 import com.example.vincentale.leafguard_core.util.OnUpdateCallback;
+import com.example.vincentale.leafguard_core.util.ReflectionHelper;
 import com.example.vincentale.leafguard_core.util.StringHelper;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,16 +50,8 @@ public class OakManager implements Manager<Oak> {
         try {
             for (String field :
                     fieldsMapping) {
-                String getterName;
-                if (Oak.class.getDeclaredField(field).getType().equals(boolean.class)) {
-                    getterName = "is" + capitalize(field);
-                } else {
-                    getterName = "get" + capitalize(field);
-                }
-                Log.d(TAG, getterName);
-                Method getter = Oak.class.getMethod(getterName);
-                Log.d(TAG, ""+getter.invoke(object));
-                oakRef.child(field).setValue(getter.invoke(object));
+                Object res = ReflectionHelper.invokeGetter(field, object, Oak.class);
+                oakRef.child(field).setValue(res);
             }
         } catch (Exception e) {
             Log.e(TAG, "update:", e);

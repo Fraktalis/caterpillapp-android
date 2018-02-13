@@ -9,6 +9,7 @@ import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
 import com.example.vincentale.leafguard_core.util.OnUpdateCallback;
+import com.example.vincentale.leafguard_core.util.ReflectionHelper;
 import com.example.vincentale.leafguard_core.util.StringHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -124,14 +125,7 @@ public class UserManager implements Manager<User> {
         try {
             for (String field :
                     fieldsMapping) {
-                String getterName;
-                if (User.class.getDeclaredField(field).getType().equals(boolean.class)) {
-                    getterName = "is" + StringHelper.capitalize(field);
-                } else {
-                    getterName = "get" + StringHelper.capitalize(field);
-                }
-                Method getter = User.class.getMethod(getterName);
-                Object res = getter.invoke(object);
+                Object res = ReflectionHelper.invokeGetter(field, object, User.class);
                 if (res != null && res instanceof Oak) { //if res is an Oak, we only want it's UID
                     Log.d(TAG, "Res is an Oak");
                     userRef.child(field).setValue(((Oak) res).getUid());

@@ -25,6 +25,10 @@ public class CaterpillarObservation extends AbstractObservation {
 
     private int observationIndex = 0;
 
+    public CaterpillarObservation() {
+        super();
+    }
+
     public CaterpillarObservation(Oak referedOak, int observationIndex) {
         super();
         if (observationIndex <= 0 || observationIndex > OBSERVATION_LIMIT) {
@@ -39,28 +43,56 @@ public class CaterpillarObservation extends AbstractObservation {
         return totalCaterpillars;
     }
 
+    public void setTotalCaterpillars(int totalCaterpillars) {
+        this.totalCaterpillars = totalCaterpillars;
+    }
+
     public int getMissingCaterpillars() {
         return missingCaterpillars;
+    }
+
+    public void setMissingCaterpillars(int missingCaterpillars) {
+        this.missingCaterpillars = missingCaterpillars;
     }
 
     public int getTotalPredationMarks() {
         return totalPredationMarks;
     }
 
+    public void setTotalPredationMarks(int totalPredationMarks) {
+        this.totalPredationMarks = totalPredationMarks;
+    }
+
     public int getBirdPredationMarks() {
         return birdPredationMarks;
+    }
+
+    public void setBirdPredationMarks(int birdPredationMarks) {
+        this.birdPredationMarks = birdPredationMarks;
     }
 
     public int getArthropodPredationMarks() {
         return arthropodPredationMarks;
     }
 
+    public void setArthropodPredationMarks(int arthropodPredationMarks) {
+        this.arthropodPredationMarks = arthropodPredationMarks;
+    }
+
     public int getMammalPredationMarks() {
         return mammalPredationMarks;
     }
 
+    public void setMammalPredationMarks(int mammalPredationMarks) {
+        this.mammalPredationMarks = mammalPredationMarks;
+    }
+
     public int getLizardPredationMarks() {
         return lizardPredationMarks;
+    }
+
+    public void setLizardPredationMarks(int lizardPredationMarks) {
+        this.lizardPredationMarks = lizardPredationMarks;
     }
 
     public CaterpillarObservation addCaterpillar(Caterpillar caterpillar) {
@@ -103,4 +135,22 @@ public class CaterpillarObservation extends AbstractObservation {
         return observationIndex;
     }
 
+    public void setObservationIndex(int observationIndex) {
+        this.observationIndex = observationIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "CaterpillarObservation{" +
+                "uid='" + uid + '\'' +
+                ", totalCaterpillars=" + totalCaterpillars +
+                ", missingCaterpillars=" + missingCaterpillars +
+                ", totalPredationMarks=" + totalPredationMarks +
+                ", birdPredationMarks=" + birdPredationMarks +
+                ", arthropodPredationMarks=" + arthropodPredationMarks +
+                ", mammalPredationMarks=" + mammalPredationMarks +
+                ", lizardPredationMarks=" + lizardPredationMarks +
+                ", observationIndex=" + observationIndex +
+                '}';
+    }
 }

@@ -171,7 +171,12 @@ exports.exportObservations = functions.https.onRequest(function (req, res) {
     var observationList = [];
     var ref = admin.database().ref("/caterpillar_observations");
     return ref.once('value', function (snapshot) {
-        var key = snapshot.key;
+        console.log(JSON.stringify(snapshot));
+        }).then(function() {
+            return res.send("OK");
+        });
+    });
+        /*var key = snapshot.key;
         var splitKey = key.split("_");
         var observation = {};
         observation.userId = splitKey[0];
@@ -185,7 +190,7 @@ exports.exportObservations = functions.https.onRequest(function (req, res) {
         return observationList;
     })
 });
-
+*/
 
 function array_combine (keys, values) { // eslint-disable-line camelcase
       //  discuss at: http://locutus.io/php/array_combine/

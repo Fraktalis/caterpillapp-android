@@ -9,6 +9,7 @@ import com.example.vincentale.leafguard_core.model.Oak;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
 import com.example.vincentale.leafguard_core.util.OnUpdateCallback;
+import com.example.vincentale.leafguard_core.util.ReflectionHelper;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -69,16 +70,8 @@ public class CaterpillarManager implements Manager<Caterpillar> {
         try {
             for (String field :
                     fieldsMapping) {
-                String getterName;
-                if (Caterpillar.class.getDeclaredField(field).getType().equals(boolean.class)) {
-                    getterName = "is" + capitalize(field);
-                } else {
-                    getterName = "get" + capitalize(field);
-                }
-                Log.d(TAG, getterName);
-                Method getter = Caterpillar.class.getMethod(getterName);
-                Log.d(TAG, ""+getter.invoke(object));
-                caterRef.child(field).setValue(getter.invoke(object));
+                Object res = ReflectionHelper.invokeGetter(field, object, Caterpillar.class);
+                caterRef.child(field).setValue(res);
             }
         } catch (Exception e) {
             Log.e(TAG, "update: ", e);
