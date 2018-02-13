@@ -37,6 +37,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vincentale.leafguard_core.fragment.admin.MapsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -308,5 +309,6 @@ public class LoginActivity extends AppCompatActivity  {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
 }
 

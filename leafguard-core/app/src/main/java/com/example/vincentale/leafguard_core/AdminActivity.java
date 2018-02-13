@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.fragment.admin.AdminUserFragment;
+import com.example.vincentale.leafguard_core.fragment.admin.OakMapFragment;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
@@ -121,6 +122,9 @@ public class AdminActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.admin_content_layout, userFragment).commit();
 
         } else if (id == R.id.nav_oaks) {
+
+            OakMapFragment userFragment = OakMapFragment.newInstance();
+            fragmentManager.beginTransaction().replace(R.id.admin_content_layout, userFragment).commit();
 
         } else if (id == R.id.nav_observations) {
 

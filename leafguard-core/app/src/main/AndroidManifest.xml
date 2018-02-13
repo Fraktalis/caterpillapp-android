@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.vincentale.leafguard_core">
 
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -16,17 +15,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.vincentale.leafguard.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
 
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_maps_key" />
 
         <activity android:name=".HomeActivity" />
         <activity android:name=".LoginActivity">
@@ -50,8 +51,8 @@
             android:label="@string/title_activity_camera2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".OakActivity" />
-        <activity android:name=".CatterpillarListActivity"></activity>
-        <activity android:name=".CatterpillarViewActivity"></activity>
+        <activity android:name=".CatterpillarListActivity" />
+        <activity android:name=".CatterpillarViewActivity" />
         <activity
             android:name=".AdminActivity"
             android:label="@string/title_activity_admin"
@@ -61,7 +62,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.vincentale.leafguard_core.HomeActivity" />
         </activity>
-        <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity
+            android:name=".fragment.admin.MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>
