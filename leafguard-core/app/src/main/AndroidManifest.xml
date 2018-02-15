@@ -63,9 +63,6 @@
                 android:value="com.example.vincentale.leafguard_core.HomeActivity" />
         </activity>
         <activity android:name=".ForgotPasswordActivity" />
-        <activity
-            android:name=".fragment.admin.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>

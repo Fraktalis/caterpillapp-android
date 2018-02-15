@@ -78,14 +78,29 @@ public class OakManager implements Manager<Oak> {
             }
         });
 
+
         return null;
     }
 
     @Override
-    public ArrayList<Oak> findAll() {
+    public ArrayList<Oak> findAll(final DatabaseCallback<Oak> callback) {
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        DatabaseReference allOakReference= databaseReference.child(OAK_NAME);
+        allOakReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onFailure(databaseError);
+            }
+        });
 
         return null;
     }
+
 
     private String capitalize(final String line) {
         return Character.toUpperCase(line.charAt(0)) + line.substring(1);

@@ -19,5 +19,5 @@ interface Manager<T extends Identifiable> {
      */
     public void delete(@NonNull  T object);
     public T find(String uid, DatabaseCallback<T> callback);
-    public ArrayList<T> findAll();
+    public ArrayList<T> findAll(DatabaseCallback<T> callback);
 }

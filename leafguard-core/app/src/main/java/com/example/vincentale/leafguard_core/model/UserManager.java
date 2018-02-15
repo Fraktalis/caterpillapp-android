@@ -146,9 +146,10 @@ public class UserManager implements Manager<User> {
     }
 
     @Override
-    public ArrayList<User> findAll() {
+    public ArrayList<User> findAll(DatabaseCallback<User> callback) {
         return null;
     }
+
 
     private String capitalize(final String line) {
         return Character.toUpperCase(line.charAt(0)) + line.substring(1);

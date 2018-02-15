@@ -116,8 +116,8 @@ public class OakMapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         // Updates the location and zoom of the MapView
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(43.1, -87.9), 10);
-        map.animateCamera(cameraUpdate);
+        //CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng( 48.866667, 2.333333), 10);
+        //map.animateCamera(cameraUpdate);
     }
 
     @Override
