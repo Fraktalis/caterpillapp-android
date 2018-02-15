@@ -50,8 +50,11 @@ public class OakManager implements Manager<Oak> {
         try {
             for (String field :
                     fieldsMapping) {
-                Object res = ReflectionHelper.invokeGetter(field, object, Oak.class);
-                oakRef.child(field).setValue(res);
+                String getterName = "get" + capitalize(field);
+                Log.d(TAG, getterName);
+                Method getter = Oak.class.getMethod(getterName);
+                Log.d(TAG, ""+getter.invoke(object));
+                oakRef.child(field).setValue(getter.invoke(object));
             }
         } catch (Exception e) {
             Log.e(TAG, "update:", e);
@@ -86,6 +89,26 @@ public class OakManager implements Manager<Oak> {
     }
 
     @Override
-    public void findAll(DatabaseListCallback<Oak> listCallback) {
+    public ArrayList<Oak> findAll(final DatabaseCallback<Oak> callback) {
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        DatabaseReference allOakReference= databaseReference.child(OAK_NAME);
+        allOakReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onFailure(databaseError);
+            }
+        });
+
+        return null;
+    }
+
+
+    private String capitalize(final String line) {
+        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
     }
 }
