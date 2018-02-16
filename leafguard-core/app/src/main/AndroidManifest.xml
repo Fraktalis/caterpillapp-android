@@ -60,7 +60,7 @@
         <activity android:name=".CameraIntentActivity" />
 
         <service
-            android:name=".service.ObservationDownloadService"
+            android:name=".service.ObservationService"
             android:enabled="true"
             android:exported="true"></service>
     </application>

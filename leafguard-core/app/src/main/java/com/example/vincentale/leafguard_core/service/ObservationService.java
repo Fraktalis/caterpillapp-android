@@ -3,125 +3,130 @@ package com.example.vincentale.leafguard_core.service;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.vincentale.leafguard_core.R;
-import com.example.vincentale.leafguard_core.fragment.admin.AdminObservationFragment;
 import com.example.vincentale.leafguard_core.model.CaterpillarObservation;
 import com.example.vincentale.leafguard_core.model.manager.CaterpillarObservationManager;
 import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
 import com.example.vincentale.leafguard_core.util.ObservationCSVBuilder;
+import com.example.vincentale.leafguard_core.util.ObservationServiceCallback;
 import com.google.firebase.database.DatabaseError;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
-public class ObservationDownloadService extends Service {
+public class ObservationService extends Service {
 
     public static final String TAG = "ObsnDownloadService";
-    private Handler handler;
-    private NotificationManager notificationManager;
-    private int NOTIFICATION = R.string.download_service_started;
+    private final ObservationBinder mBinder = new ObservationBinder();
     private CaterpillarObservationManager observationManager = CaterpillarObservationManager.getInstance();
 
-    public ObservationDownloadService() {
-    }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        handler = new Handler();
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public Notification showNotification() {
-        NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(this, "CHANNEL_ID")
-                .setSmallIcon(R.drawable.ic_nature)
-                .setContentTitle("My notification")
-                .setContentText("content of notification");
-        Notification notification = notifBuilder.build();
-        notificationManager.notify(NOTIFICATION, notification);
-
-        return notification;
+    public ObservationService() {
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Notification notif = showNotification();
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mBinder;
+    }
+
+    /** method for clients */
+    public void saveObservations(final ObservationServiceCallback callback) {
         final ObservationCSVBuilder csvBuilder = new ObservationCSVBuilder();
         observationManager.findAll(new DatabaseListCallback<CaterpillarObservation>() {
             @Override
             public void onSuccess(List<CaterpillarObservation> identifiables) {
                 CaterpillarObservation firstObservation = null;
                 CaterpillarObservation secondObservation = null;
+                String currentUid = "";
                 for (CaterpillarObservation observation : identifiables) {
-                    Log.d(TAG, observation.toString());
+                    Log.d(TAG, "observation = " + observation.toString());
                     if (firstObservation == null) { //first initialization;
                         Log.d(TAG, "Initialization");
                         firstObservation = observation;
+                        currentUid = observation.getUid();
                     } else {
-                        if (firstObservation.getUid().equals(observation.getUid())) {
+                        if (currentUid.equals(observation.getUid())) {
                             secondObservation = observation;
                             csvBuilder.add(firstObservation, secondObservation);
                             firstObservation = null;
                         } else {
                             csvBuilder.add(firstObservation);
                             firstObservation = observation;
+                            currentUid = firstObservation.getUid();
                         }
                     }
                 }
-                if (firstObservation != null)
+
+                if (firstObservation != null) {
+                    csvBuilder.add(firstObservation);
+                }
 
                 Log.d(TAG, "onSuccess: " + csvBuilder.toString());
 
 
                 String filename = "observations.csv";
+                String directoryName = getResources().getString(R.string.app_name);
                 String string = csvBuilder.toString();
                 FileOutputStream outputStream;
 
                 try {
-                    outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                    File caterpilappDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                            File.separator +
+                            directoryName +
+                            File.separator);
+                    if (!caterpilappDir.exists()) {
+                        caterpilappDir.mkdir();
+                    }
+
+                    File csvFile = new File(caterpilappDir, filename);
+                    if (!csvFile.exists()) {
+                        csvFile.createNewFile();
+                    }
+                    outputStream = new FileOutputStream(csvFile);
                     outputStream.write(string.getBytes());
                     outputStream.close();
+                    callback.onSuccess(directoryName + File.separator + csvFile.getName());
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    callback.onFailure(e);
+                    Log.e(TAG, "ERROR", e);
                 }
-
-
-                notificationManager.cancel(NOTIFICATION);
-                ObservationDownloadService.this.stopSelf();
             }
 
             @Override
             public void onFailure(DatabaseError error) {
-                //observationHaveChangedText.setText(error.getMessage());
+                callback.onFailure(error.toException());
             }
         });
-
-        return super.onStartCommand(intent, flags, startId);
     }
 
-    public class DownloadBinder extends Binder {
-        ObservationDownloadService getService() {
-            return ObservationDownloadService.this;
+
+    /**
+     * Class used for the client Binder.  Because we know this service always
+     * runs in the same process as its clients, we don't need to deal with IPC.
+     */
+    public class ObservationBinder extends Binder {
+        public ObservationService getService() {
+            // Return this instance of LocalService so clients can call public methods
+            return ObservationService.this;
         }
     }
+
 
 
 }

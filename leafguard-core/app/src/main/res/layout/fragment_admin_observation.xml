@@ -1,7 +1,8 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.vincentale.leafguard_core.fragment.admin.AdminObservationFragment">
 
     <TextView
@@ -20,7 +21,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="150dp"
-        android:text="@string/observation_have_changed"
         android:textAlignment="center"
         android:textColor="@android:color/holo_green_dark"
         android:textStyle="bold" />
@@ -35,4 +35,15 @@
         android:drawableEnd="@android:drawable/stat_sys_download"
         android:drawableRight="@android:drawable/stat_sys_download"
         android:text="@string/download_observation_action" />
-</FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/observationProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:visibility="gone" />
+</LinearLayout>

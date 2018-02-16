@@ -49,8 +49,9 @@ var finalReport = {
 
 exports.assertUpload = functions.storage.object().onChange( function (event) {
     const object = event.data; // The Storage object.
-    if (object.bucket != "provisions") {
+    if (!object.id.includes("provisions")) {
         console.log("Not a provision file, ignoring.");
+        console.log(object);
         return true;
     }
     const file = gcs.bucket(object.bucket).file(object.name);
