@@ -11,6 +11,7 @@ import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
 import com.example.vincentale.leafguard_core.util.OnUpdateCallback;
 import com.example.vincentale.leafguard_core.util.ReflectionHelper;
 import com.example.vincentale.leafguard_core.util.StringHelper;
+import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,8 +51,11 @@ public class OakManager implements Manager<Oak> {
         try {
             for (String field :
                     fieldsMapping) {
-                Object res = ReflectionHelper.invokeGetter(field, object, Oak.class);
-                oakRef.child(field).setValue(res);
+                String getterName = "get" + capitalize(field);
+                Log.d(TAG, getterName);
+                Method getter = Oak.class.getMethod(getterName);
+                Log.d(TAG, ""+getter.invoke(object));
+                oakRef.child(field).setValue(getter.invoke(object));
             }
         } catch (Exception e) {
             Log.e(TAG, "update:", e);
@@ -86,6 +90,34 @@ public class OakManager implements Manager<Oak> {
     }
 
     @Override
-    public void findAll(DatabaseListCallback<Oak> listCallback) {
+    public void findAll(final DatabaseListCallback<Oak> listCallback) {
+        final ArrayList<Oak> oaks=new ArrayList<>();
+
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        DatabaseReference allOakReference= databaseReference.child(NODE_NAME);
+        allOakReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot oakInfo : dataSnapshot.getChildren()){
+                    String key= oakInfo.getKey();
+                    Oak newValue= oakInfo.getValue(Oak.class);
+                    newValue.setUid(key);
+                    Log.d(TAG,key);
+                    oaks.add(newValue);
+                }
+                listCallback.onSuccess(oaks);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listCallback.onFailure(databaseError);
+            }
+        });
+
+    }
+
+
+    private String capitalize(final String line) {
+        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
     }
 }
