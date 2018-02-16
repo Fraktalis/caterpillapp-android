@@ -17,11 +17,14 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vincentale.leafguard_core.fragment.admin.AdminObservationFragment;
 import com.example.vincentale.leafguard_core.fragment.admin.AdminUserFragment;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.firebase.database.DatabaseError;
+
+import static com.example.vincentale.leafguard_core.fragment.admin.AdminObservationFragment.LABEL;
 
 public class AdminActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdminUserFragment.OnFragmentInteractionListener {
@@ -114,12 +117,16 @@ public class AdminActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (id == R.id.nav_users) {
+            getSupportActionBar().setTitle(AdminUserFragment.LABEL);
             AdminUserFragment userFragment = AdminUserFragment.newInstance();
             fragmentManager.beginTransaction().replace(R.id.admin_content_layout, userFragment).commit();
 
         } else if (id == R.id.nav_oaks) {
 
         } else if (id == R.id.nav_observations) {
+            getSupportActionBar().setTitle(AdminObservationFragment.LABEL);
+            AdminObservationFragment observationFragment = AdminObservationFragment.newInstance();
+            fragmentManager.beginTransaction().replace(R.id.admin_content_layout, observationFragment).commit();
 
         } else if (id == R.id.nav_notifications) {
 

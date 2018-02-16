@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">leafguard-core</string>
+    <string name="app_name">Caterpilapp</string>
     <string name="profilButton">Profil</string>
     <string name="observationButton">Première observation</string>
     <string name="observationBisButton">Seconde observation</string>
@@ -130,4 +130,9 @@
     <string name="attackedbybirds">Attacked by birds</string>
     <string name="attackedByLizard">Attacked by lizards</string>
     <string name="error_occured">An error occured. Please try again.</string>
+    <string name="download_observation_action">Download observation</string>
+    <string name="observation_download_description" >You can download a CSV file containing all observations data by clicking the button below. This may take some time.</string>
+    <string name="observation_have_changed">Observation have changed !</string>
+    <string name="download_service_started">Download will start shortly</string>
+    <string name="observation_saved_at_location">Observation saved at %1$s </string>
 </resources>
