@@ -4,6 +4,8 @@ const nodemailer = require('nodemailer');           // Used to send email via SM
 const gcs = require('@google-cloud/storage')();     // Service to handle google firebase cloud storage
 const generator = require('generate-password');     // A password generator
 const parse = require('csv-parse/lib/sync');          // A CSV parser library
+const stringify  =require('csv-stringify');
+const moment = require("moment");
 const admin = require('firebase-admin');            // The Firebase Admin SDK to access the Firebase Realtime Database.
 const APP_NAME = 'Leafguard'
 
@@ -47,8 +49,9 @@ var finalReport = {
 
 exports.assertUpload = functions.storage.object().onChange( function (event) {
     const object = event.data; // The Storage object.
-    if (object.bucket != "provisions") {
+    if (!object.id.includes("provisions")) {
         console.log("Not a provision file, ignoring.");
+        console.log(object);
         return true;
     }
     const file = gcs.bucket(object.bucket).file(object.name);
@@ -127,7 +130,7 @@ exports.assertUpload = functions.storage.object().onChange( function (event) {
     .catch(function (err) {
         console.log('A promise failed to resolve', err);
     })
-    .then(function (whatever) {
+    .then(function () {
         console.log("Saving report...");
         return admin.database().ref('/reports').child(+ new Date()).set(finalReport);
     })
@@ -136,6 +139,9 @@ exports.assertUpload = functions.storage.object().onChange( function (event) {
     });
 });
 
+/**
+* Cleanse of users that never logged in
+*/
 exports.cleanseUsers = functions.https.onRequest(function (req, res) {
     var pageToken;
     return admin.auth().listUsers(1000)
@@ -156,6 +162,36 @@ exports.cleanseUsers = functions.https.onRequest(function (req, res) {
         });
     });
 
+
+
+/**
+* Function to generate a csv representation of observations in database
+*/
+exports.exportObservations = functions.https.onRequest(function (req, res) {
+    var observationRef = admin.storage().bucket("observations/observations.csv");
+    var observationList = [];
+    var ref = admin.database().ref("/caterpillar_observations");
+    return ref.once('value', function (snapshot) {
+        console.log(JSON.stringify(snapshot));
+        }).then(function() {
+            return res.send("OK");
+        });
+    });
+        /*var key = snapshot.key;
+        var splitKey = key.split("_");
+        var observation = {};
+        observation.userId = splitKey[0];
+        observation.longitude = parseFloat(splitKey[1])/100;
+        observation.latitude = parseFloat(splitKey[2])/100;
+        snapshot.forEach(function (indexedObservation) {
+            indexedObservation.forEach(function (observationData) {
+                observationList.push(observationData);
+            });
+        });
+        return observationList;
+    })
+});
+*/
 
 function array_combine (keys, values) { // eslint-disable-line camelcase
       //  discuss at: http://locutus.io/php/array_combine/

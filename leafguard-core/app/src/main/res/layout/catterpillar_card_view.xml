@@ -34,9 +34,9 @@
             android:id="@+id/catterpillarName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/catterpillar"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:text="@string/caterpillar" />
 
         <ImageView
             android:id="@+id/checkImage0"

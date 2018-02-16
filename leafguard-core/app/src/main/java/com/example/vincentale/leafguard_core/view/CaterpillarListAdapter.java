@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vincentale.leafguard_core.R;
-import com.example.vincentale.leafguard_core.model.Catterpillar;
+import com.example.vincentale.leafguard_core.model.Caterpillar;
 
 import java.util.List;
 
@@ -15,11 +15,11 @@ import java.util.List;
  * Created by mathilde on 10/01/18.
  */
 
-public class CatterpillarListAdapter extends RecyclerView.Adapter<CatterpillarViewHolder> {
+public class CaterpillarListAdapter extends RecyclerView.Adapter<CatterpillarViewHolder> {
 
-    private List<Catterpillar> items;
+    private List<Caterpillar> items;
 
-    public CatterpillarListAdapter(List<Catterpillar> items) {
+    public CaterpillarListAdapter(List<Caterpillar> items) {
         this.items = items;
     }
 
@@ -33,11 +33,9 @@ public class CatterpillarListAdapter extends RecyclerView.Adapter<CatterpillarVi
 
         boolean shouldAttachToParentImmediately = false;
         View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
-        CatterpillarViewHolder viewHolder= new CatterpillarViewHolder(view,context);
-        //CatterpillarViewHolder vh = new CatterpillarViewHolder(v);
+        CatterpillarViewHolder viewHolder = new CatterpillarViewHolder(view,context);
 
 
-        //return vh;
         return viewHolder;
     }
 
@@ -49,6 +47,6 @@ public class CatterpillarListAdapter extends RecyclerView.Adapter<CatterpillarVi
 
     @Override
     public int getItemCount() {
-        return 20;
+        return items.size();
     }
 }

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -22,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.model.User;
-import com.example.vincentale.leafguard_core.model.UserManager;
+import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.firebase.database.DatabaseError;
 
@@ -40,6 +41,7 @@ public class HomeActivity extends AppCompatActivity {
     private Menu homeMenu;
     private LinearLayout profileLoadingLayout;
     private LinearLayout homeContentLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onSuccess(User identifiable) {
                 mUser = identifiable;
+
                 profileLoadingLayout.setVisibility(View.GONE);
                 homeContentLayout.setVisibility(View.VISIBLE);
                 if (homeMenu != null) {
@@ -63,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(HomeActivity.this, "user is loaded !", Toast.LENGTH_SHORT).show();
                 TextView helloText = (TextView) findViewById(R.id.helloText);
                 if (mUser != null) {
-                    helloText.setText(res.getString(R.string.hello_name, mUser.getUid()));
+                    helloText.setText(res.getString(R.string.hello_name, mUser.getSurname()));
                 } else {
                     Log.i(TAG, "You shouldn't be anonymous on this activity !");
                 }
@@ -76,26 +79,47 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(oakFormIntent);
                     }
                 });
+                if (mUser.getOakId() != null) {
+                    Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
+                    ourOakButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
+                }
 
+                String obervationUid = mUser.getOakId() + "_" + 1;
                 Button observationButton = (Button) findViewById(R.id.observationButton);
-                observationButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent observationIntent = new Intent(mainContext, CatterpillarListActivity.class);
-                        observationIntent.setAction(HomeActivity.FIRST_OBSERVATION_ACTION);
-                        startActivity(observationIntent);
-                    }
-                });
+                if (mUser.hasObservation(obervationUid)) {
+                    Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
+                    observationButton.setEnabled(false);
+                    observationButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
+                } else {
+                    Log.d(TAG, "onSuccess: " + mUser.getObservationUids());
+                    observationButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent observationIntent = new Intent(mainContext, CaterpillarListActivity.class);
+                            observationIntent.setAction(HomeActivity.FIRST_OBSERVATION_ACTION);
+                            observationIntent.putExtra("observationIndex", 1);
+                            startActivity(observationIntent);
+                        }
+                    });
+                }
 
+                obervationUid = mUser.getOakId() + "_" + 2;
                 Button observationBisButton = (Button) findViewById(R.id.observationBisButton);
-                observationBisButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent observationIntent = new Intent(mainContext, CatterpillarListActivity.class);
-                        observationIntent.setAction(HomeActivity.SECOND_OBSERVATION_ACTION);
-                        startActivity(observationIntent);
-                    }
-                });
+                if (mUser.hasObservation(obervationUid)) {
+                    Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
+                    observationBisButton.setEnabled(false);
+                    observationBisButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
+                } else {
+                    observationBisButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent observationIntent = new Intent(mainContext, CaterpillarListActivity.class);
+                            observationIntent.setAction(HomeActivity.SECOND_OBSERVATION_ACTION);
+                            observationIntent.putExtra("observationIndex", 2);
+                            startActivity(observationIntent);
+                        }
+                    });
+                }
 
                 Button camera2Button = (Button) findViewById(R.id.camera2Button);
                 camera2Button.setOnClickListener(new View.OnClickListener() {
