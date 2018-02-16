@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.Oak;
-import com.example.vincentale.leafguard_core.model.OakManager;
+import com.example.vincentale.leafguard_core.model.manager.OakManager;
 import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
