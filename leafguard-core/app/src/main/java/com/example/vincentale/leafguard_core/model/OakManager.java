@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -83,7 +84,7 @@ public class OakManager implements Manager<Oak> {
     }
 
     @Override
-    public ArrayList<Oak> findAll(final DatabaseCallback<Oak> listCallback) {
+    public ArrayList<Oak> findAll(final DatabaseListCallback<Oak> listCallback) {
         final ArrayList<Oak> oaks=new ArrayList<>();
 
         DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -95,6 +96,7 @@ public class OakManager implements Manager<Oak> {
                     String key= oakInfo.getKey();
                     Oak newValue= oakInfo.getValue(Oak.class);
                     newValue.setUid(key);
+                    Log.d(TAG,key);
                     oaks.add(newValue);
                 }
                 listCallback.onSuccess(oaks);

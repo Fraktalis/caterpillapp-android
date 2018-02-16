@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -146,7 +147,7 @@ public class UserManager implements Manager<User> {
     }
 
     @Override
-    public ArrayList<User> findAll(DatabaseCallback<User> callback) {
+    public ArrayList<User> findAll(DatabaseListCallback<User> callback) {
         return null;
     }
 

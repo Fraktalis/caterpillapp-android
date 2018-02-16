@@ -7,11 +7,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vincentale.leafguard_core.R;
+import com.example.vincentale.leafguard_core.model.Oak;
+import com.example.vincentale.leafguard_core.model.OakManager;
+import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,6 +25,10 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseError;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,9 +39,11 @@ import com.google.android.gms.maps.model.LatLng;
  * create an instance of this fragment.
  */
 public class OakMapFragment extends Fragment implements OnMapReadyCallback {
+    public static final String TAG = "OakMapFragment";
 
     private MapView mapView;
     GoogleMap map;
+    private List<Oak> oaks;
     // private OnFragmentInteractionListener mListener;
 
     public OakMapFragment() {
@@ -115,9 +125,31 @@ public class OakMapFragment extends Fragment implements OnMapReadyCallback {
             e.printStackTrace();
         }
 
+
         // Updates the location and zoom of the MapView
         //CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng( 48.866667, 2.333333), 10);
         //map.animateCamera(cameraUpdate);
+
+        OakManager manager= OakManager.getInstance();
+        manager.findAll(new DatabaseListCallback<Oak>() {
+            @Override
+            public void onSuccess(List<Oak> identifiables) {
+
+                oaks=identifiables;
+                for (int j=0; j<oaks.size(); j++){
+                    Oak oak= oaks.get(j);
+                    LatLng oakLatLng = new LatLng(oak.getLatitude(),oak.getLongitude());
+                    map.addMarker(new MarkerOptions().position(oakLatLng));
+                }
+            }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+
+                Log.e(TAG,"Database error");
+            }
+        });
+
     }
 
     @Override
