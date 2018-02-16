@@ -83,18 +83,26 @@ public class OakManager implements Manager<Oak> {
     }
 
     @Override
-    public ArrayList<Oak> findAll(final DatabaseCallback<Oak> callback) {
+    public ArrayList<Oak> findAll(final DatabaseCallback<Oak> listCallback) {
+        final ArrayList<Oak> oaks=new ArrayList<>();
+
         DatabaseReference databaseReference = firebaseDatabase.getReference();
         DatabaseReference allOakReference= databaseReference.child(OAK_NAME);
         allOakReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                for(DataSnapshot oakInfo : dataSnapshot.getChildren()){
+                    String key= oakInfo.getKey();
+                    Oak newValue= oakInfo.getValue(Oak.class);
+                    newValue.setUid(key);
+                    oaks.add(newValue);
+                }
+                listCallback.onSuccess(oaks);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callback.onFailure(databaseError);
+                listCallback.onFailure(databaseError);
             }
         });
 
