@@ -31,7 +31,7 @@ import static com.example.vincentale.leafguard_core.util.StringHelper.capitalize
 
 public class CaterpillarObservationManager implements Manager<CaterpillarObservation> {
 
-    public static final String NODE_NAME = "caterpillar_observations";
+    public static final String NODE_NAME = "observations";
     public final static String[] fieldsMapping = {"totalCaterpillars","missingCaterpillars","totalPredationMarks","birdPredationMarks","arthropodPredationMarks","mammalPredationMarks","lizardPredationMarks", "observationIndex"};
     private static final String TAG = "CaterpillarObsManager";
     private static CaterpillarObservationManager instance;

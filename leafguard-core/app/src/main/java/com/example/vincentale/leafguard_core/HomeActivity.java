@@ -121,6 +121,15 @@ public class HomeActivity extends AppCompatActivity {
                     });
                 }
 
+                Button leavesObservationButton = findViewById(R.id.leavesObservationButton);
+                leavesObservationButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent leavesObservationIntent = new Intent(mainContext, LeavesObservationActivity.class);
+                        startActivity(leavesObservationIntent);
+                    }
+                });
+
                 Button camera2Button = (Button) findViewById(R.id.camera2Button);
                 camera2Button.setOnClickListener(new View.OnClickListener() {
                     @Override
