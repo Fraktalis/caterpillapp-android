@@ -9,13 +9,21 @@ public class LeavesObservation extends AbstractObservation {
     private int leavesTotal;
     private int gallsTotal;
     private int minesTotal;
+    //class A : leaf not dommaged
     private int leavesAClassNumber;
+    //class B : leaf dommaged by 1%-5%
     private int leavesBClassNumber;
+    //class C : leaf dommaged by 6%-10%
     private int leavesCClassNumber;
+    //class D : leaf dommaged by 11%-15%
     private int leavesDClassNumber;
+    //class E : leaf dommaged by 16%-25%
     private int leavesEClassNumber;
+    //class F : leaf dommaged by 26%-50%
     private int leavesFClassNumber;
+    //class G : leaf dommaged by 51%-75%
     private int leavesGClassNumber;
+    //class H : leaf dommaged by more than 75%
     private int leavesHClassNumber;
 
     public int getLeavesTotal() {

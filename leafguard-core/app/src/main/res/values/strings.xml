@@ -139,4 +139,15 @@
     <string name="title_activity_main">LeavesObservationActivity</string>
     <string name="title_activity_leaves_observation">LeavesObservationActivity</string>
     <string name="leaves_observation_action">Leaves Observation (Optional)</string>
+    <string name="number_of_observed_leaves">Number of observed leaves</string>
+    <string name="number_of_galls">Number of galls</string>
+    <string name="number_of_mines">Number of mines</string>
+    <string name="number_of_leaves_in_class_a">Number of leaves in class A</string>
+    <string name="number_of_leaves_in_class_b">Number of leaves in class B</string>
+    <string name="number_of_leaves_in_class_c">Number of leaves in class C</string>
+    <string name="number_of_leaves_in_class_d">Number of leaves in class D</string>
+    <string name="number_of_leaves_in_class_e">Number of leaves in class E</string>
+    <string name="number_of_leaves_in_class_f">Number of leaves in class F</string>
+    <string name="number_of_leaves_in_class_g">Number of leaves in class G</string>
+    <string name="number_of_leaves_in_class_h">Number of leaves in class H</string>
 </resources>
