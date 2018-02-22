@@ -40,7 +40,7 @@ const mailTransport = nodemailer.createTransport({
     }
 });
 
-var headerMapping  = ["country","name","e-mail","partner_id","city","school_name","school_level","lattitude","longitude","still_in"];
+var headerMapping  = ["country","name","email","partnerId","city","schoolName","schoolLevel","latitude","longitude","stillIn"];
 var finalReport = {
     imported: [],
     ignored: [],
@@ -67,12 +67,12 @@ exports.assertUpload = functions.storage.object().onChange( function (event) {
         var body = parsedContent.slice(1);
         var bodyMap = body.map(x => array_combine(headerMapping, x));
         var promisesArray = bodyMap.map(function (elem) {
-            return clientApp.auth().fetchProvidersForEmail(elem['e-mail'])
+            return clientApp.auth().fetchProvidersForEmail(elem['email'])
                 .then(function (providers) {
                     var accountExists = providers.length > 0;
                     if (accountExists) {
                         console.log('account exists ? ', accountExists);
-                        finalReport.ignored.push(elem['e-mail']);
+                        finalReport.ignored.push(elem['email']);
                         return true;
                     }
                     console.log('account doesn\'t exist, Creating.');
@@ -81,29 +81,29 @@ exports.assertUpload = functions.storage.object().onChange( function (event) {
                         numbers: true
                     });*/
                     return admin.auth().createUser({
-                        email: elem['e-mail'],
+                        email: elem['email'],
                         password: pass,
                     }).catch(function (err) {
                         console.log("a promise failed to resolve:", err);
                         finalReport.error.push(err);
                         return promisesArray;
                     }).then(function (userRecord) {
-                        newAccounts.push(elem['e-mail']);
+                        newAccounts.push(elem['email']);
                         var uid = userRecord.uid;
-                        console.log("User with id : " + uid + " created with email : " + elem['e-mail']);
+                        console.log("User with id : " + uid + " created with email : " + elem['email']);
                         //TODO: Handle composed full name...
                         var fullName = elem["name"].split(" ");
                         elem["name"] = fullName[0];
                         elem["surname"] = fullName[1];
 
-                        finalReport.imported.push(elem['e-mail']);
+                        finalReport.imported.push(elem['email']);
 
                         const mailOptions = {
                             from: gmailEmail,
-                            to: elem['e-mail'],
+                            to: elem['email'],
                             subject: 'Welcome to ' + APP_NAME,
                             text: 'You have been granting access to leafguard application ! \n' +
-                            'e-mail: ' + elem['e-mail'] + ' \n' +
+                            'e-mail: ' + elem['email'] + ' \n' +
                             'password: ' + pass + "\n \n" +
                             "Change it as soon as possible, and enjoy the application !"
                         };

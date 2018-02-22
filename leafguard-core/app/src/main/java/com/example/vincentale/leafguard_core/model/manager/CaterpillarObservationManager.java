@@ -71,7 +71,7 @@ public class CaterpillarObservationManager implements Manager<CaterpillarObserva
                      * async database call.
                      */
                     if (object.getObservationIndex() == 1) {
-                        observationRef.child("partnerNumber").setValue("To_IMPLEMENT");
+                        observationRef.child("partnerNumber").setValue(currentUser.getPartnerId());
                         observationRef.child("longitude").setValue(currentUser.getOak().getLongitude());
                         observationRef.child("latitude").setValue(currentUser.getOak().getLatitude());
                         observationRef.child("circumference").setValue(currentUser.getOak().getOakCircumference());
@@ -79,7 +79,7 @@ public class CaterpillarObservationManager implements Manager<CaterpillarObserva
                         observationRef.child("installationDate").setValue(new SimpleDateFormat("yyyy-MM-dd").format(currentUser.getOak().getInstallationDate()));
 
                         //About user
-                        observationRef.child("schoolName").setValue("To_IMPLEMENT");
+                        observationRef.child("schoolName").setValue(currentUser.getSchoolName());
                         observationRef.child("fullname").setValue(currentUser.getDisplayName());
                         observationRef.child("email").setValue(currentUser.getEmail());
                         observationRef.child("studentsAge").setValue(-1);

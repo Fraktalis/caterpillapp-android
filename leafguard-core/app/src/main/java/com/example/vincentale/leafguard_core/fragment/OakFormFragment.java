@@ -56,6 +56,7 @@ public class OakFormFragment extends Fragment {
     DatePickerDialog.OnDateSetListener date;
     LocationHelper locationHelper;
     private Calendar myCalendar = Calendar.getInstance();
+    private EditText nbPartnerEditText;
     private EditText longitudeEditText;
     private EditText latitudeEditText;
     private EditText oakCircumferenceEditText;
@@ -123,6 +124,8 @@ public class OakFormFragment extends Fragment {
 
         final View fragmentView = inflater.inflate(R.layout.fragment_oak_form, container, false);
         activityContext  = getActivity();
+        nbPartnerEditText = fragmentView.findViewById(R.id.nbPartner);
+        nbPartnerEditText.setText(user.getPartnerId());
         geolocationContentLayout = fragmentView.findViewById(R.id.geolocation_content_layout);
         geolocationProgressLayout = fragmentView.findViewById(R.id.geolocation_progess_layout);
         geolocationProgressBar = fragmentView.findViewById(R.id.geolocationProgressBar);

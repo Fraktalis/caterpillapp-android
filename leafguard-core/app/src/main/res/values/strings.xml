@@ -139,4 +139,6 @@
     <string name="title_activity_main">LeavesObservationActivity</string>
     <string name="title_activity_leaves_observation">LeavesObservationActivity</string>
     <string name="leaves_observation_action">Leaves Observation (Optional)</string>
+    <string name="no_oak_associated">No oak associated.</string>
+    <string name="profile_title">My Profile</string>
 </resources>
