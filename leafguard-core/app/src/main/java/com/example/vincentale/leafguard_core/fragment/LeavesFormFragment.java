@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -48,6 +49,8 @@ public class LeavesFormFragment extends Fragment {
     private EditText nbClassF;
     private EditText nbClassG;
     private EditText nbClassH;
+
+    private Button validate;
 
 
 
@@ -99,9 +102,17 @@ public class LeavesFormFragment extends Fragment {
         nbClassC = fragmentView.findViewById(R.id.nbClassC);
         nbClassD = fragmentView.findViewById(R.id.nbClassD);
         nbClassE = fragmentView.findViewById(R.id.nbClassE);
-        nbClassF= fragmentView.findViewById(R.id.nbClassF;
+        nbClassF= fragmentView.findViewById(R.id.nbClassF);
         nbClassG = fragmentView.findViewById(R.id.nbClassG);
         nbClassH = fragmentView.findViewById(R.id.nbClassH);
+        validate = fragmentView.findViewById(R.id.validateButton);
+        validate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
 
         return fragmentView;
     }

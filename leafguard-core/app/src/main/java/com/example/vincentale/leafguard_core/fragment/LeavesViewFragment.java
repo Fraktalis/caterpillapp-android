@@ -13,19 +13,24 @@ import android.widget.TextView;
 
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.LeavesObservation;
+import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.manager.LeavesObservationManager;
+import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link LeavesViewFragment.OnFragmentInteractionListener} interface
+ *  interface
  * to handle interaction events.
  * Use the {@link LeavesViewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class LeavesViewFragment extends Fragment {
 
-    private UserManager userManager;
+    private com.example.vincentale.leafguard_core.model.manager.UserManager userManager;
+    private User user;
     private LeavesObservation leavesObservation;
     private LeavesObservationManager leavesObservationManager;
     private String oakUid;
@@ -59,6 +64,23 @@ public class LeavesViewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //firebaseDatabase = FirebaseDatabase.getInstance();
+        userManager = com.example.vincentale.leafguard_core.model.manager.UserManager.getInstance();
+        userManager.getUser(new DatabaseCallback<User>() {
+            @Override
+            public void onSuccess(User identifiable) {
+                user = identifiable;
+            }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+
+            }
+        });
+
+        oakUid= user.getOakId();
+
+
 
     }
 
@@ -66,7 +88,25 @@ public class LeavesViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_leaves_view, container, false);
+        final View fragmentView =  inflater.inflate(R.layout.fragment_leaves_view, container, false);
+
+        nbLeaves= fragmentView.findViewById(R.id.numberObservedLeavesText);
+        nbGalls=fragmentView.findViewById(R.id.numbergallsText);
+        nbMines=fragmentView.findViewById(R.id.numberMinesText);
+        nbClassA=fragmentView.findViewById(R.id.classAText);
+        nbClassB=fragmentView.findViewById(R.id.classBText);
+        nbClassC=fragmentView.findViewById(R.id.classCText);
+        nbClassD=fragmentView.findViewById(R.id.classDText);
+        nbClassE=fragmentView.findViewById(R.id.classEText);
+        nbClassF=fragmentView.findViewById(R.id.classFText);
+        nbClassG=fragmentView.findViewById(R.id.classGText);
+        nbClassH=fragmentView.findViewById(R.id.classHText);
+
+
+
+
+
+        return fragmentView;
     }
 
 
