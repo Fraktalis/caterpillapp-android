@@ -13,7 +13,11 @@ import android.widget.TextView;
 
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.LeavesObservation;
+import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.manager.LeavesObservationManager;
+import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,10 +29,13 @@ import com.example.vincentale.leafguard_core.model.manager.LeavesObservationMana
  */
 public class LeavesFormFragment extends Fragment {
 
-    private UserManager userManager;
+    private FirebaseDatabase firebaseDatabase;
+    private com.example.vincentale.leafguard_core.model.manager.UserManager userManager;
     private LeavesObservation leavesObservation;
     private LeavesObservationManager leavesObservationManager;
     private String oakUid;
+    private User user;
+
 
     private EditText nbLeaves;
     private EditText nbGalls;
@@ -60,13 +67,43 @@ public class LeavesFormFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        userManager = com.example.vincentale.leafguard_core.model.manager.UserManager.getInstance();
+        userManager.getUser(new DatabaseCallback<User>() {
+            @Override
+            public void onSuccess(User identifiable) {
+                user = identifiable;
+            }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+
+            }
+        });
+
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_leaves_form, container, false);
+        final View fragmentView = inflater.inflate(R.layout.fragment_leaves_form, container, false);
+        nbLeaves= fragmentView.findViewById(R.id.nbLeaves);
+        nbGalls= fragmentView.findViewById(R.id.nbGalls);
+        nbMines= fragmentView.findViewById(R.id.nbMines);
+        nbClassA = fragmentView.findViewById(R.id.nbClassA);
+        nbClassB = fragmentView.findViewById(R.id.nbClassB);
+        nbClassC = fragmentView.findViewById(R.id.nbClassC);
+        nbClassD = fragmentView.findViewById(R.id.nbClassD);
+        nbClassE = fragmentView.findViewById(R.id.nbClassE);
+        nbClassF= fragmentView.findViewById(R.id.nbClassF;
+        nbClassG = fragmentView.findViewById(R.id.nbClassG);
+        nbClassH = fragmentView.findViewById(R.id.nbClassH);
+
+        return fragmentView;
     }
 
 

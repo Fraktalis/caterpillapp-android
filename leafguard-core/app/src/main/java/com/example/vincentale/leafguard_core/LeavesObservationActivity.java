@@ -1,13 +1,17 @@
 package com.example.vincentale.leafguard_core;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+
+import com.example.vincentale.leafguard_core.model.User;
+import com.example.vincentale.leafguard_core.model.manager.UserManager;
 
 public class LeavesObservationActivity extends AppCompatActivity {
+
+    public static final String TAG = "LeavesObsevationActivity";
+    private UserManager userManager;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,8 +19,10 @@ public class LeavesObservationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_leaves_observation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        userManager= com.example.vincentale.leafguard_core.model.manager.UserManager.getInstance();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.sendObservation);
+
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.sendObservation);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -24,7 +30,10 @@ public class LeavesObservationActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+
+
+
     }
 
 }
