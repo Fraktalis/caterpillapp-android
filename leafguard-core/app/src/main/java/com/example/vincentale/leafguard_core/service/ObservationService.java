@@ -12,7 +12,10 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.vincentale.leafguard_core.R;
+import com.example.vincentale.leafguard_core.model.AbstractObservation;
+import com.example.vincentale.leafguard_core.model.Caterpillar;
 import com.example.vincentale.leafguard_core.model.CaterpillarObservation;
+import com.example.vincentale.leafguard_core.model.LeavesObservation;
 import com.example.vincentale.leafguard_core.model.manager.CaterpillarObservationManager;
 import com.example.vincentale.leafguard_core.util.DatabaseListCallback;
 import com.example.vincentale.leafguard_core.util.ObservationCSVBuilder;
@@ -48,33 +51,35 @@ public class ObservationService extends Service {
     /** method for clients */
     public void saveObservations(final ObservationServiceCallback callback) {
         final ObservationCSVBuilder csvBuilder = new ObservationCSVBuilder();
-        observationManager.findAll(new DatabaseListCallback<CaterpillarObservation>() {
+        observationManager.findAllObservations(new DatabaseListCallback<AbstractObservation>() {
             @Override
-            public void onSuccess(List<CaterpillarObservation> identifiables) {
+            public void onSuccess(List<AbstractObservation> identifiables) {
                 CaterpillarObservation firstObservation = null;
                 CaterpillarObservation secondObservation = null;
-                String currentUid = "";
-                for (CaterpillarObservation observation : identifiables) {
-                    Log.d(TAG, "observation = " + observation.toString());
-                    if (firstObservation == null) { //first initialization;
-                        Log.d(TAG, "Initialization");
-                        firstObservation = observation;
+                LeavesObservation leavesObservation = null;
+                String currentUid = identifiables.get(0).getUid();
+                for (AbstractObservation observation : identifiables) {
+                    if (!observation.getUid().equals(currentUid)) {
                         currentUid = observation.getUid();
-                    } else {
-                        if (currentUid.equals(observation.getUid())) {
-                            secondObservation = observation;
-                            csvBuilder.add(firstObservation, secondObservation);
-                            firstObservation = null;
+                        csvBuilder.add(firstObservation, secondObservation, leavesObservation);
+                        firstObservation = null;
+                        secondObservation = null;
+                        leavesObservation = null;
+                    }
+
+                    if (observation instanceof CaterpillarObservation) {
+                        if (((CaterpillarObservation) observation).getObservationIndex() == 1) {
+                            firstObservation = (CaterpillarObservation) observation;
                         } else {
-                            csvBuilder.add(firstObservation);
-                            firstObservation = observation;
-                            currentUid = firstObservation.getUid();
+                            secondObservation = (CaterpillarObservation) observation;
                         }
+                    } else if (observation instanceof LeavesObservation) {
+                        leavesObservation = (LeavesObservation) observation;
                     }
                 }
 
                 if (firstObservation != null) {
-                    csvBuilder.add(firstObservation);
+                    csvBuilder.add(firstObservation, secondObservation, leavesObservation);
                 }
 
                 Log.d(TAG, "onSuccess: " + csvBuilder.toString());
