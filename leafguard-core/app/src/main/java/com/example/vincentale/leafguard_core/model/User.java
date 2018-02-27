@@ -23,6 +23,8 @@ public class User implements Identifiable {
     private String schoolName;
     private String schoolLevel;
 
+    private Boolean isLeavesObservation;
+
     private Oak oak;
     private String oakId;
     private int role = ROLE_USER;

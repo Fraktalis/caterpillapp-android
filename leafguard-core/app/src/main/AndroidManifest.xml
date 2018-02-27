@@ -79,6 +79,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.vincentale.leafguard_core.HomeActivity" />
         </activity>
+        <activity
+            android:name=".LeavesViewActivity"
+            android:label="@string/title_activity_leaves_form"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
