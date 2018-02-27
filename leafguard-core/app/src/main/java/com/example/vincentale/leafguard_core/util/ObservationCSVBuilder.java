@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.vincentale.leafguard_core.model.AbstractObservation;
 import com.example.vincentale.leafguard_core.model.CaterpillarObservation;
+import com.example.vincentale.leafguard_core.model.LeavesObservation;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -49,8 +50,26 @@ public class ObservationCSVBuilder {
             //TODO : Add leaves observation fields
     };
 
+    private String[] leavesObservationFields = {
+        "leavesObservationDate",
+        "leavesTotal",
+        "gallsTotal",
+        "minesTotal",
+        "leavesAClassNumber",
+        "leavesBClassNumber",
+        "leavesCClassNumber",
+        "leavesDClassNumber",
+        "leavesEClassNumber",
+        "leavesFClassNumber",
+        "leavesGClassNumber",
+        " leavesHClassNumber"
+    };
+
     private StringBuilder entryBuilder;
 
+    /**
+     * We use the constructor to generate the header of the CSV File
+     */
     public ObservationCSVBuilder() {
         entryBuilder = new StringBuilder();
         for (int i = 0; i < firstObservationFields.length; i++) {
@@ -64,10 +83,15 @@ public class ObservationCSVBuilder {
                 entryBuilder.append(",");
             }
         }
+
+        for (int i = 0; i < leavesObservationFields.length; i++) {
+            entryBuilder.append(leavesObservationFields[i]).append(",");
+        }
+
         entryBuilder.append("\n");
     }
 
-    public ObservationCSVBuilder add(@NonNull CaterpillarObservation firstObservation, CaterpillarObservation secondObservation, AbstractObservation leavesObservation) {
+    public ObservationCSVBuilder add(@NonNull CaterpillarObservation firstObservation, CaterpillarObservation secondObservation, LeavesObservation leavesObservation) {
         Log.d(TAG, "add: called");
         for (String firstObservationField : firstObservationFields) {
             try {
@@ -86,19 +110,34 @@ public class ObservationCSVBuilder {
             if (secondObservation != null) {
                 try {
                     if (secondObservationFields[i].equals("secondObservationDate")) {
-                        entryBuilder.append(secondObservation.getTimestamp());
+                        entryBuilder.append(secondObservation.getTimestamp()).append(",");
                     } else {
-                        entryBuilder.append(ReflectionHelper.invokeGetter(secondObservationFields[i], secondObservation, CaterpillarObservation.class));
+                        entryBuilder.append(ReflectionHelper.invokeGetter(secondObservationFields[i], secondObservation, CaterpillarObservation.class)).append(",");
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error during adding field, ignoring", e);
+                }
+            }
+        }
+
+        for (int i=0; i < leavesObservationFields.length; i++) {
+            if (leavesObservation != null) {
+                try {
+                    if (leavesObservationFields[i].equals("leavesObservationDate")) {
+                        entryBuilder.append(leavesObservation.getTimestamp());
+                    } else {
+                        entryBuilder.append(ReflectionHelper.invokeGetter(leavesObservationFields[i], leavesObservation, LeavesObservation.class));
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "Error during adding field, ignoring", e);
                 }
             }
 
-            if (i != secondObservationFields.length - 1) {
+            if (i != leavesObservationFields.length - 1) {
                 entryBuilder.append(",");
             }
         }
+
         entryBuilder.append("\n");
 
         return this;

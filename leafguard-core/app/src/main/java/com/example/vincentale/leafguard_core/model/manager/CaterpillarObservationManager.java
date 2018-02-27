@@ -4,8 +4,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.vincentale.leafguard_core.model.AbstractObservation;
 import com.example.vincentale.leafguard_core.model.Caterpillar;
 import com.example.vincentale.leafguard_core.model.CaterpillarObservation;
+import com.example.vincentale.leafguard_core.model.LeavesObservation;
 import com.example.vincentale.leafguard_core.model.Oak;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
@@ -124,9 +126,49 @@ public class CaterpillarObservationManager implements Manager<CaterpillarObserva
                 for (DataSnapshot oakObservation : dataSnapshot.getChildren()) {
                     String key = oakObservation.getKey();
                     for (DataSnapshot ds : oakObservation.getChildren()) {
-                        CaterpillarObservation newValue = ds.getValue(CaterpillarObservation.class);
-                        newValue.setUid(key);
-                        observations.add(newValue);
+                        if (!ds.getKey().equals("leaves")) {
+                            Log.d(TAG, "onDataChange: " + ds.toString());
+                            CaterpillarObservation newValue = ds.getValue(CaterpillarObservation.class);
+                            Log.d(TAG, "onDataChange: " + newValue);
+                            newValue.setUid(key);
+                            observations.add(newValue);
+                        }
+                    }
+                }
+                listCallback.onSuccess(observations);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listCallback.onFailure(databaseError);
+            }
+        });
+    }
+
+
+    /**
+     * Create a list of all observations (leaves or caterpillars) and feed it to the callback
+     * @param listCallback : A callback object. OnSuccess is called when observations are successfully retrieved
+     */
+    public void findAllObservations(final DatabaseListCallback<AbstractObservation> listCallback) {
+        final ArrayList<AbstractObservation> observations = new ArrayList<>();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        DatabaseReference observationRef = databaseReference.child(NODE_NAME);
+        observationRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot oakObservation : dataSnapshot.getChildren()) {
+                    String key = oakObservation.getKey();
+                    for (DataSnapshot ds : oakObservation.getChildren()) {
+                        if (!ds.getKey().equals("leaves")) {
+                            CaterpillarObservation newValue = ds.getValue(CaterpillarObservation.class);
+                            newValue.setUid(key);
+                            observations.add(newValue);
+                        } else {
+                            LeavesObservation newValue = ds.getValue(LeavesObservation.class);
+                            newValue.setUid(key);
+                            observations.add(newValue);
+                        }
                     }
                 }
                 listCallback.onSuccess(observations);
