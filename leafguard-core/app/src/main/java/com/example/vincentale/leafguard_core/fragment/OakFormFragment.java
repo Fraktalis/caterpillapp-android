@@ -332,6 +332,12 @@ public class OakFormFragment extends Fragment {
                                 oakManager.update(oak, null);
                             }
                         });
+                        mySnackbar.addCallback(new Snackbar.Callback() {
+                            public void onDismissed(Snackbar transientBottomBar, int event) {
+                                super.onDismissed(transientBottomBar, event);
+                                getActivity().finish();
+                            }
+                        });
                         mySnackbar.show();
 
 

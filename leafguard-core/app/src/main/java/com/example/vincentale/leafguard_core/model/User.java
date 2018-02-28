@@ -24,7 +24,7 @@ public class User implements Identifiable {
     private String schoolLevel;
     private int studentAge;
 
-    private Boolean isLeavesObservation;
+    private boolean leavesObservationSent = false;
 
     private Oak oak;
     private String oakId;
@@ -49,6 +49,7 @@ public class User implements Identifiable {
         this.schoolName = u.getSchoolName();
         this.schoolLevel = u.getSchoolLevel();
         this.studentAge = u.getStudentAge();
+        this.leavesObservationSent = u.isLeavesObservationSent();
         setObservationUids(u.getObservationUids());
     }
 
@@ -136,6 +137,16 @@ public class User implements Identifiable {
 
     public User setStudentAge(int studentAge) {
         this.studentAge = studentAge;
+
+        return this;
+    }
+
+    public boolean isLeavesObservationSent() {
+        return leavesObservationSent;
+    }
+
+    public User setLeavesObservationSent(boolean leavesObservationSent) {
+        this.leavesObservationSent = leavesObservationSent;
 
         return this;
     }

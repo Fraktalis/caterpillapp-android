@@ -58,7 +58,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textAlignment="textEnd" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -82,7 +83,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textAlignment="textEnd" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -106,7 +108,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textAlignment="textEnd" />
 
                 </LinearLayout>
 
@@ -131,7 +134,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textAlignment="textEnd" />
 
 
                 </LinearLayout>
@@ -157,7 +161,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textAlignment="textEnd" />
 
 
                 </LinearLayout>
@@ -183,7 +188,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textAlignment="textEnd" />
 
 
                 </LinearLayout>
@@ -209,7 +215,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textAlignment="textEnd" />
 
 
                 </LinearLayout>
@@ -235,7 +242,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textAlignment="textEnd" />
 
 
                 </LinearLayout>
@@ -261,7 +269,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textAlignment="textEnd" />
 
 
                 </LinearLayout>
@@ -287,7 +296,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textAlignment="textEnd" />
 
 
                 </LinearLayout>
@@ -313,7 +323,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textAlignment="textEnd" />
 
 
                 </LinearLayout>
@@ -321,19 +332,24 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.5"
+                    android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:padding="10dp">
 
                     <Button
                         android:id="@+id/editLeavesButton"
                         style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_weight="1"
-                        android:background="@color/accent"
-                        android:text="Edit Leaves Observations" />
+                        android:text="@string/edit_leaves_observation_action" />
+
+                    <Button
+                        android:id="@+id/submitLeavesObservationButton"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/primary_dark"
+                        android:text="@string/submit_leaves_observation_action" />
                 </LinearLayout>
 
             </LinearLayout>

@@ -94,9 +94,9 @@ public class LeavesObservationManager implements Manager<LeavesObservation> {
         observationRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot==null){
+                if (dataSnapshot.getValue() == null){
                     callback.onSuccess(null);
-                }else{
+                } else {
                     LeavesObservation dbRes=dataSnapshot.getValue(LeavesObservation.class);
                     dbRes.setUid(uid);
                     callback.onSuccess(dbRes);

@@ -1,30 +1,30 @@
 <resources>
     <string name="app_name">Caterpilapp</string>
-    <string name="profilButton">Profil</string>
-    <string name="observationButton">Première observation</string>
-    <string name="observationBisButton">Seconde observation</string>
-    <string name="ourOakButton">Notre chêne</string>
+    <string name="profilButton">Profile</string>
+    <string name="observationButton">First observation</string>
+    <string name="observationBisButton">Second observation</string>
+    <string name="ourOakButton">Our oak</string>
     <!-- Oak form -->
-    <string name="title_activity_oak_form">Notre chêne</string>
-    <string name="geolocalisation">Geolocalisation</string>
+    <string name="title_activity_oak_form">Our Oak</string>
+    <string name="geolocalisation">Geolocation</string>
     <string name="longitude">Longitude</string>
     <string name="latitude">Latitude</string>
-    <string name="nbPartner">Numéro de partenaire</string>
-    <string name="circonference">Circonference du chêne</string>
-    <string name="heightOak">Hauteur estimée du chêne (en m)</string>
-    <string name="helpCirconference">Mesuré à 1,30 m du sol (en cm)</string>
-    <string name="datecaterpillar">Date d\'installation des chenilles</string>
-    <string name="validateButton">Valider</string>
+    <string name="nbPartner">Partner ID</string>
+    <string name="circonference">Oak circumference</string>
+    <string name="heightOak">Estimated height (meters)</string>
+    <string name="helpCirconference">Measured at 1,30 m from the ground (centimeters)</string>
+    <string name="datecaterpillar">Caterpillars installation date</string>
+    <string name="validateButton">Validate</string>
     <!-- Profil form -->
-    <string name="title_activity_profil_form">Profil</string>
-    <string name="schoolname">Nom de l\'établissement</string>
-    <string name="userName">Nom de l\'enseignant</string>
-    <string name="userFirstName">Prenom de l\'enseignant</string>
-    <string name="studentAge">Age des élèves</string>
+    <string name="title_activity_profil_form">Profile</string>
+    <string name="schoolname">School Name</string>
+    <string name="userName">Teacher name</string>
+    <string name="userFirstName">Teacher firstname</string>
+    <string name="studentAge">student age</string>
 
     <!-- Observation form -->
-    <string name="title_activity_observation">Les observations</string>
-    <string name="title_observation">Première observation</string>
+    <string name="title_activity_observation">Observations</string>
+    <string name="title_observation">First observation</string>
     <string name="string_caterpillar">Nombre de chenilles</string>
     <string name="nb_caterpillar">Présentes au départ</string>
     <string name="nb_caterpillar_marque">Total marques de prédations</string>
@@ -169,4 +169,7 @@
     <string name="profilePartnerIdLabel">My partner ID :</string>
     <string name="profileSchoolNameLabel">My school :</string>
     <string name="oak_already_associated">Your oak is already associated !</string>
+    <string name="edit_leaves_observation_action">Edit</string>
+    <string name="submit_leaves_observation_action">Submit observation</string>
+    <string name="all_inputs_not_filled">You can\'t submit this observation as all input are not properly filled</string>
 </resources>

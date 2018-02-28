@@ -1,9 +1,11 @@
 package com.example.vincentale.leafguard_core;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -26,9 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class LeavesObservationActivity extends AppCompatActivity /*implements LeavesViewFragment.OnFragmentInteractionListener, LeavesFormFragment.OnFragmentInteractionListener*/{
 
     public static final String TAG = "LeavesObservationAct";
-   /* private UserManager userManager;
-    private User user;*/
-
     Context context;
     private FirebaseDatabase firebaseDatabase;
     private com.example.vincentale.leafguard_core.model.manager.UserManager userManager;
@@ -50,7 +49,7 @@ public class LeavesObservationActivity extends AppCompatActivity /*implements Le
     private EditText nbClassG;
     private EditText nbClassH;
 
-    private Button validate;
+    private Button validateButton;
 
 
     @Override
@@ -65,22 +64,34 @@ public class LeavesObservationActivity extends AppCompatActivity /*implements Le
             @Override
             public void onSuccess(User identifiable) {
                 user = identifiable;
-            }
+                nbLeaves= findViewById(R.id.nbLeaves);
+                nbGalls= findViewById(R.id.nbGalls);
+                nbMines= findViewById(R.id.nbMines);
+                nbClassA = findViewById(R.id.nbClassA);
+                nbClassB = findViewById(R.id.nbClassB);
+                nbClassC = findViewById(R.id.nbClassC);
+                nbClassD = findViewById(R.id.nbClassD);
+                nbClassE = findViewById(R.id.nbClassE);
+                nbClassF = findViewById(R.id.nbClassF);
+                nbClassG = findViewById(R.id.nbClassG);
+                nbClassH = findViewById(R.id.nbClassH);
 
-            @Override
-            public void onFailure(DatabaseError error) {
+                validateButton = findViewById(R.id.validateLeavesButton);
+                validateButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        validateLeaves();
+                    }
+                });
 
-            }
-        });
-        leavesObservationManager= LeavesObservationManager.getInstance();
-        leavesObservationManager.find(user.getOakId(), new DatabaseCallback<LeavesObservation>() {
+                leavesObservationManager= LeavesObservationManager.getInstance();
+                leavesObservationManager.find(user.getOakId(), new DatabaseCallback<LeavesObservation>() {
                     @Override
                     public void onSuccess(LeavesObservation identifiable) {
-                        if(identifiable==null){
+                        if (identifiable==null) {
 
-                        }else{
+                        } else {
                             leavesObservation = identifiable;
-                            Log.d(TAG, String.valueOf(identifiable.getGallsTotal()));
 
                             nbLeaves.setText(String.valueOf(leavesObservation.getLeavesTotal()));
                             nbGalls.setText(String.valueOf(leavesObservation.getGallsTotal()));
@@ -93,49 +104,28 @@ public class LeavesObservationActivity extends AppCompatActivity /*implements Le
                             nbClassF.setText(String.valueOf(leavesObservation.getLeavesFClassNumber()));
                             nbClassG.setText(String.valueOf(leavesObservation.getLeavesGClassNumber()));
                             nbClassH.setText(String.valueOf(leavesObservation.getLeavesHClassNumber()));
-
                         }
 
                     }
+
+                    @Override
+                    public void onFailure(DatabaseError error) {
+                        Log.e(TAG, "onFailure: ", error.toException());
+                    }
+                });
+            }
 
             @Override
             public void onFailure(DatabaseError error) {
 
             }
+
+
         });
-
-
-        nbLeaves= findViewById(R.id.nbLeaves);
-        nbGalls= findViewById(R.id.nbGalls);
-        nbMines= findViewById(R.id.nbMines);
-        nbClassA = findViewById(R.id.nbClassA);
-        nbClassB = findViewById(R.id.nbClassB);
-        nbClassC = findViewById(R.id.nbClassC);
-        nbClassD = findViewById(R.id.nbClassD);
-        nbClassE = findViewById(R.id.nbClassE);
-        nbClassF = findViewById(R.id.nbClassF);
-        nbClassG = findViewById(R.id.nbClassG);
-        nbClassH = findViewById(R.id.nbClassH);
-
-
-
-
-        validate = findViewById(R.id.validateLeavesButton);
-
     }
 
-    public void validateLeaves(View view){
-        Log.d(TAG, nbGalls.getText().toString());
-        if (nbLeaves.getText()==null||nbGalls.getText()==null||nbMines.getText()==null||nbClassA.getText()==null
-                ||nbClassA.getText()==null||nbClassB.getText()==null||nbClassC.getText()==null||
-                nbClassD.getText()==null||nbClassE.getText()==null||nbClassF.getText()==null||
-                nbClassG.getText()==null||nbClassH.getText()==null){
-
-            //TODO: put error message
-            //Toast.makeText(context, "not good !", Toast.LENGTH_SHORT).show();
-
-        }else{
-
+    public void validateLeaves(){
+        try {
             int intleaves = Integer.valueOf(nbLeaves.getText().toString());
             int intgalls = Integer.valueOf(nbGalls.getText().toString());
             int intmines = Integer.valueOf(nbMines.getText().toString());
@@ -148,27 +138,31 @@ public class LeavesObservationActivity extends AppCompatActivity /*implements Le
             int intclassG= Integer.valueOf(nbClassG.getText().toString());
             int intclassH= Integer.valueOf(nbClassH.getText().toString());
 
-
-
             leavesObservation= new LeavesObservation(user.getOak(),intleaves,intgalls,intmines,intclassA,intclassB,intclassC,intclassD,intclassE,intclassF,intclassG,intclassH);
-
             leavesObservationManager.update(leavesObservation, new OnUpdateCallback() {
                 @Override
                 public void onSuccess() {
                     Log.d(TAG,"succed save");
-                       }
+                }
 
                 @Override
                 public void onError(Throwable err) {
 
-                    Log.d(TAG,err.toString());
+                    Log.e(TAG,"LeavesObservation Validation", err);
                 }
             });
-
-            Log.d(TAG, String.valueOf(leavesObservation.getLeavesAClassNumber()));
-
             Intent leavesViewIntent = new Intent(context, LeavesViewActivity.class);
             startActivity(leavesViewIntent);
+            finish();
+        } catch (NumberFormatException ex) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(LeavesObservationActivity.this);
+            builder.setMessage(R.string.all_inputs_not_filled)
+                    .setPositiveButton(R.string.ok_action, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+            builder.create().show();
         }
 
     }

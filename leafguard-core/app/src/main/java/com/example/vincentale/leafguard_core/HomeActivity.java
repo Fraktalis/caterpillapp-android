@@ -69,15 +69,15 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(oakFormIntent);
                     }
                 });
+
+                Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
                 if (mUser.getOakId() != null) {
-                    Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
                     ourOakButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
                 }
 
                 String obervationUid = mUser.getOakId() + "_" + 1;
                 Button observationButton = (Button) findViewById(R.id.observationButton);
                 if (mUser.hasObservation(obervationUid)) {
-                    Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
                     observationButton.setEnabled(false);
                     observationButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
                 } else {
@@ -96,7 +96,7 @@ public class HomeActivity extends AppCompatActivity {
                 obervationUid = mUser.getOakId() + "_" + 2;
                 Button observationBisButton = (Button) findViewById(R.id.observationBisButton);
                 if (mUser.hasObservation(obervationUid)) {
-                    Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
+
                     observationBisButton.setEnabled(false);
                     observationBisButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
                 } else {
@@ -112,13 +112,18 @@ public class HomeActivity extends AppCompatActivity {
                 }
 
                 Button leavesObservationButton = findViewById(R.id.leavesObservationButton);
-                leavesObservationButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent leavesObservationIntent = new Intent(mainContext, LeavesObservationActivity.class);
-                        startActivity(leavesObservationIntent);
-                    }
-                });
+                if (mUser.isLeavesObservationSent()) {
+                    leavesObservationButton.setEnabled(false);
+                    leavesObservationButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
+                } else {
+                    leavesObservationButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent leavesObservationIntent = new Intent(mainContext, LeavesViewActivity.class);
+                            startActivity(leavesObservationIntent);
+                        }
+                    });
+                }
             }
 
             @Override
