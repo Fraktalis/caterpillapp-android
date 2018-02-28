@@ -19,6 +19,7 @@ import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.manager.LeavesObservationManager;
 import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.example.vincentale.leafguard_core.util.OnUpdateCallback;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -56,8 +57,9 @@ public class LeavesObservationActivity extends AppCompatActivity /*implements Le
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaves_observation);
-        context=this;
+        context=getBaseContext();
         firebaseDatabase = FirebaseDatabase.getInstance();
+        leavesObservationManager= LeavesObservationManager.getInstance();
         userManager = com.example.vincentale.leafguard_core.model.manager.UserManager.getInstance();
         userManager.getUser(new DatabaseCallback<User>() {
             @Override
@@ -70,6 +72,39 @@ public class LeavesObservationActivity extends AppCompatActivity /*implements Le
 
             }
         });
+        leavesObservationManager= LeavesObservationManager.getInstance();
+        leavesObservationManager.find(user.getOakId(), new DatabaseCallback<LeavesObservation>() {
+                    @Override
+                    public void onSuccess(LeavesObservation identifiable) {
+                        if(identifiable==null){
+
+                        }else{
+                            leavesObservation = identifiable;
+                            Log.d(TAG, String.valueOf(identifiable.getGallsTotal()));
+
+                            nbLeaves.setText(String.valueOf(leavesObservation.getLeavesTotal()));
+                            nbGalls.setText(String.valueOf(leavesObservation.getGallsTotal()));
+                            nbMines.setText(String.valueOf(leavesObservation.getMinesTotal()));
+                            nbClassA.setText(String.valueOf(leavesObservation.getLeavesAClassNumber()));
+                            nbClassB.setText(String.valueOf(leavesObservation.getLeavesBClassNumber()));
+                            nbClassC.setText(String.valueOf(leavesObservation.getLeavesCClassNumber()));
+                            nbClassD.setText(String.valueOf(leavesObservation.getLeavesDClassNumber()));
+                            nbClassE.setText(String.valueOf(leavesObservation.getLeavesEClassNumber()));
+                            nbClassF.setText(String.valueOf(leavesObservation.getLeavesFClassNumber()));
+                            nbClassG.setText(String.valueOf(leavesObservation.getLeavesGClassNumber()));
+                            nbClassH.setText(String.valueOf(leavesObservation.getLeavesHClassNumber()));
+
+                        }
+
+                    }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+
+            }
+        });
+
+
         nbLeaves= findViewById(R.id.nbLeaves);
         nbGalls= findViewById(R.id.nbGalls);
         nbMines= findViewById(R.id.nbMines);
@@ -83,32 +118,10 @@ public class LeavesObservationActivity extends AppCompatActivity /*implements Le
         nbClassH = findViewById(R.id.nbClassH);
 
 
+
+
         validate = findViewById(R.id.validateLeavesButton);
-/*
-        validate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Log.d(TAG, nbGalls.getText().toString());
-                leavesObservation= new LeavesObservation(Integer.getInteger(nbLeaves.getText().toString()),
-                        Integer.getInteger(nbGalls.getText().toString()),
-                        Integer.getInteger(nbMines.getText().toString()),
-                        Integer.getInteger(nbClassA.getText().toString()),
-                        Integer.getInteger(nbClassB.getText().toString()),
-                        Integer.getInteger(nbClassC.getText().toString()),
-                        Integer.getInteger(nbClassD.getText().toString()),
-                        Integer.getInteger(nbClassE.getText().toString()),
-                        Integer.getInteger(nbClassF.getText().toString()),
-                        Integer.getInteger(nbClassG.getText().toString()),
-                        Integer.getInteger(nbClassH.getText().toString()));
-
-                Log.d(TAG, String.valueOf(leavesObservation.getLeavesAClassNumber()));
-
-                Intent leavesViewIntent = new Intent(context, LeavesViewActivity.class);
-                startActivity(leavesViewIntent);
-
-            }
-        });*/
     }
 
     public void validateLeaves(View view){
@@ -118,6 +131,8 @@ public class LeavesObservationActivity extends AppCompatActivity /*implements Le
                 nbClassD.getText()==null||nbClassE.getText()==null||nbClassF.getText()==null||
                 nbClassG.getText()==null||nbClassH.getText()==null){
 
+            //TODO: put error message
+            //Toast.makeText(context, "not good !", Toast.LENGTH_SHORT).show();
 
         }else{
 
@@ -135,8 +150,20 @@ public class LeavesObservationActivity extends AppCompatActivity /*implements Le
 
 
 
-            leavesObservation= new LeavesObservation(intleaves,intgalls,intmines,intclassA,intclassB,intclassC,intclassD,intclassE,intclassF,intclassG,intclassH);
+            leavesObservation= new LeavesObservation(user.getOak(),intleaves,intgalls,intmines,intclassA,intclassB,intclassC,intclassD,intclassE,intclassF,intclassG,intclassH);
 
+            leavesObservationManager.update(leavesObservation, new OnUpdateCallback() {
+                @Override
+                public void onSuccess() {
+                    Log.d(TAG,"succed save");
+                       }
+
+                @Override
+                public void onError(Throwable err) {
+
+                    Log.d(TAG,err.toString());
+                }
+            });
 
             Log.d(TAG, String.valueOf(leavesObservation.getLeavesAClassNumber()));
 

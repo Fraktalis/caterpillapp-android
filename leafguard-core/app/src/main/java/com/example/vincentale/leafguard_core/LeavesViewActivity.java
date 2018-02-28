@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.example.vincentale.leafguard_core.model.LeavesObservation;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.manager.LeavesObservationManager;
+import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LeavesViewActivity extends AppCompatActivity {
@@ -24,7 +26,7 @@ public class LeavesViewActivity extends AppCompatActivity {
     public static final String TAG = "LeavesViewActivity";
     private FirebaseDatabase firebaseDatabase;
     private com.example.vincentale.leafguard_core.model.manager.UserManager userManager;
-    private LeavesObservation leavesObservation= new LeavesObservation();
+    private LeavesObservation leavesObservation = new LeavesObservation();
     private LeavesObservationManager leavesObservationManager;
     private String oakUid;
     private User user;
@@ -50,17 +52,21 @@ public class LeavesViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_leaves_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        leavesObservation= new LeavesObservation();
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        userManager = com.example.vincentale.leafguard_core.model.manager.UserManager.getInstance();
+        userManager.getUser(new DatabaseCallback<User>() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onSuccess(User identifiable) {
+                user = identifiable;
+            }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+
             }
         });
+        oakUid=user.getOakId();
+
         nbLeaves = findViewById(R.id.numberObservedLeavesText);
         nbGalls = findViewById(R.id.numbergallsText);
         nbMines = findViewById(R.id.numberMinesText);
@@ -72,20 +78,34 @@ public class LeavesViewActivity extends AppCompatActivity {
         nbClassF = findViewById(R.id.classFText);
         nbClassG = findViewById(R.id.classGText);
         nbClassH = findViewById(R.id.classHText);
+        leavesObservationManager= LeavesObservationManager.getInstance();
+        leavesObservationManager.find(user.getOakId(), new DatabaseCallback<LeavesObservation>() {
+            @Override
+            public void onSuccess(LeavesObservation identifiable) {
+                leavesObservation=identifiable;
+                Log.d(TAG,String.valueOf(identifiable.getGallsTotal()));
+
+                nbLeaves.setText(String.valueOf(leavesObservation.getLeavesTotal()));
+                nbGalls.setText(String.valueOf(leavesObservation.getGallsTotal()));
+                nbMines.setText(String.valueOf(leavesObservation.getMinesTotal()));
+                nbClassA.setText(String.valueOf(leavesObservation.getLeavesAClassNumber()));
+                nbClassB.setText(String.valueOf(leavesObservation.getLeavesBClassNumber()));
+                nbClassC.setText(String.valueOf(leavesObservation.getLeavesCClassNumber()));
+                nbClassD.setText(String.valueOf(leavesObservation.getLeavesDClassNumber()));
+                nbClassE.setText(String.valueOf(leavesObservation.getLeavesEClassNumber()));
+                nbClassF.setText(String.valueOf(leavesObservation.getLeavesFClassNumber()));
+                nbClassG.setText(String.valueOf(leavesObservation.getLeavesGClassNumber()));
+                nbClassH.setText(String.valueOf(leavesObservation.getLeavesHClassNumber()));
+
+            }
+
+            @Override
+            public void onFailure(DatabaseError error) {
+
+            }
+        });
 
         final Context context= this;
-
-        nbLeaves.setText(String.valueOf(leavesObservation.getLeavesTotal()));
-        nbGalls.setText(String.valueOf(leavesObservation.getGallsTotal()));
-        nbMines.setText(String.valueOf(leavesObservation.getMinesTotal()));
-        nbClassA.setText(String.valueOf(leavesObservation.getLeavesAClassNumber()));
-        nbClassB.setText(String.valueOf(leavesObservation.getLeavesBClassNumber()));
-        nbClassC.setText(String.valueOf(leavesObservation.getLeavesCClassNumber()));
-        nbClassD.setText(String.valueOf(leavesObservation.getLeavesDClassNumber()));
-        nbClassE.setText(String.valueOf(leavesObservation.getLeavesEClassNumber()));
-        nbClassF.setText(String.valueOf(leavesObservation.getLeavesFClassNumber()));
-        nbClassG.setText(String.valueOf(leavesObservation.getLeavesGClassNumber()));
-        nbClassH.setText(String.valueOf(leavesObservation.getLeavesHClassNumber()));
 
         edit = findViewById(R.id.editLeavesButton);
         edit.setOnClickListener(new View.OnClickListener() {

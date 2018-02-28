@@ -28,7 +28,10 @@ public class LeavesObservation extends AbstractObservation {
     //class H : leaf dommaged by more than 75%
     private int leavesHClassNumber;
 
-    public LeavesObservation(int leavesTotal, int gallsTotal, int minesTotal, int leavesAClassNumber, int leavesBClassNumber, int leavesCClassNumber, int leavesDClassNumber, int leavesEClassNumber, int leavesFClassNumber, int leavesGClassNumber, int leavesHClassNumber) {
+    public LeavesObservation(Oak referedOak, int leavesTotal, int gallsTotal, int minesTotal, int leavesAClassNumber, int leavesBClassNumber, int leavesCClassNumber, int leavesDClassNumber, int leavesEClassNumber, int leavesFClassNumber, int leavesGClassNumber, int leavesHClassNumber) {
+        super();
+        this.uid=referedOak.getUid();
+
         this.leavesTotal = leavesTotal;
         this.gallsTotal = gallsTotal;
         this.minesTotal = minesTotal;
@@ -43,17 +46,7 @@ public class LeavesObservation extends AbstractObservation {
     }
 
     public LeavesObservation() {
-        this.leavesTotal = 0;
-        this.gallsTotal = 0;
-        this.minesTotal = 0;
-        this.leavesAClassNumber = 0;
-        this.leavesBClassNumber = 0;
-        this.leavesCClassNumber = 0;
-        this.leavesDClassNumber = 0;
-        this.leavesEClassNumber = 0;
-        this.leavesFClassNumber = 0;
-        this.leavesGClassNumber = 0;
-        this.leavesHClassNumber = 0;
+
     }
     public int getLeavesTotal() {
         return leavesTotal;

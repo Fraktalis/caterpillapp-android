@@ -55,7 +55,7 @@ public class LeavesObservationManager implements Manager<LeavesObservation> {
                 try {
                     for (String field :
                             fieldsMapping) {
-                        Object res = ReflectionHelper.invokeGetter(field, object, CaterpillarObservation.class);
+                        Object res = ReflectionHelper.invokeGetter(field, object, LeavesObservation.class);
                         observationRef.child(field).setValue(res);
                     }
                     //Observation have a timestamp, so we add it to the database
@@ -86,7 +86,29 @@ public class LeavesObservationManager implements Manager<LeavesObservation> {
     }
 
     @Override
-    public void find(String uid, DatabaseCallback<LeavesObservation> callback) {
+    public void find(final String uid, final DatabaseCallback<LeavesObservation> callback) {
+
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        DatabaseReference observationRef = firebaseDatabase.getReference().child(NODE_NAME).child(uid).child(NODE_LEAF);
+
+        observationRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot==null){
+                    callback.onSuccess(null);
+                }else{
+                    LeavesObservation dbRes=dataSnapshot.getValue(LeavesObservation.class);
+                    dbRes.setUid(uid);
+                    callback.onSuccess(dbRes);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onFailure(databaseError);
+            }
+        });
 
     }
 
