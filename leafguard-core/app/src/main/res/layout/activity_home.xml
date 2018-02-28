@@ -96,7 +96,6 @@
             app:layout_constraintTop_toBottomOf="@+id/observationButton"
             app:layout_constraintVertical_bias="0.366" />
 
-
         <Button
             android:id="@+id/leavesObservationButton"
             android:layout_width="match_parent"
@@ -108,15 +107,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/leaves_observation_action" />
 
-        <Button
-            android:id="@+id/camera2Button"
-            style="@android:style/Widget.DeviceDefault.Button.Borderless"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:drawableLeft="@mipmap/ic_photo_camera"
-            app:layout_constraintBottom_toBottomOf="parent" />
+
     </LinearLayout>
 
 
