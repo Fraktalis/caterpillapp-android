@@ -34,6 +34,7 @@ public class ProfileFormFragment extends Fragment {
     private EditText schoolNameEditText;
     private EditText surnameEditText;
     private EditText nameEditText;
+    private EditText ageEditText;
     private Button submitButton;
 
     private UserManager userManager;
@@ -88,6 +89,10 @@ public class ProfileFormFragment extends Fragment {
                 if (user.getName() != null && !user.getName().isEmpty()) {
                     nameEditText.setText(user.getName());
                 }
+                ageEditText = fragmentView.findViewById(R.id.ageEditText);
+                if (user.getStudentAge() > 0) {
+                    ageEditText.setText(String.valueOf(user.getStudentAge()));
+                }
                 submitButton = fragmentView.findViewById(R.id.submitButton);
                 submitButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -95,6 +100,7 @@ public class ProfileFormFragment extends Fragment {
                         user.setSchoolName(schoolNameEditText.getText().toString());
                         user.setSurname(surnameEditText.getText().toString());
                         user.setName(nameEditText.getText().toString());
+                        user.setStudentAge(Integer.parseInt(ageEditText.getText().toString()));
                         userManager.update(user, new OnUpdateCallback() {
                             @Override
                             public void onSuccess() {

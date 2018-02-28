@@ -29,7 +29,7 @@ import java.util.Arrays;
 public class UserManager implements Manager<User> {
     public final static String TAG = "UserManager";
     public final static String NODE_NAME = "users";
-    public final static String[] fieldsMapping = {"name", "surname", "email", "oakId", "role", "partnerId", "schoolName", "schoolLevel", "observationUids"};
+    public final static String[] fieldsMapping = {"name", "surname", "email", "oakId", "role", "partnerId", "schoolName", "schoolLevel", "studentAge", "observationUids"};
     private static FirebaseUser firebaseUser;
     private static User user;
     private static UserManager userManager;

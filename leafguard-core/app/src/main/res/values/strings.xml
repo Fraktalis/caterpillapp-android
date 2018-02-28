@@ -40,9 +40,9 @@
     <string name="hello_name">Hello %1$s !</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Your Email</string>
     <string name="title_activity_login">Sign in</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_register"><a href="#">Or create an account !</a></string>
     <string name="action_sign_in_short">Sign in</string>
@@ -152,4 +152,11 @@
     <string name="number_of_leaves_in_class_f">Number of leaves in class F</string>
     <string name="number_of_leaves_in_class_g">Number of leaves in class G</string>
     <string name="number_of_leaves_in_class_h">Number of leaves in class H</string>
+    <string name="forgotten_password_description">Did you forget your password ? Type your email below and hit the button. You will receive an email to reset your password.</string>
+    <string name="send_reset_email">Send an email to reset your password</string>
+    <string name="profileNameLabel">My Name :</string>
+    <string name="profileEmailLabel">My Email :</string>
+    <string name="profilePartnerIdLabel">My partner ID :</string>
+    <string name="profileSchoolNameLabel">My school :</string>
+    <string name="oak_already_associated">Your oak is already associated !</string>
 </resources>

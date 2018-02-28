@@ -97,14 +97,6 @@ public class LoginActivity extends AppCompatActivity  {
             }
         });
 
-        TextView registerLink = (TextView) findViewById(R.id.registerLink);
-        registerLink.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(LoginActivity.this, "Processing....", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         TextView lostPasswordLink =(TextView) findViewById(R.id.lostPasswordLink);
         lostPasswordLink.setOnClickListener(new OnClickListener() {
             @Override

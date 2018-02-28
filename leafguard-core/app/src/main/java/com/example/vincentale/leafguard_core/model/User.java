@@ -22,6 +22,7 @@ public class User implements Identifiable {
     private String partnerId;
     private String schoolName;
     private String schoolLevel;
+    private int studentAge;
 
     private Oak oak;
     private String oakId;
@@ -45,6 +46,7 @@ public class User implements Identifiable {
         this.partnerId = u.getPartnerId();
         this.schoolName = u.getSchoolName();
         this.schoolLevel = u.getSchoolLevel();
+        this.studentAge = u.getStudentAge();
         setObservationUids(u.getObservationUids());
     }
 
@@ -122,6 +124,16 @@ public class User implements Identifiable {
 
     public User setSchoolLevel(String schoolLevel) {
         this.schoolLevel = schoolLevel;
+
+        return this;
+    }
+
+    public int getStudentAge() {
+        return studentAge;
+    }
+
+    public User setStudentAge(int studentAge) {
+        this.studentAge = studentAge;
 
         return this;
     }
