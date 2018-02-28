@@ -83,7 +83,7 @@ public class ProfileFragment extends Fragment {
                 partnerIdText.setText(user.getPartnerId());
                 oakText = (TextView) fragmentView.findViewById(R.id.oakText);
                 if (user.getOak() != null) {
-                    oakText.setText(user.getOak().getUid());
+                    oakText.setText(R.string.oak_already_associated);
                 }
                 editButton = fragmentView.findViewById(R.id.editButton);
                 editButton.setOnClickListener(new View.OnClickListener() {
