@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class LeavesObservationActivity extends AppCompatActivity /*implements LeavesViewFragment.OnFragmentInteractionListener, LeavesFormFragment.OnFragmentInteractionListener*/{
 
-    public static final String TAG = "LeavesObsevationActivity";
+    public static final String TAG = "LeavesObservationAct";
    /* private UserManager userManager;
     private User user;*/
 
@@ -98,28 +99,56 @@ public class LeavesObservationActivity extends AppCompatActivity /*implements Le
 
         //getSupportFragmentManager().beginTransaction().add(R.id.leaves_fragment_container, leavesViewFragment).commit();
 
-       /* edit = findViewById(R.id.editLeavesButton);
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent leavesObservationIntent = new Intent(context, LeavesObservationActivity.class);
-                startActivity(leavesObservationIntent);
-
-            }
-
-        });*/
 
         validate = findViewById(R.id.validateLeavesButton);
-
+/*
         validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Log.d(TAG, nbGalls.getText().toString());
+                leavesObservation= new LeavesObservation(Integer.getInteger(nbLeaves.getText().toString()),
+                        Integer.getInteger(nbGalls.getText().toString()),
+                        Integer.getInteger(nbMines.getText().toString()),
+                        Integer.getInteger(nbClassA.getText().toString()),
+                        Integer.getInteger(nbClassB.getText().toString()),
+                        Integer.getInteger(nbClassC.getText().toString()),
+                        Integer.getInteger(nbClassD.getText().toString()),
+                        Integer.getInteger(nbClassE.getText().toString()),
+                        Integer.getInteger(nbClassF.getText().toString()),
+                        Integer.getInteger(nbClassG.getText().toString()),
+                        Integer.getInteger(nbClassH.getText().toString()));
+
+                Log.d(TAG, String.valueOf(leavesObservation.getLeavesAClassNumber()));
+
                 Intent leavesViewIntent = new Intent(context, LeavesViewActivity.class);
                 startActivity(leavesViewIntent);
 
             }
-        });
+        });*/
     }
 
+    public void validateLeaves(View view){
+        Log.d(TAG, nbGalls.getText().toString());
+        int intleaves = Integer.valueOf(nbLeaves.getText().toString());
+        int intgalls = Integer.valueOf(nbGalls.getText().toString());
+        int intmines = Integer.valueOf(nbMines.getText().toString());
+        int intclassA= Integer.valueOf(nbClassA.getText().toString());
+        int intclassB= Integer.valueOf(nbClassB.getText().toString());
+        int intclassC= Integer.valueOf(nbClassC.getText().toString());
+        int intclassD= Integer.valueOf(nbClassD.getText().toString());
+        int intclassE= Integer.valueOf(nbClassE.getText().toString());
+        int intclassF= Integer.valueOf(nbClassF.getText().toString());
+        int intclassG= Integer.valueOf(nbClassG.getText().toString());
+        int intclassH= Integer.valueOf(nbClassH.getText().toString());
+
+
+
+        leavesObservation= new LeavesObservation(intleaves,intgalls,intmines,intclassA,intclassB,intclassC,intclassD,intclassE,intclassF,intclassG,intclassH);
+
+        Log.d(TAG, String.valueOf(leavesObservation.getLeavesAClassNumber()));
+
+        Intent leavesViewIntent = new Intent(context, LeavesViewActivity.class);
+        startActivity(leavesViewIntent);
+    }
 }
