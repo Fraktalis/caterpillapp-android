@@ -2,9 +2,10 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_leaves_view_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    tools:context="com.example.vincentale.leafguard_core.LeavesViewActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -16,14 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/app_name" />
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <include
-        layout="@layout/content_profile"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteY="71dp" />
+    <include layout="@layout/content_leaves_view" />
 
 </android.support.design.widget.CoordinatorLayout>

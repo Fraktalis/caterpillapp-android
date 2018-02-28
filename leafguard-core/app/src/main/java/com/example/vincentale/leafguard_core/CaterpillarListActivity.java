@@ -134,7 +134,7 @@ public class CaterpillarListActivity extends AppCompatActivity {
                                                             public void onSuccess() {
                                                                 /**
                                                                  * We persist a slightly modified uid in order to be able to distinguish observation 1 and 2
-                                                                 * The uid is not modified
+                                                                 * The original uid is not modified
                                                                  */
                                                                 currentUser.addObservation(observation.getUid() + "_" + observation.getObservationIndex());
                                                                 userManager.update(currentUser,null);

@@ -1,9 +1,5 @@
 package com.example.vincentale.leafguard_core.util;
 
-import android.util.Log;
-
-import com.example.vincentale.leafguard_core.model.Oak;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -31,16 +27,16 @@ public class ReflectionHelper {
     public static Object invokeGetter(String field, Object subject, Class subjectClass) throws NoSuchFieldException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         try {
-            Method getter = buildGetter(field, subject, subjectClass);
+            Method getter = buildGetter(field, subjectClass);
             return getter.invoke(subject);
         } catch (NoSuchFieldException ex) {
-            Method superGetter = buildGetter(field, subject, subjectClass.getSuperclass());
+            Method superGetter = buildGetter(field, subjectClass.getSuperclass());
             return superGetter.invoke(subject);
         }
 
     }
 
-    private static Method buildGetter(String field, Object subject, Class subjectClass) throws NoSuchFieldException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    private static Method buildGetter(String field, Class subjectClass) throws NoSuchFieldException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String getterName;
             if (subjectClass.getDeclaredField(field).getType().equals(boolean.class)) {
             getterName = "is" + capitalize(field);

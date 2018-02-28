@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ public class ProfileFragment extends Fragment {
 
     private TextView emailText;
     private TextView nameText;
+    private TextView partnerIdText;
+    private TextView schoolNameText;
     private TextView oakText;
     private Button editButton;
 
@@ -73,9 +76,14 @@ public class ProfileFragment extends Fragment {
                 emailText.setText(user.getEmail());
                 nameText = (TextView) fragmentView.findViewById(R.id.nameText);
                 nameText.setText(user.getDisplayName());
+                schoolNameText = (TextView) fragmentView.findViewById(R.id.schoolNameText);
+                Log.d("ProfileFragment", "user.getSchoolName() = " + user.getSchoolName());
+                schoolNameText.setText(user.getSchoolName());
+                partnerIdText = fragmentView.findViewById(R.id.partnerIdText);
+                partnerIdText.setText(user.getPartnerId());
                 oakText = (TextView) fragmentView.findViewById(R.id.oakText);
                 if (user.getOak() != null) {
-                    oakText.setText(user.getOak().getUid());
+                    oakText.setText(R.string.oak_already_associated);
                 }
                 editButton = fragmentView.findViewById(R.id.editButton);
                 editButton.setOnClickListener(new View.OnClickListener() {

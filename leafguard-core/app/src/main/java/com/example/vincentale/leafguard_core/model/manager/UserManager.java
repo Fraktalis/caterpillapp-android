@@ -29,7 +29,7 @@ import java.util.Arrays;
 public class UserManager implements Manager<User> {
     public final static String TAG = "UserManager";
     public final static String NODE_NAME = "users";
-    public final static String[] fieldsMapping = {"name", "surname", "email", "oakId", "role", "observationUids"};
+    public final static String[] fieldsMapping = {"name", "surname", "email", "oakId", "role", "partnerId", "schoolName", "schoolLevel", "studentAge", "leavesObservationSent", "observationUids"};
     private static FirebaseUser firebaseUser;
     private static User user;
     private static UserManager userManager;
@@ -74,6 +74,7 @@ public class UserManager implements Manager<User> {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Log.d(TAG, "user retrieved from firebase");
+                    Log.d(TAG, "onDataChange: " + dataSnapshot.toString());
                     User databaseEntries = dataSnapshot.getValue(User.class);
                     Log.d(TAG, "user from db : " + databaseEntries);
                     if (databaseEntries == null) { //No entry for this particuliar entry. It shouldn't happen
@@ -87,16 +88,21 @@ public class UserManager implements Manager<User> {
                         oakManager.find(user.getOakId(), new DatabaseCallback<Oak>() {
                             @Override
                             public void onSuccess(Oak identifiable) {
+
                                 user.setOak(identifiable);
+                                Log.d(TAG, "no Oak user : " + user);
+                                callback.onSuccess(user);
                             }
 
                             @Override
                             public void onFailure(DatabaseError error) {
                             }
                         });
+                    } else {
+                        Log.d(TAG, "no Oak user : " + user);
+                        callback.onSuccess(user);
                     }
-                    Log.d(TAG, "onDataChange: " + user);
-                    callback.onSuccess(user);
+
                 }
 
                 @Override

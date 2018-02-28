@@ -67,12 +67,26 @@
         <activity android:name=".ForgotPasswordActivity" />
         <activity
             android:name=".fragment.admin.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
         <activity android:name=".CameraIntentActivity" />
 
         <service
             android:name=".service.ObservationService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity
+            android:name=".LeavesObservationActivity"
+            android:label="@string/title_activity_leaves_observation"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.vincentale.leafguard_core.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".LeavesViewActivity"
+            android:label="@string/title_activity_leaves_form"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 </manifest>

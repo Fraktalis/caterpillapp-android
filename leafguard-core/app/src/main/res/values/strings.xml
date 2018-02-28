@@ -1,30 +1,30 @@
 <resources>
     <string name="app_name">Caterpilapp</string>
-    <string name="profilButton">Profil</string>
-    <string name="observationButton">Première observation</string>
-    <string name="observationBisButton">Seconde observation</string>
-    <string name="ourOakButton">Notre chêne</string>
+    <string name="profilButton">Profile</string>
+    <string name="observationButton">First observation</string>
+    <string name="observationBisButton">Second observation</string>
+    <string name="ourOakButton">Our oak</string>
     <!-- Oak form -->
-    <string name="title_activity_oak_form">Notre chêne</string>
-    <string name="geolocalisation">Geolocalisation</string>
+    <string name="title_activity_oak_form">Our Oak</string>
+    <string name="geolocalisation">Geolocation</string>
     <string name="longitude">Longitude</string>
     <string name="latitude">Latitude</string>
-    <string name="nbPartner">Numéro de partenaire</string>
-    <string name="circonference">Circonference du chêne</string>
-    <string name="heightOak">Hauteur estimée du chêne (en m)</string>
-    <string name="helpCirconference">Mesuré à 1,30 m du sol (en cm)</string>
-    <string name="datecaterpillar">Date d\'installation des chenilles</string>
-    <string name="validateButton">Valider</string>
+    <string name="nbPartner">Partner ID</string>
+    <string name="circonference">Oak circumference</string>
+    <string name="heightOak">Estimated height (meters)</string>
+    <string name="helpCirconference">Measured at 1,30 m from the ground (centimeters)</string>
+    <string name="datecaterpillar">Caterpillars installation date</string>
+    <string name="validateButton">Validate</string>
     <!-- Profil form -->
-    <string name="title_activity_profil_form">Profil</string>
-    <string name="schoolname">Nom de l\'établissement</string>
-    <string name="userName">Nom de l\'enseignant</string>
-    <string name="userFirstName">Prenom de l\'enseignant</string>
-    <string name="studentAge">Age des élèves</string>
+    <string name="title_activity_profil_form">Profile</string>
+    <string name="schoolname">School Name</string>
+    <string name="userName">Teacher name</string>
+    <string name="userFirstName">Teacher firstname</string>
+    <string name="studentAge">student age</string>
 
     <!-- Observation form -->
-    <string name="title_activity_observation">Les observations</string>
-    <string name="title_observation">Première observation</string>
+    <string name="title_activity_observation">Observations</string>
+    <string name="title_observation">First observation</string>
     <string name="string_caterpillar">Nombre de chenilles</string>
     <string name="nb_caterpillar">Présentes au départ</string>
     <string name="nb_caterpillar_marque">Total marques de prédations</string>
@@ -40,9 +40,9 @@
     <string name="hello_name">Hello %1$s !</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Your Email</string>
     <string name="title_activity_login">Sign in</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_register"><a href="#">Or create an account !</a></string>
     <string name="action_sign_in_short">Sign in</string>
@@ -140,9 +140,36 @@
     <string name="attackedByLizard">Attacked by lizards</string>
     <string name="error_occured">An error occured. Please try again.</string>
     <string name="download_observation_action">Download observation</string>
-    <string name="observation_download_description" >You can download a CSV file containing all observations data by clicking the button below. This may take some time.</string>
+    <string name="observation_download_description">You can download a CSV file containing all observations data by clicking the button below. This may take some time.</string>
     <string name="observation_have_changed">Observation have changed !</string>
     <string name="download_service_started">Download will start shortly</string>
     <string name="observation_saved_at_location">Observation saved at %1$s </string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main">LeavesObservationActivity</string>
+    <string name="title_activity_leaves_observation">LeavesObservationActivity</string>
+    <string name="leaves_observation_action">Leaves Observation (Optional)</string>
+    <string name="no_oak_associated">No oak associated.</string>
+    <string name="profile_title">My Profile</string>
+    <string name="number_of_observed_leaves">Number of observed leaves</string>
+    <string name="number_of_galls">Number of galls</string>
+    <string name="number_of_mines">Number of mines</string>
+    <string name="number_of_leaves_in_class_a">Number of leaves in class A</string>
+    <string name="number_of_leaves_in_class_b">Number of leaves in class B</string>
+    <string name="number_of_leaves_in_class_c">Number of leaves in class C</string>
+    <string name="number_of_leaves_in_class_d">Number of leaves in class D</string>
+    <string name="number_of_leaves_in_class_e">Number of leaves in class E</string>
+    <string name="number_of_leaves_in_class_f">Number of leaves in class F</string>
+    <string name="number_of_leaves_in_class_g">Number of leaves in class G</string>
+    <string name="number_of_leaves_in_class_h">Number of leaves in class H</string>
+    <string name="title_activity_leaves_form">LeavesFormActivity</string>
+    <string name="forgotten_password_description">Did you forget your password ? Type your email below and hit the button. You will receive an email to reset your password.</string>
+    <string name="send_reset_email">Send an email to reset your password</string>
+    <string name="profileNameLabel">My Name :</string>
+    <string name="profileEmailLabel">My Email :</string>
+    <string name="profilePartnerIdLabel">My partner ID :</string>
+    <string name="profileSchoolNameLabel">My school :</string>
+    <string name="oak_already_associated">Your oak is already associated !</string>
+    <string name="edit_leaves_observation_action">Edit</string>
+    <string name="submit_leaves_observation_action">Submit observation</string>
+    <string name="all_inputs_not_filled">You can\'t submit this observation as all input are not properly filled</string>
 </resources>
