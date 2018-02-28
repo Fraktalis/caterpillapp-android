@@ -64,28 +64,28 @@ public class LeavesViewActivity extends AppCompatActivity {
         nbLeaves = findViewById(R.id.numberObservedLeavesText);
         nbGalls = findViewById(R.id.numbergallsText);
         nbMines = findViewById(R.id.numberMinesText);
-       /* nbClassA = findViewById(R.id.classAText);
+        nbClassA = findViewById(R.id.classAText);
         nbClassB = findViewById(R.id.classBText);
         nbClassC = findViewById(R.id.classCText);
         nbClassD = findViewById(R.id.classDText);
         nbClassE = findViewById(R.id.classEText);
         nbClassF = findViewById(R.id.classFText);
         nbClassG = findViewById(R.id.classGText);
-        nbClassH = findViewById(R.id.classHText);*/
+        nbClassH = findViewById(R.id.classHText);
 
         final Context context= this;
 
-        nbLeaves.setText(leavesObservation.getLeavesTotal());
-        nbGalls.setText(leavesObservation.getGallsTotal());
-        nbMines.setText(leavesObservation.getMinesTotal());
-        /*nbClassA.setText(leavesObservation.getLeavesAClassNumber());
-        nbClassB.setText(leavesObservation.getLeavesBClassNumber());
-        nbClassC.setText(leavesObservation.getLeavesCClassNumber());
-        nbClassD.setText(leavesObservation.getLeavesDClassNumber());
-        nbClassE.setText(leavesObservation.getLeavesEClassNumber());
-        nbClassF.setText(leavesObservation.getLeavesFClassNumber());
-        nbClassG.setText(leavesObservation.getLeavesGClassNumber());
-        nbClassH.setText(leavesObservation.getLeavesHClassNumber());*/
+        nbLeaves.setText(String.valueOf(leavesObservation.getLeavesTotal()));
+        nbGalls.setText(String.valueOf(leavesObservation.getGallsTotal()));
+        nbMines.setText(String.valueOf(leavesObservation.getMinesTotal()));
+        nbClassA.setText(String.valueOf(leavesObservation.getLeavesAClassNumber()));
+        nbClassB.setText(String.valueOf(leavesObservation.getLeavesBClassNumber()));
+        nbClassC.setText(String.valueOf(leavesObservation.getLeavesCClassNumber()));
+        nbClassD.setText(String.valueOf(leavesObservation.getLeavesDClassNumber()));
+        nbClassE.setText(String.valueOf(leavesObservation.getLeavesEClassNumber()));
+        nbClassF.setText(String.valueOf(leavesObservation.getLeavesFClassNumber()));
+        nbClassG.setText(String.valueOf(leavesObservation.getLeavesGClassNumber()));
+        nbClassH.setText(String.valueOf(leavesObservation.getLeavesHClassNumber()));
 
         edit = findViewById(R.id.editLeavesButton);
         edit.setOnClickListener(new View.OnClickListener() {

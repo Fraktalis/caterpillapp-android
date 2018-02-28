@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.fragment.LeavesFormFragment;
 import com.example.vincentale.leafguard_core.fragment.LeavesViewFragment;
@@ -80,24 +81,6 @@ public class LeavesObservationActivity extends AppCompatActivity /*implements Le
         nbClassF = findViewById(R.id.nbClassF);
         nbClassG = findViewById(R.id.nbClassG);
         nbClassH = findViewById(R.id.nbClassH);
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        //userManager= com.example.vincentale.leafguard_core.model.manager.UserManager.getInstance();
-
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.sendObservation);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
-
-        //LeavesViewFragment leavesViewFragment = new LeavesViewFragment();
-
-        //getSupportFragmentManager().beginTransaction().add(R.id.leaves_fragment_container, leavesViewFragment).commit();
 
 
         validate = findViewById(R.id.validateLeavesButton);
@@ -130,25 +113,36 @@ public class LeavesObservationActivity extends AppCompatActivity /*implements Le
 
     public void validateLeaves(View view){
         Log.d(TAG, nbGalls.getText().toString());
-        int intleaves = Integer.valueOf(nbLeaves.getText().toString());
-        int intgalls = Integer.valueOf(nbGalls.getText().toString());
-        int intmines = Integer.valueOf(nbMines.getText().toString());
-        int intclassA= Integer.valueOf(nbClassA.getText().toString());
-        int intclassB= Integer.valueOf(nbClassB.getText().toString());
-        int intclassC= Integer.valueOf(nbClassC.getText().toString());
-        int intclassD= Integer.valueOf(nbClassD.getText().toString());
-        int intclassE= Integer.valueOf(nbClassE.getText().toString());
-        int intclassF= Integer.valueOf(nbClassF.getText().toString());
-        int intclassG= Integer.valueOf(nbClassG.getText().toString());
-        int intclassH= Integer.valueOf(nbClassH.getText().toString());
+        if (nbLeaves.getText()==null||nbGalls.getText()==null||nbMines.getText()==null||nbClassA.getText()==null
+                ||nbClassA.getText()==null||nbClassB.getText()==null||nbClassC.getText()==null||
+                nbClassD.getText()==null||nbClassE.getText()==null||nbClassF.getText()==null||
+                nbClassG.getText()==null||nbClassH.getText()==null){
+
+
+        }else{
+
+            int intleaves = Integer.valueOf(nbLeaves.getText().toString());
+            int intgalls = Integer.valueOf(nbGalls.getText().toString());
+            int intmines = Integer.valueOf(nbMines.getText().toString());
+            int intclassA= Integer.valueOf(nbClassA.getText().toString());
+            int intclassB= Integer.valueOf(nbClassB.getText().toString());
+            int intclassC= Integer.valueOf(nbClassC.getText().toString());
+            int intclassD= Integer.valueOf(nbClassD.getText().toString());
+            int intclassE= Integer.valueOf(nbClassE.getText().toString());
+            int intclassF= Integer.valueOf(nbClassF.getText().toString());
+            int intclassG= Integer.valueOf(nbClassG.getText().toString());
+            int intclassH= Integer.valueOf(nbClassH.getText().toString());
 
 
 
-        leavesObservation= new LeavesObservation(intleaves,intgalls,intmines,intclassA,intclassB,intclassC,intclassD,intclassE,intclassF,intclassG,intclassH);
+            leavesObservation= new LeavesObservation(intleaves,intgalls,intmines,intclassA,intclassB,intclassC,intclassD,intclassE,intclassF,intclassG,intclassH);
 
-        Log.d(TAG, String.valueOf(leavesObservation.getLeavesAClassNumber()));
 
-        Intent leavesViewIntent = new Intent(context, LeavesViewActivity.class);
-        startActivity(leavesViewIntent);
+            Log.d(TAG, String.valueOf(leavesObservation.getLeavesAClassNumber()));
+
+            Intent leavesViewIntent = new Intent(context, LeavesViewActivity.class);
+            startActivity(leavesViewIntent);
+        }
+
     }
 }
