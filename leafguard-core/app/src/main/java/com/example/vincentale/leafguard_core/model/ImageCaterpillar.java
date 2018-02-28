@@ -5,9 +5,15 @@ package com.example.vincentale.leafguard_core.model;
  */
 
 public class ImageCaterpillar {
-    public String imageURL;
+    String imageURL;
+    String uploadId;
 
     public ImageCaterpillar() {
+    }
+
+    public ImageCaterpillar(ImageCaterpillar image, String ref) {
+        this.imageURL = image.getImageURL();
+        this.uploadId = ref;
     }
 
     public ImageCaterpillar(String url) {
@@ -16,5 +22,9 @@ public class ImageCaterpillar {
 
     public String getImageURL() {
         return imageURL;
+    }
+
+    public String getUploadId() {
+        return uploadId;
     }
 }
