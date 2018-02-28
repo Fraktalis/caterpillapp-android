@@ -30,6 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 public class LeavesFormFragment extends Fragment {
 
+    private OakFragment.OnFragmentInteractionListener mListener;
+
+
     private FirebaseDatabase firebaseDatabase;
     private com.example.vincentale.leafguard_core.model.manager.UserManager userManager;
     private LeavesObservation leavesObservation;
@@ -117,7 +120,36 @@ public class LeavesFormFragment extends Fragment {
         return fragmentView;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OakFragment.OnFragmentInteractionListener) {
+            mListener = (OakFragment.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+  /*  public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(Uri uri);
+    }
+*/
 
 }

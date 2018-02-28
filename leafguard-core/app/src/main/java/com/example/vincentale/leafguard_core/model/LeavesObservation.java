@@ -1,5 +1,7 @@
 package com.example.vincentale.leafguard_core.model;
 
+import android.text.Editable;
+
 /**
  * Created by vincentale on 20/02/18.
  */
@@ -26,6 +28,33 @@ public class LeavesObservation extends AbstractObservation {
     //class H : leaf dommaged by more than 75%
     private int leavesHClassNumber;
 
+    public LeavesObservation(int leavesTotal, int gallsTotal, int minesTotal, int leavesAClassNumber, int leavesBClassNumber, int leavesCClassNumber, int leavesDClassNumber, int leavesEClassNumber, int leavesFClassNumber, int leavesGClassNumber, int leavesHClassNumber) {
+        this.leavesTotal = leavesTotal;
+        this.gallsTotal = gallsTotal;
+        this.minesTotal = minesTotal;
+        this.leavesAClassNumber = leavesAClassNumber;
+        this.leavesBClassNumber = leavesBClassNumber;
+        this.leavesCClassNumber = leavesCClassNumber;
+        this.leavesDClassNumber = leavesDClassNumber;
+        this.leavesEClassNumber = leavesEClassNumber;
+        this.leavesFClassNumber = leavesFClassNumber;
+        this.leavesGClassNumber = leavesGClassNumber;
+        this.leavesHClassNumber = leavesHClassNumber;
+    }
+
+    public LeavesObservation() {
+        this.leavesTotal = 0;
+        this.gallsTotal = 0;
+        this.minesTotal = 0;
+        this.leavesAClassNumber = 0;
+        this.leavesBClassNumber = 0;
+        this.leavesCClassNumber = 0;
+        this.leavesDClassNumber = 0;
+        this.leavesEClassNumber = 0;
+        this.leavesFClassNumber = 0;
+        this.leavesGClassNumber = 0;
+        this.leavesHClassNumber = 0;
+    }
     public int getLeavesTotal() {
         return leavesTotal;
     }

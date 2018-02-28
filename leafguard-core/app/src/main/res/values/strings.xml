@@ -152,6 +152,7 @@
     <string name="number_of_leaves_in_class_f">Number of leaves in class F</string>
     <string name="number_of_leaves_in_class_g">Number of leaves in class G</string>
     <string name="number_of_leaves_in_class_h">Number of leaves in class H</string>
+    <string name="title_activity_leaves_form">LeavesFormActivity</string>
     <string name="forgotten_password_description">Did you forget your password ? Type your email below and hit the button. You will receive an email to reset your password.</string>
     <string name="send_reset_email">Send an email to reset your password</string>
     <string name="profileNameLabel">My Name :</string>
