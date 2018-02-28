@@ -1,7 +1,9 @@
 package com.example.vincentale.leafguard_core;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -13,21 +15,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.vincentale.leafguard_core.model.Caterpillar;
 import com.example.vincentale.leafguard_core.model.ImageCaterpillar;
 import com.example.vincentale.leafguard_core.model.User;
 import com.example.vincentale.leafguard_core.model.manager.CaterpillarManager;
 import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
+import com.example.vincentale.leafguard_core.util.RecyclerTouchListener;
 import com.example.vincentale.leafguard_core.view.RecyclerViewAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,7 +47,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -78,6 +83,8 @@ public class CaterpillarViewActivity extends AppCompatActivity {
     private Button validate;
 
     private Uri selectedImage;
+    private String imageFileName;
+    private ImageCaterpillar clickedImage;
     private ProgressDialog progressDialog;
     private StorageReference storageRef, imageRef;
     private DatabaseReference databaseReference;
@@ -85,9 +92,6 @@ public class CaterpillarViewActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private List<ImageCaterpillar> list = new ArrayList<>();
     private String mImageFileLocation = "";
-    private String GALLERY_LOCATION = "caterpillapp";
-    private File mGalleryFolder;
-    private File photoFile = null;
 
     public void setItem(Caterpillar item) {
         this.item = item;
@@ -111,9 +115,8 @@ public class CaterpillarViewActivity extends AppCompatActivity {
         validate = (Button) findViewById(R.id.validateCatterpillarButton);
         woundLayout = (LinearLayout) findViewById(R.id.woundsLayout);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        //createImageGallery();
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(CaterpillarViewActivity.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(CaterpillarViewActivity.this, LinearLayoutManager.HORIZONTAL, false));
         Intent intent = getIntent();
         final String catterUID = intent.getStringExtra(CATERPILLAR_UID);
         final int caterIndex = intent.getIntExtra(CATERPILLAR_INDEX, 0);
@@ -189,11 +192,68 @@ public class CaterpillarViewActivity extends AppCompatActivity {
                             public void onDataChange(DataSnapshot snapshot) {
                                 list.clear();
                                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                                    ImageCaterpillar imageUploadInfo = postSnapshot.getValue(ImageCaterpillar.class);
+                                    ImageCaterpillar imageUploadInfo = new ImageCaterpillar(postSnapshot.getValue(ImageCaterpillar.class), postSnapshot.getKey());
                                     list.add(imageUploadInfo);
                                 }
                                 adapter = new RecyclerViewAdapter(getApplicationContext(), list);
                                 recyclerView.setAdapter(adapter);
+                                recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
+                                    @Override
+                                    public void onClick(View view, int position) {
+                                        clickedImage = list.get(position);
+                                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CaterpillarViewActivity.this);
+                                        // Set layout
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View dialogLayout = inflater.inflate(R.layout.image_dialog, null);
+                                        ImageView imageOpened = (ImageView) dialogLayout.findViewById(R.id.imageView);
+                                        Glide.with(CaterpillarViewActivity.this).load(clickedImage.getImageURL()).into(imageOpened);
+                                        alertDialogBuilder.setView(dialogLayout);
+
+                                        // set dialog message
+                                        alertDialogBuilder
+                                                .setCancelable(false)
+                                                .setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        StorageReference clickedImageRef = FirebaseStorage.getInstance().getReferenceFromUrl(clickedImage.getImageURL());
+                                                        clickedImageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                // File deleted successfully
+                                                                Log.d(TAG, "onSuccess: deleted file");
+                                                                clickedImage.getUploadId();
+                                                                databaseReference.child(clickedImage.getUploadId()).removeValue();
+                                                                //CaterpillarViewActivity.this.recreate();
+                                                                Toast.makeText(getApplicationContext(), " Image delected", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception exception) {
+                                                                // Uh-oh, an error occurred!
+                                                                Log.d(TAG, "onFailure: did not delete file");
+                                                            }
+                                                        });
+                                                    }
+                                                })
+                                                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        // if this button is clicked, just close
+                                                        // the dialog box and do nothing
+                                                        dialog.cancel();
+                                                    }
+                                                });
+
+                                        // create alert dialog
+                                        AlertDialog alertDialog = alertDialogBuilder.create();
+
+                                        // show it
+                                        alertDialog.show();
+                                    }
+
+                                    @Override
+                                    public void onLongClick(View view, int position) {
+                                    }
+                                }));
+
                                 progressDialog.dismiss();
                                 if (adapter.getItemCount() >= 3) {
                                     photoButton.setEnabled(false);
@@ -206,7 +266,6 @@ public class CaterpillarViewActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                             }
                         });
-
                     }
                     @Override
                     public void onFailure(DatabaseError error) {
@@ -246,6 +305,7 @@ public class CaterpillarViewActivity extends AppCompatActivity {
         if (callCameraApplicationIntent.resolveActivity(getPackageManager()) != null) {
             try {
                 createImageFile();
+                Log.d("bracadabra", selectedImage + "");
                 callCameraApplicationIntent.putExtra(MediaStore.EXTRA_OUTPUT, selectedImage);
                 startActivityForResult(callCameraApplicationIntent, ACTIVITY_START_CAMERA_APP);
             } catch (IOException e) {
@@ -255,18 +315,14 @@ public class CaterpillarViewActivity extends AppCompatActivity {
         }
     }
 
-
     public void createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "IMAGE_" + timeStamp + "_";
-//        File image = File.createTempFile(imageFileName, ".jpg", this.getFilesDir());
-//        mImageFileLocation = image.getAbsolutePath();
-//        selectedImage = defineUriFromFile(image);
-
+        imageFileName = "IMAGE_" + timeStamp + "_";
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, imageFileName);
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, imageFileName);
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
         selectedImage = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
     }
 
     public void uploadPhoto(View view) {
@@ -280,16 +336,16 @@ public class CaterpillarViewActivity extends AppCompatActivity {
         if (requestCode == ACTIVITY_START_CAMERA_APP && resultCode == RESULT_OK) {
             Toast.makeText(this, getText(R.string.photoToast), Toast.LENGTH_SHORT).show();
             mImageFileLocation = getPath(CaterpillarViewActivity.this, selectedImage);
-            uploadImage(ACTIVITY_START_CAMERA_APP);
+            uploadImage(requestCode);
         }
         if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK) {
             Toast.makeText(CaterpillarViewActivity.this, getText(R.string.pictureToast), Toast.LENGTH_SHORT).show();
             selectedImage = data.getData();
-            uploadImage(SELECT_PHOTO);
+            uploadImage(requestCode);
         }
     }
 
-    public void uploadImage(int requestCode) {
+    public void uploadImage(final int requestCode) {
         // Checking whether FilePathUri Is empty or not.
         if (selectedImage != null) {
             progressDialog.setTitle(getString(R.string.imageUploading));
@@ -302,13 +358,12 @@ public class CaterpillarViewActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), getString(R.string.imageUploadFirebase), Toast.LENGTH_LONG).show();
-                            @SuppressWarnings("VisibleForTests")
                             ImageCaterpillar imageUploadInfo = new ImageCaterpillar(taskSnapshot.getDownloadUrl().toString());
                             String ImageUploadId = databaseReference.push().getKey();
                             databaseReference.child(ImageUploadId).setValue(imageUploadInfo);
-//                            if (requestCode == ACTIVITY_START_CAMERA_APP) {
-//                                photoFile.delete();
-//                            }
+                            if (requestCode == ACTIVITY_START_CAMERA_APP) {
+                                getContentResolver().delete(selectedImage, null, null);
+                            }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -329,5 +384,11 @@ public class CaterpillarViewActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    public interface ClickListener {
+        void onClick(View view, int position);
+
+        void onLongClick(View view, int position);
     }
 }

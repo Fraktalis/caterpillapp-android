@@ -19,26 +19,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     List<ImageCaterpillar> MainImageUploadInfoList;
 
     public RecyclerViewAdapter(Context context, List<ImageCaterpillar> TempList) {
-
         this.MainImageUploadInfoList = TempList;
-
         this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_items, parent, false);
-
         ViewHolder viewHolder = new ViewHolder(view);
-
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ImageCaterpillar UploadInfo = MainImageUploadInfoList.get(position);
-
         //Loading image from Glide library.
         Glide.with(context).load(UploadInfo.getImageURL()).into(holder.imageView);
     }
@@ -46,6 +40,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public int getItemCount() {
         return MainImageUploadInfoList.size();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(ImageCaterpillar item);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -56,3 +54,4 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 }
+
