@@ -67,7 +67,6 @@ public class OakFragment extends Fragment {
      *
      * @return A new instance of fragment ProfileFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static OakFragment newInstance() {
         OakFragment fragment = new OakFragment();
         return fragment;
@@ -172,7 +171,6 @@ public class OakFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

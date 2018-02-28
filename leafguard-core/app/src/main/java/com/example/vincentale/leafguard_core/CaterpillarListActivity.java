@@ -132,7 +132,11 @@ public class CaterpillarListActivity extends AppCompatActivity {
                                                         caterpillarObservationManager.update(observation, new OnUpdateCallback() {
                                                             @Override
                                                             public void onSuccess() {
-                                                                currentUser.addObservation(observation.getUid());
+                                                                /**
+                                                                 * We persist a slightly modified uid in order to be able to distinguish observation 1 and 2
+                                                                 * The uid is not modified
+                                                                 */
+                                                                currentUser.addObservation(observation.getUid() + "_" + observation.getObservationIndex());
                                                                 userManager.update(currentUser,null);
                                                                 Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_caterpillar_list_layout), R.string.observation_successfully_sent, Snackbar.LENGTH_SHORT);
                                                                 snackbar.addCallback(new Snackbar.Callback() {

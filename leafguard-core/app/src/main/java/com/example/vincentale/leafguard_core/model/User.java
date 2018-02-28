@@ -127,6 +127,11 @@ public class User implements Identifiable {
                 '}';
     }
 
+    /**
+     * Add the given observation id into a set of sent observation.
+     * it's not the real uid, but a combination of observation UId and index.
+     * @param observationUid
+     */
     public void addObservation(String observationUid) {
         observationUidSet.add(observationUid);
     }
