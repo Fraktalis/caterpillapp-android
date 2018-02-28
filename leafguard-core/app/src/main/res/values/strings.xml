@@ -145,16 +145,4 @@
     <string name="download_service_started">Download will start shortly</string>
     <string name="observation_saved_at_location">Observation saved at %1$s </string>
     <string name="title_activity_maps">Map</string>
-
-    <!--Camera String-->
-    <string name="uploadPhotoButton">Upload Photo</string>
-    <string name="takePhotoButton">Take Photo</string>
-    <string name="cameraPermission">Camera</string>
-    <string name="storagePermission">Storage</string>
-    <string name="messagePermission">You need to grant access to </string>
-    <string name="loadingFirebase">Loading Images From Firebase.</string>
-    <string name="photoToast">Picture taken successfully</string>
-    <string name="pictureToast">Image selected successfully</string>
-    <string name="imageUploadFirebase">Image Uploaded Successfully</string>
-    <string name="imageUploading">Image is Uploading...</string>
 </resources>
