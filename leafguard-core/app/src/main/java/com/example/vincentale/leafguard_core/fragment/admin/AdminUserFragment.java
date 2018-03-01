@@ -31,9 +31,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.ipaulpro.afilechooser.utils.FileUtils;
-
-import java.io.File;
 
 
 @SuppressWarnings("VisibleForTests")
@@ -166,11 +163,11 @@ public class AdminUserFragment extends Fragment {
 
         try {
             startActivityForResult(
-                    Intent.createChooser(intent, "Select a File to Upload"),
+                    Intent.createChooser(intent, getResources().getString(R.string.selectFilteUpload)),
                     FILE_SELECT_CODE);
         } catch (android.content.ActivityNotFoundException ex) {
             // Potentially direct the user to the Market with a Dialog
-            Toast.makeText(getContext(), "Please install a File Manager.",
+            Toast.makeText(getContext(), getResources().getString(R.string.askInstallFileManager),
                     Toast.LENGTH_SHORT).show();
         }
     }
