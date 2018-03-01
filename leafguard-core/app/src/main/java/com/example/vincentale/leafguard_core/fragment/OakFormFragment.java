@@ -30,8 +30,8 @@ import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.Oak;
-import com.example.vincentale.leafguard_core.model.manager.OakManager;
 import com.example.vincentale.leafguard_core.model.User;
+import com.example.vincentale.leafguard_core.model.manager.OakManager;
 import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.example.vincentale.leafguard_core.util.LocationHelper;
@@ -165,7 +165,8 @@ public class OakFormFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     if (noLocation) {
-                                        Toast.makeText(activityContext, "null location", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(activityContext, getResources().getString(R.string.nullLocation)
+                                                , Toast.LENGTH_SHORT).show();
                                     } else {
                                         longitudeEditText.setText(String.valueOf(longitude));
                                         latitudeEditText.setText(String.valueOf(latitude));

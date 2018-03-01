@@ -214,7 +214,8 @@ public class CaterpillarViewActivity extends AppCompatActivity {
                                             alertDialogBuilder.setView(dialogLayout);
                                             alertDialogBuilder
                                                     .setCancelable(false)
-                                                    .setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
+                                                    .setPositiveButton(getResources().getString(R.string.delete)
+                                                            , new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int id) {
                                                             StorageReference clickedImageRef = FirebaseStorage.getInstance().getReferenceFromUrl(clickedImage.getImageURL());
                                                             clickedImageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -225,7 +226,8 @@ public class CaterpillarViewActivity extends AppCompatActivity {
                                                                     clickedImage.getUploadId();
                                                                     databaseReference.child(clickedImage.getUploadId()).removeValue();
                                                                     //CaterpillarViewActivity.this.recreate();
-                                                                    Toast.makeText(getApplicationContext(), " Image delected", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.deleteImageMsg)
+                                                                            , Toast.LENGTH_SHORT).show();
                                                                     if (adapter.getItemCount() < 3) {
                                                                         photoButton.setEnabled(true);
                                                                         selectImageButton.setEnabled(true);
@@ -241,7 +243,7 @@ public class CaterpillarViewActivity extends AppCompatActivity {
                                                             dialogOpened = false;
                                                         }
                                                     })
-                                                    .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                                                    .setNegativeButton(getResources().getString(R.string.cancel_action), new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int id) {
                                                             // if this button is clicked, just close
                                                             // the dialog box and do nothing
