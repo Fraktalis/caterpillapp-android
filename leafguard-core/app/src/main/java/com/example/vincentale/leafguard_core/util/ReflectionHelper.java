@@ -1,5 +1,8 @@
 package com.example.vincentale.leafguard_core.util;
 
+import android.support.annotation.NonNull;
+import android.util.Log;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -24,7 +27,7 @@ public class ReflectionHelper {
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    public static Object invokeGetter(String field, Object subject, Class subjectClass) throws NoSuchFieldException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static Object invokeGetter(String field, @NonNull Object subject, Class subjectClass) throws NoSuchFieldException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         try {
             Method getter = buildGetter(field, subjectClass);

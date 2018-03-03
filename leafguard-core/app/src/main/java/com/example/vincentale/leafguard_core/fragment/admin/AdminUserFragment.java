@@ -25,8 +25,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.R;
+import com.example.vincentale.leafguard_core.model.ImportReport;
+import com.example.vincentale.leafguard_core.model.manager.ImportReportManager;
+import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -48,6 +52,7 @@ public class AdminUserFragment extends Fragment {
     private LinearLayout adminUserUploadLayout;
     private Button cancelFileUploadButton;
     private ProgressBar provisionUploadProgressBar;
+    private ImportReportManager reportManager = ImportReportManager.getInstance();
 
     private Uri provisionFile;
     private StorageReference provisionRef;
@@ -94,6 +99,17 @@ public class AdminUserFragment extends Fragment {
             public void onClick(View view) {
                 adminUserProgressLayout.setVisibility(View.VISIBLE);
                 adminUserUploadLayout.setVisibility(View.GONE);
+                reportManager.findLast(new DatabaseCallback<ImportReport>() {
+                    @Override
+                    public void onSuccess(ImportReport identifiable) {
+                        Log.d(TAG, "Successfully retrived last report " + identifiable);
+                    }
+
+                    @Override
+                    public void onFailure(DatabaseError error) {
+
+                    }
+                });
                 StorageReference provisionFileRef = provisionRef.child("provisions").child(provisionFile.getLastPathSegment());
                 uploadTask = provisionFileRef.putFile(provisionFile);
                 uploadTask.addOnFailureListener(new OnFailureListener() {

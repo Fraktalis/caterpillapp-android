@@ -47,7 +47,6 @@ public class ObservationCSVBuilder {
             "mammalPredationMarks",
             "lizardPredationMarks",
             "missingCaterpillars",
-            //TODO : Add leaves observation fields
     };
 
     private String[] leavesObservationFields = {
@@ -62,7 +61,7 @@ public class ObservationCSVBuilder {
         "leavesEClassNumber",
         "leavesFClassNumber",
         "leavesGClassNumber",
-        " leavesHClassNumber"
+        "leavesHClassNumber"
     };
 
     private StringBuilder entryBuilder;
@@ -102,7 +101,7 @@ public class ObservationCSVBuilder {
                     entryBuilder.append(ReflectionHelper.invokeGetter(firstObservationField, firstObservation, CaterpillarObservation.class)).append(",");
                 }
             } catch (Exception e) {
-                Log.e(TAG, "Error during adding field, ignoring", e);
+                Log.e(TAG, "Error during adding observation 1 at field" + firstObservationField +", ignoring", e);
             }
         }
 
@@ -110,13 +109,17 @@ public class ObservationCSVBuilder {
             if (secondObservation != null) {
                 try {
                     if (secondObservationFields[i].equals("secondObservationDate")) {
-                        entryBuilder.append(secondObservation.getTimestamp()).append(",");
+                        entryBuilder.append(secondObservation.getTimestamp());
                     } else {
-                        entryBuilder.append(ReflectionHelper.invokeGetter(secondObservationFields[i], secondObservation, CaterpillarObservation.class)).append(",");
+                        entryBuilder.append(ReflectionHelper.invokeGetter(secondObservationFields[i], secondObservation, CaterpillarObservation.class));
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, "Error during adding field, ignoring", e);
+                    Log.e(TAG, "Error during adding observation 2 at field" + secondObservationFields[i] + ", ignoring", e);
                 }
+            }
+
+            if (i != secondObservationFields.length - 1) {
+                entryBuilder.append(",");
             }
         }
 
@@ -129,7 +132,7 @@ public class ObservationCSVBuilder {
                         entryBuilder.append(ReflectionHelper.invokeGetter(leavesObservationFields[i], leavesObservation, LeavesObservation.class));
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, "Error during adding field, ignoring", e);
+                    Log.e(TAG, "Error during adding observation leaves at  field" + leavesObservationFields[i] + ", ignoring", e);
                 }
             }
 
