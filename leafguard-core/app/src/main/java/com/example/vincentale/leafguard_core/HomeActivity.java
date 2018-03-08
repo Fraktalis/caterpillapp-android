@@ -155,6 +155,10 @@ public class HomeActivity extends AppCompatActivity {
                 Intent profilFormIntent = new Intent(this, ProfileActivity.class);
                 startActivity(profilFormIntent);
                 break;
+            case R.id.action_language:
+                Intent languageIntent = new Intent(this, LanguageActivity.class);
+                startActivity(languageIntent);
+                break;
             case R.id.action_admin:
                 if (mUser != null && mUser.isAdmin()) {
                     Intent adminIntent = new Intent(this, AdminActivity.class);
