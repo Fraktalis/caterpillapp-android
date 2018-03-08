@@ -68,6 +68,7 @@
     <string name="title_caterpillar_detail">Détail de la chenille</string>
     <string name="nameofcatterpillar">Nom de la chenille</string>
     <string name="nbwounds">Nombre de marques</string>
+    <string name="ismissing">Disparue</string>
     <string name="attackedbyother">Attaque d\'un autre animal</string>
     <string name="attackedByInsects">Attaque d\'un arthropode</string>
     <string name="attackedByBirds">Attaque d\'un oiseau</string>
@@ -86,7 +87,7 @@
     <!--Camera String-->
     <string name="delete">Supprimer</string>
     <string name="deleteImageMsg">Image supprimé</string>
-    <string name="uploadPhotoButton">Chargé une image de la galerie</string>
+    <string name="uploadPhotoButton">Charger une image</string>
     <string name="takePhotoButton">Prendre une photo</string>
     <string name="cameraPermission">Caméra</string>
     <string name="storagePermission">Stockage</string>
@@ -145,5 +146,8 @@
     <string name="all_inputs_not_filled">Vous de pouvez pas envoyez cette observation car tous les champs ne sont pas bien complétés</string>
     <!-- Language String -->
     <string name="language">Langue</string>
+    <string name="englishButton">Anglais</string>
+    <string name="frenchButton">Français</string>
+    <string name="successLanguage">Vous avez changé la langue</string>
 
 </resources>

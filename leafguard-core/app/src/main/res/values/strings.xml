@@ -142,4 +142,8 @@
 
     <!-- Language String -->
     <string name="language">Language</string>
+    <string name="englishButton">English</string>
+    <string name="frenchButton">French</string>
+    <string name="successLanguage">You successfully change language</string>
+
 </resources>
