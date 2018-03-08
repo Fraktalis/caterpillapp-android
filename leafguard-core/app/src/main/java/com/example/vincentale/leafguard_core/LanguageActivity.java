@@ -1,5 +1,6 @@
 package com.example.vincentale.leafguard_core;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -23,14 +24,16 @@ public class LanguageActivity extends AppCompatActivity {
         englishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveLanguage("en");
+                if (!getLangCode().equals("en"))
+                    saveLanguage("en");
             }
         });
         Button frenchButton = (Button) findViewById(R.id.frenchButton);
         frenchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveLanguage("fr");
+                if (!getLangCode().equals("fr"))
+                    saveLanguage("fr");
             }
         });
     }
@@ -43,10 +46,12 @@ public class LanguageActivity extends AppCompatActivity {
         editor.apply();
         recreate();
         Toast.makeText(LanguageActivity.this, getText(R.string.successLanguage), Toast.LENGTH_SHORT).show();
-
+        finish();
+        Intent HomeIntent = new Intent(this, HomeActivity.class);
+        startActivity(HomeIntent);
     }
 
-    private void loadLanguage() {
+    public void loadLanguage() {
         Locale locale = new Locale(getLangCode());
         Locale.setDefault(locale);
         Configuration config = new Configuration();
@@ -57,7 +62,6 @@ public class LanguageActivity extends AppCompatActivity {
     private String getLangCode() {
         SharedPreferences preferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
         String langCode = preferences.getString(KEY_LANG, "en");
-        // save english 'en' as the default language
         return langCode;
     }
 

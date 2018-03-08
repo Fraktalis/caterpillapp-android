@@ -2,6 +2,8 @@ package com.example.vincentale.leafguard_core;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,11 +23,16 @@ import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.firebase.database.DatabaseError;
 
+import java.util.Locale;
+
 public class HomeActivity extends AppCompatActivity {
 
     public static final String TAG = "HomeActivity";
     public static final String FIRST_OBSERVATION_ACTION = "first_observation";
     public static final String SECOND_OBSERVATION_ACTION = "second_observation";
+    private static final String FILE_NAME = "file_lang"; // preference file name
+    private static final String KEY_LANG = "key_lang"; // preference key
+    private String lang;
     private UserManager mUserManager;
     private User mUser;
     private Menu homeMenu;
@@ -35,7 +42,9 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadLanguage();
         setContentView(R.layout.activity_home);
+        lang = getLangCode();
         mUserManager = UserManager.getInstance();
         profileLoadingLayout = (LinearLayout) findViewById(R.id.profile_loading_layout);
         homeContentLayout = (LinearLayout) findViewById(R.id.home_content_layout);
@@ -173,5 +182,19 @@ public class HomeActivity extends AppCompatActivity {
     public void onBackPressed() {
     }
 
+    public void loadLanguage() {
+        Locale locale = new Locale(getLangCode());
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+    }
+
+    private String getLangCode() {
+        SharedPreferences preferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
+        String langCode = preferences.getString(KEY_LANG, "en");
+        // save english 'en' as the default language
+        return langCode;
+    }
 
 }
