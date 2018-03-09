@@ -41,7 +41,7 @@
     <string name="error_incorrect_password">Ce mot de passe est invalide</string>
     <string name="error_field_required">Ce champ est requis</string>
     <string name="permission_rationale">Contacts permissions are needed for providing email completions</string>
-    <string name="auth_failed">Echec de l\'authentification... Veuillez reessayer</string>
+    <string name="auth_failed">Echec de l\'authentification… Veuillez reessayer</string>
     <string name="logout">Deconnexion</string>
     <string name="edit_profile_action">Modifier le profil</string>
     <string name="log_out_success">Deconnexion réussie !</string>
@@ -105,12 +105,12 @@
     <string name="download_observation_action">Télécharger les observations</string>
     <string name="observation_download_description">Vous pouvez télécharger un fichier CSV contenant toutes les données des observations en cliquant sur le bouton ci-dessous. Cela peut prendre un peu de temps.</string>
     <string name="observation_have_changed">L\'observation a été modifié !</string>
-    <string name="download_service_started">Download will start shortly</string>
+    <string name="download_service_started">Le téléchargement va commencer</string>
     <string name="observation_saved_at_location">L\'observation a été sauvegardé à %1$s </string>
     <string name="title_activity_maps">Carte</string>
     <string name="title_activity_main">LeavesObservationActivity</string>
     <string name="title_activity_leaves_observation">LeavesObservationActivity</string>
-    <string name="leaves_observation_action">Observation des feuilles (Optionel)</string>
+    <string name="leaves_observation_action">Observation des feuilles (Optionnel)</string>
     <string name="no_oak_associated">Pas de chêne associé</string>
     <string name="profile_title">Mon profil</string>
     <string name="number_of_observed_leaves">Nombre de feuilles observées</string>
