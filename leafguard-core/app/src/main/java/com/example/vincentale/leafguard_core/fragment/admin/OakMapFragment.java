@@ -40,9 +40,9 @@ import java.util.List;
  */
 public class OakMapFragment extends Fragment implements OnMapReadyCallback {
     public static final String TAG = "OakMapFragment";
-
-    private MapView mapView;
+    public static final String LABEL = "Map";
     GoogleMap map;
+    private MapView mapView;
     private List<Oak> oaks;
     // private OnFragmentInteractionListener mListener;
 
@@ -57,7 +57,6 @@ public class OakMapFragment extends Fragment implements OnMapReadyCallback {
 
      * @return A new instance of fragment OakMapFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static OakMapFragment newInstance() {
         OakMapFragment fragment = new OakMapFragment();
         Bundle args = new Bundle();

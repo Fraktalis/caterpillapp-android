@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.R;
@@ -50,6 +52,8 @@ public class AdminUserFragment extends Fragment {
     private EditText browseFileEditText;
     private LinearLayout adminUserProgressLayout;
     private LinearLayout adminUserUploadLayout;
+    private CardView importReportCardView;
+    private TextView importReportSummary;
     private Button cancelFileUploadButton;
     private ProgressBar provisionUploadProgressBar;
     private ImportReportManager reportManager = ImportReportManager.getInstance();
@@ -90,7 +94,9 @@ public class AdminUserFragment extends Fragment {
         adminUserProgressLayout = fragmentView.findViewById(R.id.admin_user_progress_layout);
         cancelFileUploadButton = fragmentView.findViewById(R.id.cancelFileUploadButton);
         provisionUploadProgressBar = fragmentView.findViewById(R.id.provisionUploadProgressBar);
-        provisionUploadProgressBar.setMax(100);
+        provisionUploadProgressBar.setIndeterminate(true);
+        importReportCardView = fragmentView.findViewById(R.id.import_report_card_view);
+        importReportSummary = fragmentView.findViewById(R.id.import_report_summary);
 
         browseFileButton = fragmentView.findViewById(R.id.browseFileButton);
         browseFileButton.setEnabled(false);
@@ -103,6 +109,8 @@ public class AdminUserFragment extends Fragment {
                     @Override
                     public void onSuccess(ImportReport identifiable) {
                         Log.d(TAG, "Successfully retrived last report " + identifiable);
+                        importReportCardView.setVisibility(View.VISIBLE);
+                        importReportSummary.setText(getString(R.string.import_report_summary, identifiable.getErrors(), identifiable.getImportedEmails().size(), identifiable.getIgnoredEmails().size()));
                     }
 
                     @Override
@@ -123,13 +131,6 @@ public class AdminUserFragment extends Fragment {
                         adminUserProgressLayout.setVisibility(View.GONE);
                         adminUserUploadLayout.setVisibility(View.VISIBLE);
 
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        int progress = (int) ((100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount());
-                        Log.d(TAG, "progress : " + progress);
-                        provisionUploadProgressBar.setProgress(progress);
                     }
                 });
             }

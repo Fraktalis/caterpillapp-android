@@ -60,15 +60,17 @@ public class ImportReportManager implements Manager<ImportReport> {
         ValueEventListener reportEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterator<DataSnapshot> reportIterator = dataSnapshot.getChildren().iterator();
-                DataSnapshot lastReport = reportIterator.next();
-                while (reportIterator.hasNext()) {
-                    lastReport = reportIterator.next();
-                }
+                if (dataSnapshot.getValue() != null) {
+                    Iterator<DataSnapshot> reportIterator = dataSnapshot.getChildren().iterator();
+                    DataSnapshot lastReport = reportIterator.next();
+                    while (reportIterator.hasNext()) {
+                        lastReport = reportIterator.next();
+                    }
 
-                ImportReport report = lastReport.getValue(ImportReport.class);
-                callback.onSuccess(report);
-                reportRef.removeEventListener(this);
+                    ImportReport report = createFromDataSnapshot(lastReport);
+                    callback.onSuccess(report);
+
+                }
             }
 
             @Override
@@ -78,5 +80,22 @@ public class ImportReportManager implements Manager<ImportReport> {
         };
 
         reportRef.addValueEventListener(reportEventListener);
+    }
+
+    public ImportReport createFromDataSnapshot(DataSnapshot importSnapShot) {
+        ImportReport report = new ImportReport();
+        report.setUid(importSnapShot.getKey());
+        int errors = (int) importSnapShot.child("error").getChildrenCount();
+        report.setErrors(errors);
+
+        for (DataSnapshot emailSnap : importSnapShot.child("ignored").getChildren()) {
+            report.addIgnoredEmail(emailSnap.getValue(String.class));
+        }
+
+        for (DataSnapshot emailSnap : importSnapShot.child("imported").getChildren()) {
+            report.addImportedEmail(emailSnap.getValue(String.class));
+        }
+
+        return report;
     }
 }
