@@ -134,6 +134,13 @@ exports.assertUpload = functions.storage.object().onChange( function (event) {
         console.log("Saving report...");
         return admin.database().ref('/reports').child(+ new Date()).set(finalReport);
     })
+    .then(function () {
+      finalReport = {
+          imported: [],
+          ignored: [],
+          error: []
+      };
+    })
     .catch( function (err) {
         console.log(err);
     });

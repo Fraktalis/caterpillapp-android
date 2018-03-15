@@ -127,7 +127,7 @@ public class AdminActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.admin_content_layout, userFragment).commit();
 
         } else if (id == R.id.nav_oaks) {
-
+            getSupportActionBar().setTitle(OakMapFragment.LABEL);
             OakMapFragment userFragment = OakMapFragment.newInstance();
             fragmentManager.beginTransaction().replace(R.id.admin_content_layout, userFragment).commit();
 

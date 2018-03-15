@@ -84,7 +84,7 @@ public class CaterpillarObservationManager implements Manager<CaterpillarObserva
                         observationRef.child("schoolName").setValue(currentUser.getSchoolName());
                         observationRef.child("fullname").setValue(currentUser.getDisplayName());
                         observationRef.child("email").setValue(currentUser.getEmail());
-                        observationRef.child("studentsAge").setValue(-1);
+                        observationRef.child("studentsAge").setValue(currentUser.getStudentAge());
                     }
 
 

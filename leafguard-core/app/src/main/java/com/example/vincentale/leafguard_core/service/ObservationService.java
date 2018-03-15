@@ -56,7 +56,9 @@ public class ObservationService extends Service {
                 for (AbstractObservation observation : identifiables) {
                     if (!observation.getUid().equals(currentUid)) {
                         currentUid = observation.getUid();
-                        csvBuilder.add(firstObservation, secondObservation, leavesObservation);
+                        if (firstObservation != null) {
+                            csvBuilder.add(firstObservation, secondObservation, leavesObservation);
+                        }
                         firstObservation = null;
                         secondObservation = null;
                         leavesObservation = null;

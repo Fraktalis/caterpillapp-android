@@ -142,6 +142,12 @@
     <string name="edit_leaves_observation_action">Edit</string>
     <string name="submit_leaves_observation_action">Submit observation</string>
     <string name="all_inputs_not_filled">You can\'t submit this observation as all input are not properly filled</string>
+    <string name="import_report_summary">
+        The import is done ! \n\n
+        Number of errors : %1$d \n\n
+        Number of emails imported : %2$d \n\n
+        Number of emails ignored : %3$d
+    </string>
     <string name="ismissing">Is missing</string>
     <string name="language">Language</string>
     <string name="englishButton">English</string>
