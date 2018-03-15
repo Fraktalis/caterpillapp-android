@@ -75,8 +75,6 @@
     <string name="catterpillar_with_number">Caterpillar %1$d</string>
     <string name="nameOfCatterpillar">Name of caterpillar</string>
     <string name="missing">Is missing</string>
-    <string name="attackedByInsect">Attacked by insects</string>
-    <string name="attackedByOther">Attacked by other things</string>
     <string name="title_activity_admin">AdminActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -94,15 +92,14 @@
     <string name="photoToast">Picture taken successfully</string>
     <string name="pictureToast">Image selected successfully</string>
     <string name="imageUploadFirebase">Image Uploaded Successfully</string>
-    <string name="imageUploading">Image is Uploading...</string>
+    <string name="imageUploading">Image is Uploading&#8230;</string>
     <string name="not_all_caterpillars_edited">You can\'t submit the form as some caterpillars are still unedited. Please edit them before submiting</string>
     <string name="observation_successfully_sent">Observation successfully sent</string>
     <string name="observation_send_irreversible">You won\'t be able to modify your observation once it\'s sent. Are you sure you want to send it ?</string>
     <string name="send_action">SEND</string>
     <string name="cancel_action">Cancel</string>
-    <string name="attackedbybirds">Attacked by birds</string>
     <string name="attackedByLizard">Attacked by lizards</string>
-    <string name="error_occured">An error occured. Please try again.</string>
+    <string name="error_occured">An error occurred. Please try again.</string>
     <string name="download_observation_action">Download observation</string>
     <string name="observation_download_description">You can download a CSV file containing all observations data by clicking the button below. This may take some time.</string>
     <string name="observation_have_changed">Observation have changed !</string>
@@ -145,4 +142,9 @@
     <string name="edit_leaves_observation_action">Edit</string>
     <string name="submit_leaves_observation_action">Submit observation</string>
     <string name="all_inputs_not_filled">You can\'t submit this observation as all input are not properly filled</string>
+    <string name="ismissing">Is missing</string>
+    <string name="language">Language</string>
+    <string name="englishButton">English</string>
+    <string name="frenchButton">French</string>
+    <string name="successLanguage">You successfully change the language</string>
 </resources>

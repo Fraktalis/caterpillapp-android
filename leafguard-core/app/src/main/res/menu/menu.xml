@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_profile"
         android:checkable="false"
@@ -9,12 +9,20 @@
         app:showAsAction="withText">
     </item>
 
+
     <item
         android:id="@+id/action_admin"
         android:checkable="false"
         android:title="@string/adminButton"
         app:showAsAction="withText">
     </item>
+
+    <item
+        android:id="@+id/action_language"
+        android:checkable="false"
+        android:icon="@drawable/ic_menu_manage"
+        android:title="@string/language"
+        app:showAsAction="withText"></item>
 
     <item
         android:id="@+id/action_logout"
