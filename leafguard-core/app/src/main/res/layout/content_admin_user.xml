@@ -32,7 +32,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.2"
             android:drawableRight="@drawable/ic_menu_send"
-            android:text="Send"
+            android:text="@string/send_action"
             android:textAlignment="center" />
 
     </LinearLayout>

@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="top|center_horizontal"
-                    android:text="Leaves Observation"
+                    android:text="@string/leaves_observation"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
 
                 <android.support.design.widget.TextInputLayout
@@ -125,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="0dp"
                         android:layout_weight="1"
-                        android:text="0 % leaf area loss"
+                        android:text="@string/leaf_loss_0_percent"
                         tools:layout_editor_absoluteX="16dp" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -150,7 +150,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="0dp"
                         android:layout_weight="1"
-                        android:text="1-5 % leaf area loss"
+                        android:text="@string/leaf_loss_5_percent"
                         tools:layout_editor_absoluteX="16dp" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -174,7 +174,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="0dp"
                         android:layout_weight="1"
-                        android:text="6-10 % leaf area loss"
+                        android:text="@string/leaf_loss_10_percent"
                         tools:layout_editor_absoluteX="16dp" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -198,7 +198,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="0dp"
                         android:layout_weight="1"
-                        android:text="11-15 % leaf area loss"
+                        android:text="@string/leaf_loss_15_percent"
                         tools:layout_editor_absoluteX="16dp" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -222,7 +222,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="0dp"
                         android:layout_weight="1"
-                        android:text="16-25 % leaf area loss"
+                        android:text="@string/leaf_loss_25_percent"
                         tools:layout_editor_absoluteX="16dp" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -246,7 +246,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="0dp"
                         android:layout_weight="1"
-                        android:text="26-50 % leaf area loss"
+                        android:text="@string/leaf_loss_50_percent"
                         tools:layout_editor_absoluteX="16dp" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -270,7 +270,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="0dp"
                         android:layout_weight="1"
-                        android:text="51-75 % leaf area loss"
+                        android:text="@string/leaf_loss_75_percent"
                         tools:layout_editor_absoluteX="16dp" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -294,7 +294,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="0dp"
                         android:layout_weight="1"
-                        android:text=" > 75 % leaf area loss"
+                        android:text="@string/leaf_loss_75_percent_more"
                         tools:layout_editor_absoluteX="16dp" />
                 </android.support.design.widget.TextInputLayout>
 
