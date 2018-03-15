@@ -8,6 +8,12 @@
     <!-- Admin fragment -->
     <string name="selectFilteUpload">Choisissez un fichier à téléverser</string>
     <string name="askInstallFileManager">Veuillez installer un Manager de fichier</string>
+    <string name="import_report_summary">
+        Import terminé ! \n\n
+        Erreurs : %1$d \n\n
+        Emails importés : %2$d \n\n
+        Emails ignorés : %3$d
+    </string>
     <!-- Oak form -->
     <string name="nullLocation">Localisation nulle</string>
     <string name="title_activity_oak_form">Notre chêne</string>
