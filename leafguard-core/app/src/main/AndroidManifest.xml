@@ -2,17 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.vincentale.leafguard_core">
 
+    <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/iconeleafguar"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
@@ -20,7 +25,7 @@
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.vincentale.leafguard.fileprovider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -36,7 +41,6 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,8 +53,8 @@
             android:label="@string/title_activity_profil_form"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".OakActivity" />
-        <activity android:name=".CaterpillarListActivity" />
-        <activity android:name=".CaterpillarViewActivity" />
+        <activity android:name=".CaterpillarListActivity"></activity>
+        <activity android:name=".CaterpillarViewActivity"></activity>
         <activity
             android:name=".AdminActivity"
             android:label="@string/title_activity_admin"
@@ -61,15 +65,27 @@
                 android:value="com.example.vincentale.leafguard_core.HomeActivity" />
         </activity>
         <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".LanguageActivity"></activity>
         <activity
             android:name=".fragment.admin.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
-        <activity android:name=".CameraIntentActivity" />
-
+            android:label="@string/title_activity_maps" />
         <service
             android:name=".service.ObservationService"
             android:enabled="true"
-            android:exported="true"></service>
-    </application>
+            android:exported="true" />
 
+        <activity
+            android:name=".LeavesObservationActivity"
+            android:label="@string/title_activity_leaves_observation"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.vincentale.leafguard_core.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".LeavesViewActivity"
+            android:label="@string/title_activity_leaves_form"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+    </application>
 </manifest>

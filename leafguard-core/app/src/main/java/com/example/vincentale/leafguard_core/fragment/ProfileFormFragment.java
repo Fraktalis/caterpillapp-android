@@ -31,8 +31,10 @@ import com.google.firebase.database.FirebaseDatabase;
 public class ProfileFormFragment extends Fragment {
     public static final String TAG = "ProfileFormFragment";
 
+    private EditText schoolNameEditText;
     private EditText surnameEditText;
     private EditText nameEditText;
+    private EditText ageEditText;
     private Button submitButton;
 
     private UserManager userManager;
@@ -75,6 +77,10 @@ public class ProfileFormFragment extends Fragment {
             @Override
             public void onSuccess(User identifiable) {
                 user = identifiable;
+                schoolNameEditText = fragmentView.findViewById(R.id.schoolNameEditText);
+                if (user.getSchoolName() != null && !user.getSchoolName().isEmpty()) {
+                    schoolNameEditText.setText(user.getSchoolName());
+                }
                 surnameEditText = fragmentView.findViewById(R.id.surnameEditText);
                 if (user.getSurname() != null && !user.getSurname().isEmpty()) {
                     surnameEditText.setText(user.getSurname());
@@ -83,12 +89,18 @@ public class ProfileFormFragment extends Fragment {
                 if (user.getName() != null && !user.getName().isEmpty()) {
                     nameEditText.setText(user.getName());
                 }
+                ageEditText = fragmentView.findViewById(R.id.ageEditText);
+                if (user.getStudentAge() > 0) {
+                    ageEditText.setText(String.valueOf(user.getStudentAge()));
+                }
                 submitButton = fragmentView.findViewById(R.id.submitButton);
                 submitButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        user.setSchoolName(schoolNameEditText.getText().toString());
                         user.setSurname(surnameEditText.getText().toString());
                         user.setName(nameEditText.getText().toString());
+                        user.setStudentAge(Integer.parseInt(ageEditText.getText().toString()));
                         userManager.update(user, new OnUpdateCallback() {
                             @Override
                             public void onSuccess() {

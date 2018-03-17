@@ -30,8 +30,8 @@ import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.R;
 import com.example.vincentale.leafguard_core.model.Oak;
-import com.example.vincentale.leafguard_core.model.manager.OakManager;
 import com.example.vincentale.leafguard_core.model.User;
+import com.example.vincentale.leafguard_core.model.manager.OakManager;
 import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.example.vincentale.leafguard_core.util.LocationHelper;
@@ -56,6 +56,7 @@ public class OakFormFragment extends Fragment {
     DatePickerDialog.OnDateSetListener date;
     LocationHelper locationHelper;
     private Calendar myCalendar = Calendar.getInstance();
+    private EditText nbPartnerEditText;
     private EditText longitudeEditText;
     private EditText latitudeEditText;
     private EditText oakCircumferenceEditText;
@@ -123,6 +124,8 @@ public class OakFormFragment extends Fragment {
 
         final View fragmentView = inflater.inflate(R.layout.fragment_oak_form, container, false);
         activityContext  = getActivity();
+        nbPartnerEditText = fragmentView.findViewById(R.id.nbPartner);
+        nbPartnerEditText.setText(user.getPartnerId());
         geolocationContentLayout = fragmentView.findViewById(R.id.geolocation_content_layout);
         geolocationProgressLayout = fragmentView.findViewById(R.id.geolocation_progess_layout);
         geolocationProgressBar = fragmentView.findViewById(R.id.geolocationProgressBar);
@@ -162,7 +165,8 @@ public class OakFormFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     if (noLocation) {
-                                        Toast.makeText(activityContext, "null location", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(activityContext, getResources().getString(R.string.nullLocation)
+                                                , Toast.LENGTH_SHORT).show();
                                     } else {
                                         longitudeEditText.setText(String.valueOf(longitude));
                                         latitudeEditText.setText(String.valueOf(latitude));
@@ -327,6 +331,12 @@ public class OakFormFragment extends Fragment {
                             public void onClick(View view) {
                                 oak = new Oak(oakSave);
                                 oakManager.update(oak, null);
+                            }
+                        });
+                        mySnackbar.addCallback(new Snackbar.Callback() {
+                            public void onDismissed(Snackbar transientBottomBar, int event) {
+                                super.onDismissed(transientBottomBar, event);
+                                getActivity().finish();
                             }
                         });
                         mySnackbar.show();

@@ -1,16 +1,12 @@
 package com.example.vincentale.leafguard_core;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -27,15 +23,16 @@ import com.example.vincentale.leafguard_core.model.manager.UserManager;
 import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.firebase.database.DatabaseError;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
 
     public static final String TAG = "HomeActivity";
     public static final String FIRST_OBSERVATION_ACTION = "first_observation";
     public static final String SECOND_OBSERVATION_ACTION = "second_observation";
-    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private static final String FILE_NAME = "file_lang"; // preference file name
+    private static final String KEY_LANG = "key_lang"; // preference key
+    private String lang;
     private UserManager mUserManager;
     private User mUser;
     private Menu homeMenu;
@@ -45,7 +42,9 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadLanguage();
         setContentView(R.layout.activity_home);
+        lang = getLangCode();
         mUserManager = UserManager.getInstance();
         profileLoadingLayout = (LinearLayout) findViewById(R.id.profile_loading_layout);
         homeContentLayout = (LinearLayout) findViewById(R.id.home_content_layout);
@@ -63,7 +62,6 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
                 Resources res = getResources();
-                Toast.makeText(HomeActivity.this, "user is loaded !", Toast.LENGTH_SHORT).show();
                 TextView helloText = (TextView) findViewById(R.id.helloText);
                 if (mUser != null) {
                     helloText.setText(res.getString(R.string.hello_name, mUser.getSurname()));
@@ -79,15 +77,15 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(oakFormIntent);
                     }
                 });
+
+                Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
                 if (mUser.getOakId() != null) {
-                    Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
                     ourOakButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
                 }
 
                 String obervationUid = mUser.getOakId() + "_" + 1;
                 Button observationButton = (Button) findViewById(R.id.observationButton);
                 if (mUser.hasObservation(obervationUid)) {
-                    Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
                     observationButton.setEnabled(false);
                     observationButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
                 } else {
@@ -106,7 +104,7 @@ public class HomeActivity extends AppCompatActivity {
                 obervationUid = mUser.getOakId() + "_" + 2;
                 Button observationBisButton = (Button) findViewById(R.id.observationBisButton);
                 if (mUser.hasObservation(obervationUid)) {
-                    Drawable img = HomeActivity.this.getResources().getDrawable(R.drawable.ic_check_black_24dp);
+
                     observationBisButton.setEnabled(false);
                     observationBisButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
                 } else {
@@ -121,19 +119,19 @@ public class HomeActivity extends AppCompatActivity {
                     });
                 }
 
-                Button camera2Button = (Button) findViewById(R.id.camera2Button);
-                camera2Button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        givePermission();
-                        if (ContextCompat.checkSelfPermission(HomeActivity.this,
-                                android.Manifest.permission.CAMERA)
-                                == PackageManager.PERMISSION_GRANTED) {
-                            Intent cameraIntent2 = new Intent(HomeActivity.this, CameraIntentActivity.class);
-                            startActivity(cameraIntent2);
+                Button leavesObservationButton = findViewById(R.id.leavesObservationButton);
+                if (mUser.isLeavesObservationSent()) {
+                    leavesObservationButton.setEnabled(false);
+                    leavesObservationButton.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
+                } else {
+                    leavesObservationButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent leavesObservationIntent = new Intent(mainContext, LeavesViewActivity.class);
+                            startActivity(leavesObservationIntent);
                         }
-                    }
-                });
+                    });
+                }
             }
 
             @Override
@@ -165,6 +163,10 @@ public class HomeActivity extends AppCompatActivity {
                 Intent profilFormIntent = new Intent(this, ProfileActivity.class);
                 startActivity(profilFormIntent);
                 break;
+            case R.id.action_language:
+                Intent languageIntent = new Intent(this, LanguageActivity.class);
+                startActivity(languageIntent);
+                break;
             case R.id.action_admin:
                 if (mUser != null && mUser.isAdmin()) {
                     Intent adminIntent = new Intent(this, AdminActivity.class);
@@ -179,66 +181,19 @@ public class HomeActivity extends AppCompatActivity {
     public void onBackPressed() {
     }
 
-    public void givePermission() {
-        List<String> permissionsNeeded = new ArrayList<String>();
-        final List<String> permissionsList = new ArrayList<String>();
-        if (!addPermission(permissionsList, android.Manifest.permission.CAMERA))
-            permissionsNeeded.add("Camera");
-        if (!addPermission(permissionsList, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
-            permissionsNeeded.add("Storage");
-        if (permissionsList.size() > 0) {
-            if (permissionsNeeded.size() > 0) {
-                // Need Rationale
-                String message = "You need to grant access to " + permissionsNeeded.get(0);
-                for (int i = 1; i < permissionsNeeded.size(); i++)
-                    message = message + ", " + permissionsNeeded.get(i);
-                showMessageOKCancel(message,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                if (Build.VERSION.SDK_INT >= 23) {
-                                    requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-                                            REQUEST_CODE_ASK_PERMISSIONS);
-                                } else {
-                                    ActivityCompat.requestPermissions(HomeActivity.this, permissionsList.toArray(new String[permissionsList.size()]),
-                                            REQUEST_CODE_ASK_PERMISSIONS);
-                                }
-                            }
-                        });
-                return;
-            }
-            if (Build.VERSION.SDK_INT >= 23) {
-                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-                        REQUEST_CODE_ASK_PERMISSIONS);
-            } else {
-                ActivityCompat.requestPermissions(HomeActivity.this, permissionsList.toArray(new String[permissionsList.size()]),
-                        REQUEST_CODE_ASK_PERMISSIONS);
-            }
-            return;
-        }
+    public void loadLanguage() {
+        Locale locale = new Locale(getLangCode());
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
     }
 
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(HomeActivity.this)
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show();
+    private String getLangCode() {
+        SharedPreferences preferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
+        String langCode = preferences.getString(KEY_LANG, "en");
+        // save english 'en' as the default language
+        return langCode;
     }
 
-    private boolean addPermission(List<String> permissionsList, String permission) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-                permissionsList.add(permission);
-                // Check for Rationale Option
-                if (!shouldShowRequestPermissionRationale(permission))
-                    return false;
-            }
-        } else {
-
-        }
-        return true;
-    }
 }

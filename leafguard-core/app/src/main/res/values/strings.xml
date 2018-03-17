@@ -1,94 +1,59 @@
 <resources>
-    <string name="app_name">Caterpilapp</string>
-    <string name="profilButton">Profil</string>
-    <string name="observationButton">Première observation</string>
-    <string name="observationBisButton">Seconde observation</string>
-    <string name="ourOakButton">Notre chêne</string>
+    <string name="app_name">Caterpillapp</string>
+    <string name="profilButton">Profile</string>
+    <string name="observationButton">First observation</string>
+    <string name="observationBisButton">Second observation</string>
+    <string name="ourOakButton">Our oak</string>
+    <!-- Admin fragment -->
+    <string name="selectFilteUpload">Select a File to Upload</string>
+    <string name="askInstallFileManager">Please install a File Manager.</string>
     <!-- Oak form -->
-    <string name="title_activity_oak_form">Notre chêne</string>
-    <string name="geolocalisation">Geolocalisation</string>
+    <string name="nullLocation">Null location</string>
+    <string name="title_activity_oak_form">Our Oak</string>
+    <string name="geolocalisation">Geolocation</string>
     <string name="longitude">Longitude</string>
     <string name="latitude">Latitude</string>
-    <string name="nbPartner">Numéro de partenaire</string>
-    <string name="circonference">Circonference du chêne</string>
-    <string name="heightOak">Hauteur estimée du chêne (en m)</string>
-    <string name="helpCirconference">Mesuré à 1,30 m du sol (en cm)</string>
-    <string name="datecaterpillar">Date d\'installation des chenilles</string>
-    <string name="validateButton">Valider</string>
+    <string name="nbPartner">Partner ID</string>
+    <string name="circonference">Oak circumference</string>
+    <string name="heightOak">Estimated height (meters)</string>
+    <string name="helpCirconference">Measured at 1,30 m from the ground (centimeters)</string>
+    <string name="datecaterpillar">Caterpillars installation date</string>
+    <string name="validateButton">Validate</string>
     <!-- Profil form -->
-    <string name="title_activity_profil_form">Profil</string>
-    <string name="schoolname">Nom de l\'établissement</string>
-    <string name="userName">Nom de l\'enseignant</string>
-    <string name="userFirstName">Prenom de l\'enseignant</string>
-    <string name="studentAge">Age des élèves</string>
-
-    <!-- Observation form -->
-    <string name="title_activity_observation">Les observations</string>
-    <string name="title_observation">Première observation</string>
-    <string name="string_caterpillar">Nombre de chenilles</string>
-    <string name="nb_caterpillar">Présentes au départ</string>
-    <string name="nb_caterpillar_marque">Total marques de prédations</string>
-    <string name="nb_caterpillar_marque_oiseaux">Avec marques de prédations par des oiseaux</string>
-    <string name="nb_caterpillar_marque_arthropodes">Avec marques de prédations par des arthropodes</string>
-    <string name="nb_caterpillar_marque_mammiferes">Avec marques de prédations par des mammifères</string>
-    <string name="nb_caterpillar_marque_lezard">Avec marques de prédations par des lézards</string>
-    <string name="nb_caterpillar_marque_unknow">Avec marques de prédations non identifées</string>
-    <string name="nb_caterpillar_lost">Perdues</string>
-
-
+    <string name="title_activity_profil_form">Profile</string>
+    <string name="schoolname">School name</string>
+    <string name="userName">Teacher name</string>
+    <string name="userFirstName">Teacher firstname</string>
+    <string name="studentAge">Student age</string>
     <!-- Strings related to HomeActivity -->
     <string name="hello_name">Hello %1$s !</string>
-
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Your Email</string>
     <string name="title_activity_login">Sign in</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_register"><a href="#">Or create an account !</a></string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
-    <string name="error_invalid_credentials">Unrecognized email/password couple.</string>
+    <string name="error_invalid_credentials">Unrecognized email/password couple</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="auth_failed">Authentication failure.. Please try again.</string>
+    <string name="permission_rationale">Contacts permissions are needed for providing email completions</string>
+    <string name="auth_failed">Authentication failure.. Please try again</string>
     <string name="logout">Log out</string>
-    <string name="title_activity_camera2">Camera2Activity</string>
-
-    <!-- Camera related strings -->
-    <string name="picture">Picture</string>
-    <string name="description_info">Info</string>
-    <string name="request_permission">This sample needs camera permission.</string>
-    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
-    <string name="intro_message">
-        <![CDATA[
-
-
-            This sample demonstrates the basic use of Camera2 API. Check the source code to see how
-            you can display camera preview and take pictures.
-
-
-        ]]>
-    </string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_profile_action">Edit profile</string>
     <string name="log_out_success">Successfully logged out !</string>
     <string name="remember_me">Remember me ?</string>
-
     <!-- cache file names -->
-    <string name="remember_email_filename">remember_me</string>
-    <string name="remember_email">remember_email</string>
+    <string name="remember_email_filename">Remember_me</string>
+    <string name="remember_email">Remember_email</string>
     <string name="information_update_success">Information successfuly updated !</string>
     <string name="no_oak_available">No oak available. You can add one now !</string>
     <string name="edit_oak_action">Edit oak</string>
-    <string name="circumferenceLabel">circumference :</string>
-    <string name="latitudeLabel">latitude :</string>
-    <string name="longitudeLabel">longitude :</string>
+    <string name="circumferenceLabel">Circumference :</string>
+    <string name="latitudeLabel">Latitude :</string>
+    <string name="longitudeLabel">Longitude :</string>
     <string name="heightLabel">Height :</string>
     <string name="installationDateLabel">Installation date :</string>
     <string name="oakDataTitle">Oak Data</string>
@@ -96,44 +61,96 @@
     <string name="undo_action">Undo</string>
     <string name="profile_saved">Profile saved</string>
     <string name="geolocation_in_progress">Geolocation in progress. Please stay close to the tree</string>
-    <string name="gps_not_enabled">In order to locate the tree, you must enable the GPS on your device.</string>
-    <string name="ok_action">Ok</string>
+    <string name="gps_not_enabled">In order to locate the tree, you must enable the GPS on your device</string>
+    <string name="ok_action">OK</string>
     <string name="title_caterpillar_list">Caterpillars</string>
     <string name="title_caterpillar_detail">Caterpillar Detail</string>
-    <string name="nameofcatterpillar">name of the caterpillar</string>
-    <string name="ismissing">is missing</string>
-    <string name="nbwounds">number of wounds</string>
-    <string name="attackedbyother">attacked by other animals</string>
-    <string name="attackedByInsects">attacked by insects</string>
-    <string name="attackedByBirds">attacked by birds</string>
-    <string name="attackedByMammals">attack by mammals</string>
+    <string name="nameofcatterpillar">Name of the caterpillar</string>
+    <string name="nbwounds">Number of wounds</string>
+    <string name="attackedbyother">Attacked by other animals</string>
+    <string name="attackedByInsects">Attacked by insects</string>
+    <string name="attackedByBirds">Attacked by birds</string>
+    <string name="attackedByMammals">Attacked by mammals</string>
     <string name="caterpillar">Caterpillar</string>
     <string name="catterpillar_with_number">Caterpillar %1$d</string>
-    <string name="nameOfCatterpillar">name of caterpillar</string>
-    <string name="missing">is missing</string>
-    <string name="attackedByInsect">attacked by insects</string>
-    <string name="attackedByOther">attacked by other things</string>
-
+    <string name="nameOfCatterpillar">Name of caterpillar</string>
+    <string name="missing">Is missing</string>
     <string name="title_activity_admin">AdminActivity</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
     <string name="adminButton">Admin</string>
-    <string name="action_lostPassword">Lost Password?</string>
-    <string name="not_all_caterpillars_edited">You can\'t submit the form as some caterpillars are still unedited. Please edit them before submiting.</string>
+    <string name="action_lostPassword">Lost Password ?</string>
+    <!--Camera String-->
+    <string name="delete">Delete</string>
+    <string name="deleteImageMsg">Image deleted</string>
+    <string name="uploadPhotoButton">Upload Photo</string>
+    <string name="takePhotoButton">Take Photo</string>
+    <string name="cameraPermission">Camera</string>
+    <string name="storagePermission">Storage</string>
+    <string name="messagePermission">You need to grant access to </string>
+    <string name="photoToast">Picture taken successfully</string>
+    <string name="pictureToast">Image selected successfully</string>
+    <string name="imageUploadFirebase">Image Uploaded Successfully</string>
+    <string name="imageUploading">Image is Uploading&#8230;</string>
+    <string name="not_all_caterpillars_edited">You can\'t submit the form as some caterpillars are still unedited. Please edit them before submiting</string>
     <string name="observation_successfully_sent">Observation successfully sent</string>
     <string name="observation_send_irreversible">You won\'t be able to modify your observation once it\'s sent. Are you sure you want to send it ?</string>
     <string name="send_action">SEND</string>
     <string name="cancel_action">Cancel</string>
-    <string name="attackedbybirds">Attacked by birds</string>
     <string name="attackedByLizard">Attacked by lizards</string>
-    <string name="error_occured">An error occured. Please try again.</string>
+    <string name="error_occured">An error occurred. Please try again.</string>
     <string name="download_observation_action">Download observation</string>
-    <string name="observation_download_description" >You can download a CSV file containing all observations data by clicking the button below. This may take some time.</string>
+    <string name="observation_download_description">You can download a CSV file containing all observations data by clicking the button below. This may take some time.</string>
     <string name="observation_have_changed">Observation have changed !</string>
     <string name="download_service_started">Download will start shortly</string>
     <string name="observation_saved_at_location">Observation saved at %1$s </string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main">LeavesObservationActivity</string>
+    <string name="title_activity_leaves_observation">LeavesObservationActivity</string>
+    <string name="leaves_observation_action">Leaves Observation (Optional)</string>
+    <string name="no_oak_associated">No oak associated</string>
+    <string name="profile_title">My Profile</string>
+    <string name="number_of_observed_leaves">Number of observed leaves</string>
+    <string name="number_of_galls">Number of galls</string>
+    <string name="leaves_observation">Leaves Observation</string>
+    <string name="leaf_loss_0_percent">0 % leaf area loss</string>
+    <string name="leaf_loss_5_percent">1&#8211;5 % leaf area loss</string>
+    <string name="leaf_loss_10_percent">6&#8211;10 % leaf area loss</string>
+    <string name="leaf_loss_15_percent">11&#8211;15 % leaf area loss</string>
+    <string name="leaf_loss_25_percent">16&#8211;25 % leaf area loss</string>
+    <string name="leaf_loss_50_percent">26&#8211;50 % leaf area loss</string>
+    <string name="leaf_loss_75_percent">51&#8211;75 % leaf area loss</string>
+    <string name="leaf_loss_75_percent_more">75 % leaf area loss</string>
+    <string name="number_of_mines">Number of mines</string>
+    <string name="number_of_leaves_in_class_a">Number of leaves in class A</string>
+    <string name="number_of_leaves_in_class_b">Number of leaves in class B</string>
+    <string name="number_of_leaves_in_class_c">Number of leaves in class C</string>
+    <string name="number_of_leaves_in_class_d">Number of leaves in class D</string>
+    <string name="number_of_leaves_in_class_e">Number of leaves in class E</string>
+    <string name="number_of_leaves_in_class_f">Number of leaves in class F</string>
+    <string name="number_of_leaves_in_class_g">Number of leaves in class G</string>
+    <string name="number_of_leaves_in_class_h">Number of leaves in class H</string>
+    <string name="title_activity_leaves_form">LeavesFormActivity</string>
+    <string name="forgotten_password_description">Did you forget your password ? Type your email below and hit the button. You will receive an email to reset your password.</string>
+    <string name="send_reset_email">Send an email to reset your password</string>
+    <string name="profileNameLabel">My Name :</string>
+    <string name="profileEmailLabel">My Email :</string>
+    <string name="profilePartnerIdLabel">My partner ID :</string>
+    <string name="profileSchoolNameLabel">My school :</string>
+    <string name="oak_already_associated">Your oak is already associated !</string>
+    <string name="edit_leaves_observation_action">Edit</string>
+    <string name="submit_leaves_observation_action">Submit observation</string>
+    <string name="all_inputs_not_filled">You can\'t submit this observation as all input are not properly filled</string>
+    <string name="import_report_summary">
+        The import is done ! \n\n
+        Number of errors : %1$d \n\n
+        Number of emails imported : %2$d \n\n
+        Number of emails ignored : %3$d
+    </string>
+    <string name="ismissing">Is missing</string>
+    <string name="language">Language</string>
+    <string name="englishButton">English</string>
+    <string name="frenchButton">French</string>
+    <string name="successLanguage">You successfully change the language</string>
 </resources>

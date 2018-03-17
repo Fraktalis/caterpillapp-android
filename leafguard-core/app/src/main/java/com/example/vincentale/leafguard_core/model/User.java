@@ -19,6 +19,13 @@ public class User implements Identifiable {
     private String name;
     private String surname;
     private String email;
+    private String partnerId;
+    private String schoolName;
+    private String schoolLevel;
+    private int studentAge;
+
+    private boolean leavesObservationSent = false;
+
     private Oak oak;
     private String oakId;
     private int role = ROLE_USER;
@@ -38,6 +45,11 @@ public class User implements Identifiable {
         this.role = u.getRole();
         this.oakId = u.getOakId();
         this.oak = u.getOak();
+        this.partnerId = u.getPartnerId();
+        this.schoolName = u.getSchoolName();
+        this.schoolLevel = u.getSchoolLevel();
+        this.studentAge = u.getStudentAge();
+        this.leavesObservationSent = u.isLeavesObservationSent();
         setObservationUids(u.getObservationUids());
     }
 
@@ -89,6 +101,56 @@ public class User implements Identifiable {
         return this;
     }
 
+    public String getPartnerId() {
+        return partnerId;
+    }
+
+    public User setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
+
+        return this;
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public User setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
+
+        return this;
+    }
+
+    public String getSchoolLevel() {
+        return schoolLevel;
+    }
+
+    public User setSchoolLevel(String schoolLevel) {
+        this.schoolLevel = schoolLevel;
+
+        return this;
+    }
+
+    public int getStudentAge() {
+        return studentAge;
+    }
+
+    public User setStudentAge(int studentAge) {
+        this.studentAge = studentAge;
+
+        return this;
+    }
+
+    public boolean isLeavesObservationSent() {
+        return leavesObservationSent;
+    }
+
+    public User setLeavesObservationSent(boolean leavesObservationSent) {
+        this.leavesObservationSent = leavesObservationSent;
+
+        return this;
+    }
+
     public Oak getOak() {
         return oak;
     }
@@ -123,6 +185,7 @@ public class User implements Identifiable {
                 ", role=" + role +
                 ", oakId=" + oakId +
                 ", oak=" + oak +
+                ", schoolName=" + schoolName +
                 ", observationUids=" + observationUids +
                 '}';
     }

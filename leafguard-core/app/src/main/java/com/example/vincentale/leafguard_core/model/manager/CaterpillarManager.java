@@ -32,7 +32,7 @@ import static com.example.vincentale.leafguard_core.util.StringHelper.capitalize
 public class CaterpillarManager implements Manager<Caterpillar> {
 
     public static final String NODE_NAME = "caterpillars";
-    public final static String[] fieldsMapping = {"index", "oakUid", "woundByMammal", "woundByInsect", "woundByBird", "woundByLizard", "woundByOther", "edited", "catterpillarMissing"};
+    public final static String[] fieldsMapping = {"index", "observationIndex", "oakUid", "woundByMammal", "woundByInsect", "woundByBird", "woundByLizard", "woundByOther", "edited", "catterpillarMissing"};
     private static final String TAG = "CaterpillarManager";
     private static CaterpillarManager managerInstance;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -102,6 +102,7 @@ public class CaterpillarManager implements Manager<Caterpillar> {
                 if (dbRes != null) {
                     dbRes.setUid(dataSnapshot.getKey());
                     callback.onSuccess(dbRes);
+                    Log.d(TAG, "onDataChange: " + dbRes);
                 } else {
                     callback.onSuccess(null);
                 }
@@ -140,4 +141,5 @@ public class CaterpillarManager implements Manager<Caterpillar> {
             }
         });
     }
+
 }

@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,18 +23,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vincentale.leafguard_core.R;
+import com.example.vincentale.leafguard_core.model.ImportReport;
+import com.example.vincentale.leafguard_core.model.manager.ImportReportManager;
+import com.example.vincentale.leafguard_core.util.DatabaseCallback;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.ipaulpro.afilechooser.utils.FileUtils;
-
-import java.io.File;
 
 
 @SuppressWarnings("VisibleForTests")
@@ -46,8 +49,11 @@ public class AdminUserFragment extends Fragment {
     private EditText browseFileEditText;
     private LinearLayout adminUserProgressLayout;
     private LinearLayout adminUserUploadLayout;
+    private CardView importReportCardView;
+    private TextView importReportSummary;
     private Button cancelFileUploadButton;
     private ProgressBar provisionUploadProgressBar;
+    private ImportReportManager reportManager = ImportReportManager.getInstance();
 
     private Uri provisionFile;
     private StorageReference provisionRef;
@@ -85,7 +91,9 @@ public class AdminUserFragment extends Fragment {
         adminUserProgressLayout = fragmentView.findViewById(R.id.admin_user_progress_layout);
         cancelFileUploadButton = fragmentView.findViewById(R.id.cancelFileUploadButton);
         provisionUploadProgressBar = fragmentView.findViewById(R.id.provisionUploadProgressBar);
-        provisionUploadProgressBar.setMax(100);
+        provisionUploadProgressBar.setIndeterminate(true);
+        importReportCardView = fragmentView.findViewById(R.id.import_report_card_view);
+        importReportSummary = fragmentView.findViewById(R.id.import_report_summary);
 
         browseFileButton = fragmentView.findViewById(R.id.browseFileButton);
         browseFileButton.setEnabled(false);
@@ -94,6 +102,19 @@ public class AdminUserFragment extends Fragment {
             public void onClick(View view) {
                 adminUserProgressLayout.setVisibility(View.VISIBLE);
                 adminUserUploadLayout.setVisibility(View.GONE);
+                reportManager.findLast(new DatabaseCallback<ImportReport>() {
+                    @Override
+                    public void onSuccess(ImportReport identifiable) {
+                        Log.d(TAG, "Successfully retrived last report " + identifiable);
+                        importReportCardView.setVisibility(View.VISIBLE);
+                        importReportSummary.setText(getString(R.string.import_report_summary, identifiable.getErrors(), identifiable.getImportedEmails().size(), identifiable.getIgnoredEmails().size()));
+                    }
+
+                    @Override
+                    public void onFailure(DatabaseError error) {
+
+                    }
+                });
                 StorageReference provisionFileRef = provisionRef.child("provisions").child(provisionFile.getLastPathSegment());
                 uploadTask = provisionFileRef.putFile(provisionFile);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -107,13 +128,6 @@ public class AdminUserFragment extends Fragment {
                         adminUserProgressLayout.setVisibility(View.GONE);
                         adminUserUploadLayout.setVisibility(View.VISIBLE);
 
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        int progress = (int) ((100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount());
-                        Log.d(TAG, "progress : " + progress);
-                        provisionUploadProgressBar.setProgress(progress);
                     }
                 });
             }
@@ -166,11 +180,11 @@ public class AdminUserFragment extends Fragment {
 
         try {
             startActivityForResult(
-                    Intent.createChooser(intent, "Select a File to Upload"),
+                    Intent.createChooser(intent, getResources().getString(R.string.selectFilteUpload)),
                     FILE_SELECT_CODE);
         } catch (android.content.ActivityNotFoundException ex) {
             // Potentially direct the user to the Market with a Dialog
-            Toast.makeText(getContext(), "Please install a File Manager.",
+            Toast.makeText(getContext(), getResources().getString(R.string.askInstallFileManager),
                     Toast.LENGTH_SHORT).show();
         }
     }
