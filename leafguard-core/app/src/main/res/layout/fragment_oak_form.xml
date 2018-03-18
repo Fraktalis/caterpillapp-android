@@ -5,7 +5,7 @@
     android:id="@+id/fragment_oak_form_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.vincentale.leafguard_core.OakActivity">
+    tools:context="com.fraktalis.caterpillapp.leafguard_core.OakActivity">
 
     <include layout="@layout/content_oak_form" />
 

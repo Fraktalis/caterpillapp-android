@@ -5,7 +5,7 @@
     android:id="@+id/fragment_profil_form_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.vincentale.leafguard_core.ProfileActivity">
+    tools:context="com.fraktalis.caterpillapp.leafguard_core.ProfileActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

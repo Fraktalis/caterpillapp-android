@@ -23,4 +23,4 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.example.vincentale.leafguard_core.model.** { *; }
+-keep class com.fraktalis.caterpillapp.leafguard_core.model.** { *; }

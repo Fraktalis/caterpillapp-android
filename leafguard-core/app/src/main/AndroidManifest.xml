@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.vincentale.leafguard_core">
+    package="com.fraktalis.caterpillapp.leafguard_core">
 
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -37,51 +37,54 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name="com.fraktalis.caterpillapp.leafguard_core.HomeActivity" />
+        <activity android:name="com.fraktalis.caterpillapp.leafguard_core.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".OakListActivity"
+            android:name="com.fraktalis.caterpillapp.leafguard_core.OakListActivity"
             android:label="@string/title_activity_oak_form"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ProfileActivity"
+            android:name="com.fraktalis.caterpillapp.leafguard_core.ProfileActivity"
             android:label="@string/title_activity_profil_form"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".OakActivity" />
-        <activity android:name=".CaterpillarListActivity"></activity>
-        <activity android:name=".CaterpillarViewActivity"></activity>
+        <activity android:name="com.fraktalis.caterpillapp.leafguard_core.OakActivity" />
+        <activity android:name="com.fraktalis.caterpillapp.leafguard_core.CaterpillarListActivity"></activity>
+        <activity android:name="com.fraktalis.caterpillapp.leafguard_core.CaterpillarViewActivity"></activity>
         <activity
-            android:name=".AdminActivity"
+            android:name="com.fraktalis.caterpillapp.leafguard_core.AdminActivity"
             android:label="@string/title_activity_admin"
-            android:parentActivityName=".HomeActivity"
+            android:parentActivityName="com.fraktalis.caterpillapp.leafguard_core.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.vincentale.leafguard_core.HomeActivity" />
+                android:value="com.fraktalis.caterpillapp.leafguard_core.HomeActivity" />
         </activity>
-        <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".LanguageActivity"></activity>
+        <activity android:name="com.fraktalis.caterpillapp.leafguard_core.ForgotPasswordActivity" />
+        <activity android:name="com.fraktalis.caterpillapp.leafguard_core.LanguageActivity"></activity>
+        <activity
+            android:name=".fragment.admin.MapsActivity"
+            android:label="@string/title_activity_maps" />
         <service
-            android:name=".service.ObservationService"
+            android:name="com.fraktalis.caterpillapp.leafguard_core.service.ObservationService"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".LeavesObservationActivity"
+            android:name="com.fraktalis.caterpillapp.leafguard_core.LeavesObservationActivity"
             android:label="@string/title_activity_leaves_observation"
-            android:parentActivityName=".HomeActivity"
+            android:parentActivityName="com.fraktalis.caterpillapp.leafguard_core.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.vincentale.leafguard_core.HomeActivity" />
+                android:value="com.fraktalis.caterpillapp.leafguard_core.HomeActivity" />
         </activity>
         <activity
-            android:name=".LeavesViewActivity"
+            android:name="com.fraktalis.caterpillapp.leafguard_core.LeavesViewActivity"
             android:label="@string/title_activity_leaves_form"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

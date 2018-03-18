@@ -5,7 +5,7 @@
     android:id="@+id/activity_caterpillar_list_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.vincentale.leafguard_core.CaterpillarListActivity">
+    tools:context="com.fraktalis.caterpillapp.leafguard_core.CaterpillarListActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/catterpillarRecycleView"

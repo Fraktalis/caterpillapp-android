@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/tree"
-    tools:context="com.example.vincentale.leafguard_core.HomeActivity">
+    tools:context="com.fraktalis.caterpillapp.leafguard_core.HomeActivity">
 
     <LinearLayout
         android:id="@+id/profile_loading_layout"

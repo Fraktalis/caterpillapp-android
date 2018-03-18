@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.vincentale.leafguard_core.fragment.admin.AdminObservationFragment">
+    tools:context="com.fraktalis.caterpillapp.leafguard_core.fragment.admin.AdminObservationFragment">
 
     <TextView
         android:id="@+id/downloadObservationDescription"

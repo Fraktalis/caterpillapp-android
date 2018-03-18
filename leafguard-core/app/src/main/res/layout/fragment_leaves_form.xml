@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.vincentale.leafguard_core.fragment.LeavesFormFragment">
+    tools:context="com.fraktalis.caterpillapp.leafguard_core.fragment.LeavesFormFragment">
 
     <include layout="@layout/content_leaves_observation" />
 </FrameLayout>
