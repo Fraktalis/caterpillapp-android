@@ -33,8 +33,11 @@ public class ReflectionHelper {
             Method getter = buildGetter(field, subjectClass);
             return getter.invoke(subject);
         } catch (NoSuchFieldException ex) {
-            Method superGetter = buildGetter(field, subjectClass.getSuperclass());
-            return superGetter.invoke(subject);
+            if (subjectClass.getSuperclass() != Object.class) {
+                Method superGetter = buildGetter(field, subjectClass.getSuperclass());
+                return superGetter.invoke(subject);
+            }
+            return null;
         }
 
     }
