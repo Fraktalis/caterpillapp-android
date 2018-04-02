@@ -6,6 +6,8 @@ import android.util.Log;
 import com.fraktalis.caterpillapp.leafguard_core.model.CaterpillarObservation;
 import com.fraktalis.caterpillapp.leafguard_core.model.LeavesObservation;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Utility class to convert an observation to a CSV entry
  */
@@ -93,7 +95,7 @@ public class ObservationCSVBuilder {
             try {
                 Log.d(TAG, "add: ");
                 if (firstObservationField.equals("firstObservationDate")) {
-                    entryBuilder.append(firstObservation.getTimestamp()).append(",");
+                    entryBuilder.append(new SimpleDateFormat("yyyy-MM-dd").format(firstObservation.getTimestamp())).append(",");
                 } else {
                     entryBuilder.append(ReflectionHelper.invokeGetter(firstObservationField, firstObservation, CaterpillarObservation.class)).append(",");
                 }
@@ -106,7 +108,7 @@ public class ObservationCSVBuilder {
             if (secondObservation != null) {
                 try {
                     if (secondObservationFields[i].equals("secondObservationDate")) {
-                        entryBuilder.append(secondObservation.getTimestamp());
+                        entryBuilder.append(new SimpleDateFormat("yyyy-MM-dd").format(secondObservation.getTimestamp()));
                     } else {
                         entryBuilder.append(ReflectionHelper.invokeGetter(secondObservationFields[i], secondObservation, CaterpillarObservation.class));
                     }
